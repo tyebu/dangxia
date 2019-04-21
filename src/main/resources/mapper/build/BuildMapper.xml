@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxc.dangxia.dao.build.IBuildingDao">
+    <resultMap id="building" type="building">
+        <id column="building_id" property="buildingId" jdbcType="INTEGER"/>
+        <result column="building_name" property="buildingName" jdbcType="VARCHAR"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="DATE"/>
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+        <result column="modify_date" property="modifyDate" jdbcType="DATE"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <association property="area" javaType="area">
+            <id column="area_id" property="areaId" jdbcType="INTEGER"/>
+            <result column="area_name" property="areaName" jdbcType="VARCHAR"/>
+            <result column="neighbourhood" property="neighbourhood" jdbcType="VARCHAR"/>
+            <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+            <result column="created_date" property="createdDate" jdbcType="DATE"/>
+            <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+            <result column="modify_date" property="modifyDate" jdbcType="DATE"/>
+        </association>
+    </resultMap>
+    <select id="getBuildingsByCondition" resultMap="building" parameterType="map">
+        SELECT
+            b.building_id,
+            b.building_name,
+            b.is_del,
+            a.area_id,
+            a.area_name,
+            a.neighbourhood
+        FROM
+            building b
+        LEFT JOIN area a ON (b.area_id = a.area_id)
+        <where>
+            <if test="areaId != null and areaId != ''">
+
+              a.area_id = #{areaId}
+            </if>
+            <if test="buildingName != null and buildingName != ''">
+              AND b.building_name = #{buildingName}
+            </if>
+        </where>
+        ORDER BY b.created_date DESC
+    </select>
+
+    <!--添加楼栋-->
+    <insert id="insertBuilding" parameterType="map">
+        INSERT INTO building
+            (
+             building_name,
+             area_id,
+             created_user,
+             created_date,
+             is_del
+            )
+            VALUES
+                (
+                 #{buildingName},
+                 #{areaId},
+                 null,
+                 NOW(),
+                 0
+                )
+    </insert>
+
+    <update id="updateBuilding" parameterType="map">
+        UPDATE building
+        SET
+        <if test="buildingName != null and buildingName != ''">
+            building_name = #{buildingName},
+        </if>
+        <if test="areaId != null and areaId != ''">
+            area_id = #{areaId},
+        </if>
+        <if test="isDel != null and isDel != ''">
+            is_del = #{isDel}
+        </if>
+        modify_date = NOW()
+    </update>
+
+    <!--删除一条数据-->
+    <delete id="deleteBuildingByBuildingId">
+        DELETE
+        FROM building
+        WHERE building_id = #{buildingId}
+    </delete>
+
+</mapper>

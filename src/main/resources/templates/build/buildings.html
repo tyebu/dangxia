@@ -1,0 +1,156 @@
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace= "common/common :: commons(~{::title})">
+    <title>单元管理</title>
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">房源管理</a>
+        <a>
+          <cite>单元管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <!--<div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
+          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
+          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>-->
+      <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="x_admin_show('添加楼栋','../buildings-oper.html',580,300)"><i class="layui-icon"></i>添加</button>
+        <!--<span class="x-right" style="line-height:40px">共有数据：88 条</span>-->
+        <button class="layui-btn x-right" onclick="x_admin_show('添加位置','../area-oper.html',400,300)"><i class="layui-icon"></i>添加位置</button>
+        <button class="layui-btn x-right" onclick="x_admin_show('我的地区','../areaInfo.html',800,400)"><i class="layui-icon ">&#xe715;</i>位置服务</button>
+      </xblock>
+      <!--单元数据表格-->
+      <table id="buildings" lay-filter="test"></table>
+    </div>
+    <!--数据表中的工具按钮-->
+    <script type="text/html" id="toolbarDemo">
+      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+        <i class="layui-icon">&#xe601;</i>
+      </a>
+      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+      </a>
+      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+      </a>
+    </script>
+    <script>
+      /*加载数据表格*/
+        layui.use(['table','layer','form'],function() {
+            $ = layui.jquery;
+            var table = layui.table;
+            var layer = layui.layer;
+            var form = layui.form;
+            //building数据表格
+            table.render({
+                elem: '#buildings'
+                ,height: 'full-20'
+                ,url: '/dangxia/buildings/getBuildingsByCondition' //数据接口
+                ,cols: [
+                    [
+                        {type:"checkbox"},
+                    {field: 'buildingId', title: 'ID', sort: true, align:'center'}
+                    ,{field: 'area', title: '单元所在位置', align:'center',templet:function(a) {
+                            return a.area.areaName +a.area.neighbourhood;
+                        }}
+                    ,{field: 'buildingName', title: '楼栋名', align:'center'}
+                    ,{field: 'isDel', title: '单元状态', align:'center',templet:function(d) {
+                            if(d.isDel==0) {
+                                return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">已启用</span>";
+                            } else {
+                                return "<span class=\"layui-btn span-status layui-btn-disabled layui-btn-mini\">已停用</span>";
+                            }
+                        }}
+                    ,{fixed: 'right', toolbar:'#toolbarDemo',title: '操作',align:'center', width: 80}
+
+                ]
+                ]
+            });
+        });
+
+      layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+      });
+
+       /*用户-停用*/
+      function member_stop(obj,id){
+          layer.confirm('确认要停用吗？',function(index){
+
+              if($(obj).attr('title')=='启用'){
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title','停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!',{icon: 5,time:1000});
+
+              }else{
+                $(obj).attr('title','启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!',{icon: 5,time:1000});
+              }
+
+          });
+      }
+
+      /*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $(obj).parents("tr").remove();
+              layer.msg('已删除!',{icon:1,time:1000});
+          });
+      }
+
+      function delAll (argument) {
+
+        var data = tableCheck.getData();
+        layui.use(['table','layer','form'],function() {
+            var table = layui.table;
+            var checkStatus = table.checkStatus('buildings'); //idTest 即为基础参数 id 对应的值
+            console.log(checkStatus.data) //获取选中行的数据
+            console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+            console.log(checkStatus.isAll ) //表格是否全选
+            var len = checkStatus.data.length;
+            if(len == 0) {
+                layer.msg('请选择数据行', {icon: 5});
+                return;
+            }
+            layer.confirm('确认要删除吗？'+data,function(index){
+                //捉到所有被选中的，发异步进行删除
+                layer.msg('删除成功', {icon: 1});
+                if($(".layui-form-checked")) {
+
+                }
+                $(".layui-form-checked").not('header').parents('tr').remove();
+            });
+        });
+      }
+    </script>
+  </body>
+
+</html>

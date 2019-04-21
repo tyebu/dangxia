@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>位置信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/cookie.js"></script>
+    <!--&lt;!&ndash; 让IE8/9支持媒体查询，从而兼容栅格 &ndash;&gt;
+    &lt;!&ndash;[if lt IE 9]>-->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body>
+    <div class="x-body">
+        <!--操作按钮-->
+        <script type="text/html" id="toolbarDemo">
+
+            <a title="编辑" lay-event="edit"   href="javascript:;">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+            <a title="删除" lay-event="del" href="javascript:;">
+                <i class="layui-icon">&#xe640;</i>
+            </a>
+        </script>
+        <!--单元数据表格-->
+        <table id="areas" lay-filter="areas_filter"></table>
+    </div>
+    <script>
+        layui.use(['table','layer','form'],function() {
+            $ = layui.jquery;
+            var table = layui.table;
+            var layer = layui.layer;
+            var form = layui.form;
+            table.render({
+                elem: '#areas'
+                ,height: 'full-20'
+                ,url: '/dangxia/area/getAreaInfo' //数据接口
+                ,cols: [
+                    [
+                        {field: 'areaId', title: 'ID', sort: true, align:'center',fixed:'left'}
+                        ,{field: '', title: '具体位置', align:'center',templet:function(a) {
+                            return a.areaName + a.neighbourhood;
+                        }}
+                        ,{fixed: 'right', toolbar:'#toolbarDemo',title: '操作',align:'center', width: 80}
+                    ]
+                ]
+            });
+            table.on('tool(areas_filter)',function(obj) {
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                if(layEvent == 'del') {
+                    layer.confirm('真的删除吗',function(index) {
+                        $.ajax({
+                            type:"post",
+                            url:"/dangxia/area/deleteAreaById",
+                            timeout:5000,
+                            data: {"areaId":obj.data.areaId},
+                            dataType: "json",
+                            success: function(data){
+                                if(data.code == 0) {
+                                    obj.del();
+                                    layer.msg(data.message,{icon:1,time:2000});
+                                } else {
+                                    layer.msg(data.message,{icon:5,time:2000});
+                                }
+                            },
+                            error:function(e){
+                                layer.msg(e.message,{icon:5,time:2000});
+                            }
+                        });
+
+                    });
+                }
+                if(layEvent == 'edit') {
+                    data = {
+                        data:obj.data
+                    }
+                    var editPage = layer.open({
+                        type: 2,
+                        area: ['400px', '300px'],
+                        fix: false, //不固定
+                        maxmin: true,
+                        shadeClose: true,
+                        shade:0.4,
+                        title: "编辑",
+                        content: "area-oper.html",
+                        success: function(layero,index){
+
+                            //$("#L_areaName").val(obj.data.areaName);
+                        },
+                        cancel:function(){
+                            //关闭窗口之后刷新frame
+                            // location.replace(location.href);
+                        },
+                        end:function(){
+                            //窗口销毁之后刷新frame
+                            // location.replace(location.href);
+                        }
+                    });
+                }
+            });
+        });
+        /*用户-删除*/
+        /*function member_del(obj,id){
+            console.log(obj);
+            layer.confirm('确认要删除吗？',function(index){
+                //发异步删除数据
+                layer.msg('已删除!',{icon:1,time:1000});
+            });
+        }*/
+    </script>
+  </body>
+
+</html>

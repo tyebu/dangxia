@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/cookie.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="L_buildingName" class="layui-form-label">
+                  <span class="x-red">*</span>楼栋号(名称)
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_buildingName" name="buildingName" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  <span class="x-red">*</span>选择区域
+              </label>
+              <div class="layui-input-inline">
+                  <select name="areaName" lay-filter="areaName" id="areaName" lay-verify = "required">
+
+                  </select>
+              </div>
+              <div class="layui-input-inline">
+                  <select name="neighbourhood" lay-filter="neighbourhood" id="neighbourhood" lay-verify = "required">
+
+                  </select>
+              </div>
+          </div>
+          <div class="layui-form-item" style="">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="oper" lay-submit id="operBtn">
+                      提交
+                  </button>
+              </div>
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          var operurl = "/dangxia/buildings/insertBuilding";
+          form.on('select(areaName)',function(data) {
+                getNeighbourhood(data.value);
+            });
+          //监听提交
+          form.on('submit(oper)', function(obj){
+              console.log(obj);
+              $("#operBtn").css("disabled",true);
+              var layerLoad = layer.load(2, {
+                  shade: [0.4,'#3C3C3C'],
+                  time:5000
+              });
+              $.ajax({
+                      type:"post",
+                      url:operurl,
+                      timeout:5000,
+                      data: {"areaName":obj.field.areaName, "neighbourhood":obj.field.neighbourhood, "buildingName":obj.field.buildingName},
+                      dataType: "json",
+                      success: function(dat){
+                          if(dat.code == 200) {
+                              layer.msg(dat.message,{icon:1,time:2000},function() {
+                                  layer.close(layerLoad);
+                                  parent.layer.closeAll();
+                                  window.parent.location.reload();
+                              });
+                          } else {
+                              layer.msg(dat.message,{icon:5,time:2000},function() {
+                                  layer.close(layerLoad);
+                              });
+                          }
+                          $("#operBtn").css("disabled",false);
+                      },
+                      error:function(e){
+                          layer.msg(e.message,{icon:5,time:2000});
+                          $("#operBtn").css("disabled",false);
+                          layer.close(layerLoad);
+                      }
+                  }
+              );
+            return false;
+          });
+          
+          
+        });
+        getAreaName();
+
+        /***
+         * 动态获得区域名
+         */
+        function getAreaName() {
+            $ = layui.jquery;
+            $.ajax({
+                type:"post",
+                url:"/dangxia/area/getAllAreaName",
+                success:function(data) {
+                    if(data.code == 200) {
+                        $("#areaName").empty();
+                        $("#areaName").append("<option value=''></option>");
+                        $.each(data.data,function(i,item) {
+                            $("#areaName").append("<option value='"+item+"'>"+item+"</option>");
+                        });
+                    }
+                }
+            });
+        }
+        function getNeighbourhood(areaName) {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $("#neighbourhood").empty();
+                $.ajax({
+                    type:"post",
+                    data:{
+                        "areaName":areaName
+                    },
+                    url:"/dangxia/area/getNeighbourhoodByAreaName",
+                    success:function(data) {
+                        if(data.code == 200) {
+                            $("#neighbourhood").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#neighbourhood").append("<option value='"+item+"'>"+item+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+
+        }
+    </script>
+  </body>
+
+</html>

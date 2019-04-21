@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>房间管理</title>
+</head>
+  
+  <body class="">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
+          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
+          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <table class="layui-table" lay-filter="room" id="roomtab"></table>
+
+    </div>
+    <script type="text/html" id="toolbarDemo">
+      <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+      </div>
+    </script>
+    <script type="text/html" id="switchTpl">
+      <!-- 这里的 checked 的状态只是演示 -->
+      <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
+    </script>
+    <script>
+      layui.use(['layer','laydate','table'], function(){
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        //加载数据表格
+          table.render({
+              elem: '#buildings'
+              ,height: 'full-20'
+              ,url: '/dangxia/room/getBuildingsByCondition' //数据接口
+              ,page: true //开启分页
+              ,limits:[10,15,20,25]
+              ,limit:15
+              ,cols: [
+                  [
+                      {type:"checkbox"},
+                      ,{field: 'roomNum', title: '房间号'}
+                      ,{field: 'buildingName', title: '楼栋名', align:'center'}
+                      ,{field: 'isDel', title: '单元状态', align:'center',templet:function(d) {
+                          if(d.isDel==0) {
+                              return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">已启用</span>";
+                          } else {
+                              return "<span class=\"layui-btn span-status layui-btn-disabled layui-btn-mini\">已停用</span>";
+                          }
+                      }}
+                      ,{fixed: 'right', toolbar:'#toolbarDemo',title: '操作',align:'center', width: 80}
+
+                  ]
+              ]
+          });
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+
+
+      });
+    </script>
+    <script>
+    layui.use('table', function(){
+      var table = layui.table;
+      
+      //监听单元格编辑
+      table.on('edit(test)', function(obj){
+        var value = obj.value //得到修改后的值
+        ,data = obj.data //得到所在行所有键值
+        ,field = obj.field; //得到字段
+        layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+      });
+
+      //头工具栏事件
+      table.on('toolbar(test)', function(obj){
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch(obj.event){
+          case 'getCheckData':
+            var data = checkStatus.data;
+            layer.alert(JSON.stringify(data));
+          break;
+          case 'getCheckLength':
+            var data = checkStatus.data;
+            layer.msg('选中了：'+ data.length + ' 个');
+          break;
+          case 'isAll':
+            layer.msg(checkStatus.isAll ? '全选': '未全选');
+          break;
+        };
+      });
+    });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxc.dangxia.dao.area.IAreaDao">
+    <resultMap id="area" type="area">
+        <id column="area_id" property="areaId" jdbcType="INTEGER"/>
+        <result column="area_name" property="areaName" jdbcType="VARCHAR"/>
+        <result column="neighbourhood" property="neighbourhood" jdbcType="VARCHAR"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="DATE"/>
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+        <result column="modify_date" property="modifyDate" jdbcType="DATE"/>
+    </resultMap>
+    <select id="getAreaInfo" resultMap="area">
+        SELECT
+            *
+        FROM
+            area
+    </select>
+    <!--添加位置信息-->
+    <insert id="insertArea">
+      INSERT INTO
+      area(area_name,neighbourhood,created_user,created_date)
+      VALUES(
+             #{areaName},
+             #{neighbourhood},
+             #{createdUser},
+             NOW()
+            )
+    </insert>
+    <!--根据地址获得id-->
+    <select id="getIdByAreaNameAndNeighbourhood" parameterType="area" resultType="int">
+        SELECT area_id
+        FROM area
+        WHERE area_name = #{areaName}
+        AND neighbourhood = #{neighbourhood}
+    </select>
+    <!--根据id删除某个位置-->
+    <delete id="deleteAreaById" parameterType="int">
+        DELETE
+        FROM area
+        WHERE area_id = #{areaId}
+    </delete>
+    <!--根据条件修改area数据-->
+    <update id="updateAreaByCondition" parameterType="area">
+        UPDATE area
+        set
+        <if test="areaName!=null and areaName!=''">
+            area_name = #{areaName},
+        </if>
+        <if test="neighbourhood != null and neighbourhood != ''">
+            neighbourhood = #{neighbourhood},
+        </if>
+        <if test="modifyUser != null and modifyUser != ''">
+            modify_user = #{modifyUser},
+        </if>
+        modify_date = NOW()
+        WHERE area_id = #{areaId}
+    </update>
+    <!--去重获取areaName-->
+    <select id="getAllAreaName" resultType="string">
+        SELECT DISTINCT
+            area_name
+        FROM
+            area
+    </select>
+
+    <!--根据areaName获得neighbourhood列-->
+
+    <select id="getNeighbourhoodByAreaName" resultType="string">
+        SELECT
+            neighbourhood
+        FROM
+            area
+        WHERE
+            area_name = #{areaName}
+    </select>
+</mapper>
