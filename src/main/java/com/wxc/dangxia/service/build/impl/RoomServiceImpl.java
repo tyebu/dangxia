@@ -26,11 +26,12 @@ public class RoomServiceImpl implements IRoomService {
     @Override
     public ResultMsg getRoomInfoByCondition(Map<String, Object> data) throws Exception {
         Map<String,Object> map = new HashMap<>();
-        int pageNo = Integer.parseInt(data.get("pageNo")+"");
-        int pageSize = Integer.parseInt(data.get("pageSize")+"");
+        int pageNo = Integer.parseInt(data.get("page")+"");
+        int pageSize = Integer.parseInt(data.get("limit")+"");
         PageHelper.startPage(pageNo,pageSize);
-        List<Map<String, Object>> roomList = roomDao.getRoomInfoByCondition(data);
+
         Integer count = roomDao.getCountByCondition(data);
+        List<Map<String, Object>> roomList = roomDao.getRoomInfoByCondition(data);
         return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, roomList, count);
     }
 }

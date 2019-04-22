@@ -41,7 +41,7 @@ public class RoomController {
             return roomService.getRoomInfoByCondition(data);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultMsg(StatusCode.LAYUIERROR, StatusMessage.ERROR,null);
+            return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR,null);
         }
     }
 }

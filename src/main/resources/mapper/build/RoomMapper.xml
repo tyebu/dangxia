@@ -8,7 +8,6 @@
         r.room_id,
         r.room_num,
         r.room_size,
-        r.room_type,
         r.people_num,
         r.room_rent,
         r.people_rent,
@@ -26,25 +25,29 @@
         l.landlord_id,
         l.landlord_name,
         l.landlord_phone,
-        l.landlord_sex
+        l.landlord_sex,
+        rt.room_type_id,
+        rt.room_type_name
       FROM
         room r
       LEFT JOIN building b ON (r.building_id = b.building_id)
       LEFT JOIN area a ON (b.area_id = a.area_id)
       LEFT JOIN landlord l ON (l.landlord_id = r.landlord_id)
-      WHERE
-        <if test="startDate != null and startDate != ''">
-            <![CDATA[ DATE_FORMAT(r.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
-        </if>
-        <if test="endDate != null and endDate != ''">
-            <![CDATA[  AND DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') <= DATE_FORMAT(#{param.endTime}, '%Y-%m-%d')   ]]>
-        </if>
-        <if test="roomTypeId != null ad roomTypeId != ''">
-          AND r.roomTypeId = #{roomTypeId}
-        </if>
-        <if test="landlordName != null and landlordName != ''">
-          AND l.landlord_name = #{landlordName}
-        </if>
+      LEFT JOIN room_type rt ON (r.room_type_id = rt.room_type_id)
+      <where>
+          <if test="startDate != null and startDate != ''">
+              <![CDATA[ DATE_FORMAT(r.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="endDate != null and endDate != ''">
+              <![CDATA[  AND DATE_FORMAT(r.end_date,, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="roomTypeId != null and roomTypeId != ''">
+              AND r.room_type_id = #{roomTypeId}
+          </if>
+          <if test="landlordName != null and landlordName != ''">
+              AND l.landlord_name = #{landlordName}
+          </if>
+      </where>
       ORDER BY r.created_date DESC
     </select>
     <!--获得已有房间的大小-->
