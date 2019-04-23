@@ -82,7 +82,8 @@
         FROM
           room
     </select>
-    <insert id="insertRoomInfo">
+    <!--添加房间-->
+    <insert id="insertRoomInfo" parameterType="map">
       INSERT INTO room
         (
           room_num,

@@ -63,7 +63,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="peopleRent" name="peopleRent" required="" lay-verify="number"
-                           autocomplete="off" class="layui-input" placeholder="￥">
+                           autocomplete="off" class="layui-input" placeholder="￥/月">
                 </div>
           </div>
           <div class="layui-form-item">
@@ -72,24 +72,24 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="roomRent" name="roomRent" required="" lay-verify="number"
-                           autocomplete="off" class="layui-input" placeholder="￥">
+                           autocomplete="off" class="layui-input" placeholder="￥/月">
                 </div>
           </div>
           <div class="layui-form-item">
               <label class="layui-form-label"><span class="x-red">*</span>选择房东</label>
               <div class="layui-input-inline">
-                  <select name="landlord" lay-filter="landlord" id="landlord" lay-verify = "required">
+                  <select name="landlordId" lay-filter="landlordId" id="landlordId" lay-verify = "required">
 
                   </select>
               </div>
           </div>
           <div class="layui-form-item">
-              <label class="layui-form-label"><span class="x-red">*</span>选择房间起止时间</label>
+              <label class="layui-form-label"><span class="x-red">*</span>选择房间起止日期</label>
               <div class="layui-input-inline">
-                  <input class="layui-input"  autocomplete="off" placeholder="起租时间" name="startDate" id="startDate">
+                  <input class="layui-input"  autocomplete="off" placeholder="起租日期" name="startDate" id="startDate">
               </div>
               <div class="layui-input-inline">
-                  <input class="layui-input"  autocomplete="off" placeholder="到期时间" name="endDate" id="endDate">
+                  <input class="layui-input"  autocomplete="off" placeholder="到期日期" name="endDate" id="endDate">
               </div>
           </div>
           <div class="layui-form-item">
@@ -147,7 +147,11 @@
                         type:"post",
                         url:operurl,
                         timeout:5000,
-                        data: {"areaName":obj.field.areaName, "neighbourhood":obj.field.neighbourhood, "buildingName":obj.field.buildingName},
+                        data: {"buildingId":obj.field.buildingId, "roomNum":obj.field.roomNum, "roomSize":obj.field.roomSize,
+                               "roomArea":obj.field.roomArea, "roomTypeId":obj.field.roomTypeId, "peopleRent":obj.field.peopleRent,
+                               "roomRent":obj.field.roomRent, "landlordId":obj.field.landlordId, "startDate":obj.field.startDate,
+                               "endDate":obj.field.endDate
+                        },
                         dataType: "json",
                         success: function(dat){
                             if(dat.code == 200) {

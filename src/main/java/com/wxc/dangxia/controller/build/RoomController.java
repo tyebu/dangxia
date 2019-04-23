@@ -1,5 +1,6 @@
 package com.wxc.dangxia.controller.build;
 
+import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
@@ -53,12 +54,17 @@ public class RoomController {
      * @param data
      * @return
      */
+    @RequestMapping(value = "/insertRoomInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public ResultMsg insertRoomInfo(@RequestParam Map<String, Object> data) {
         try {
             Integer rows = roomService.insertRoomInfo(data);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.ADDSUCCESS);
+        } catch (CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
-        return null;
     }
 }
