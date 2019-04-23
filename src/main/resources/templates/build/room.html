@@ -91,7 +91,6 @@
                           }
                       }}
                       ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
-
                   ]
               ]
           });
@@ -99,7 +98,6 @@
         laydate.render({
           elem: '#start' //指定元素
         });
-
         //执行一个laydate实例
         laydate.render({
           elem: '#end' //指定元素
@@ -108,7 +106,6 @@
       /*用户-停用*/
       function member_stop(obj,id){
         layer.confirm('确认要停用吗？',function(index){
-
           if($(obj).attr('title')=='启用'){
 
             //发异步把用户状态进行更改
