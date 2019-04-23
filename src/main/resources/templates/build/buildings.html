@@ -25,13 +25,13 @@
       </div>-->
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加楼栋','../buildings-oper.html',580,300)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加楼栋','../buildings-oper.html',580,300)"><i class="layui-icon"></i>添加楼栋</button>
         <!--<span class="x-right" style="line-height:40px">共有数据：88 条</span>-->
         <button class="layui-btn x-right" onclick="x_admin_show('添加位置','../area-oper.html',400,300)"><i class="layui-icon"></i>添加位置</button>
         <button class="layui-btn x-right" onclick="x_admin_show('我的地区','../areaInfo.html',800,400)"><i class="layui-icon ">&#xe715;</i>位置服务</button>
       </xblock>
       <!--单元数据表格-->
-      <table id="buildings" lay-filter="test"></table>
+      <table class="layui-table" id="buildings" lay-filter="buildings"></table>
     </div>
     <!--数据表中的工具按钮-->
     <script type="text/html" id="toolbarDemo">
@@ -126,7 +126,7 @@
           });
       }
 
-      function delAll (argument) {
+      /*function delAll (argument) {
 
         var data = tableCheck.getData();
         layui.use(['table','layer','form'],function() {
@@ -149,7 +149,7 @@
                 $(".layui-form-checked").not('header').parents('tr').remove();
             });
         });
-      }
+      }*/
     </script>
   </body>
 

@@ -37,11 +37,11 @@ public class BuildingsController {
         List<Building> buildings = null;
         try {
             buildings = buildingsService.getBuildingsByCondition(data);
-            return new ResultMsg(0, "success", buildings);
+            return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, buildings);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR, null);
         }
-        return new ResultMsg(0, "success", null);
     }
 
     @RequestMapping(value = "/insertBuilding", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})

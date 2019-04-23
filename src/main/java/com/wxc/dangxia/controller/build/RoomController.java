@@ -28,7 +28,10 @@ public class RoomController {
     public String toRoom() {
        return "build/room";
     }
-
+    @RequestMapping(value = "/roomOper")
+    public String toRoomOper() {
+        return "build/room_oper";
+    }
     /**
      *
      * @param data
@@ -43,5 +46,19 @@ public class RoomController {
             e.printStackTrace();
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR,null);
         }
+    }
+
+    /**
+     * 添加房间信息
+     * @param data
+     * @return
+     */
+    public ResultMsg insertRoomInfo(@RequestParam Map<String, Object> data) {
+        try {
+            Integer rows = roomService.insertRoomInfo(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

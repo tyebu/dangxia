@@ -28,4 +28,14 @@ public interface IRoomDao {
      * @throws Exception
      */
     Integer getCountByCondition(Map<String,Object> map) throws Exception;
+
+    /**
+     * 添加房间信息
+     * @param data
+     * @return
+     * @throws Exception
+     */
+    Integer insertRoomInfo(Map<String, Object> data) throws  Exception;
+
+
 }

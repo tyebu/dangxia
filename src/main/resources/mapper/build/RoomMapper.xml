@@ -14,9 +14,9 @@
         r.start_date,
         r.end_date,
         r.created_user,
-        r.created_date,
+        DATE_FORMAT(r.created_date, '%Y-%m-%d %h:%i:%s') as created_date,
         r.modify_user,
-        r.modify_date,
+        DATE_FORMAT(r.modify_date, '%Y-%m-%d %h:%i:%s') as modify_date,
         r.is_del,
         b.building_id,
         b.building_name,
@@ -35,8 +35,14 @@
       LEFT JOIN landlord l ON (l.landlord_id = r.landlord_id)
       LEFT JOIN room_type rt ON (r.room_type_id = rt.room_type_id)
       <where>
+          <if test="buildingId != null and buildingId != ''">
+              r.building_id = #{buildingId}
+          </if>
+          <if test="roomNum != null and roomNum != ''">
+              AND r.room_num = #{roomNum}
+          </if>
           <if test="startDate != null and startDate != ''">
-              <![CDATA[ DATE_FORMAT(r.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+              <![CDATA[ AND DATE_FORMAT(r.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
           </if>
           <if test="endDate != null and endDate != ''">
               <![CDATA[  AND DATE_FORMAT(r.end_date,, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
@@ -76,4 +82,33 @@
         FROM
           room
     </select>
+    <insert id="insertRoomInfo">
+      INSERT INTO room
+        (
+          room_num,
+          room_size,
+          room_area,
+          room_type_id,
+          start_date,
+          end_date,
+          landlord_id,
+          building_id,
+          created_user,
+          created_date,
+          record
+        )
+        VALUES
+        (
+          #{roomNum},
+          #{roomSize},
+          #{roomArea},
+          #{roomTypeId},
+          #{startDate},
+          #{endDate},
+          #{landlordId},
+          null,
+          NOW(),
+          #{record}
+        )
+    </insert>
 </mapper>

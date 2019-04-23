@@ -1,6 +1,7 @@
 package com.wxc.dangxia.service.build.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
@@ -33,5 +34,21 @@ public class RoomServiceImpl implements IRoomService {
         Integer count = roomDao.getCountByCondition(data);
         List<Map<String, Object>> roomList = roomDao.getRoomInfoByCondition(data);
         return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, roomList, count);
+    }
+
+    /**
+     * 添加房间信息
+     * @param data
+     * @return
+     */
+    @Override
+    public Integer insertRoomInfo(Map<String, Object> data) throws Exception {
+        //首先根据条件获的房间信息，查询是否有相同条件的房间
+        Integer roomCount = roomDao.getCountByCondition(data);
+        //若roomCount大于0就表示已存在相同条件的房间，抛出异常
+        if(roomCount > 0) {
+            throw new CommonException("已存在同条件房间，请检查关键字段。");
+        }
+        return roomDao.insertRoomInfo(data);
     }
 }

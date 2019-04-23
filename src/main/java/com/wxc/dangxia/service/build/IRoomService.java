@@ -16,4 +16,11 @@ public interface IRoomService {
      * @return
      */
     ResultMsg getRoomInfoByCondition(Map<String,Object> data) throws Exception;
+
+    /**
+     * 添加房间信息
+     * @param data
+     * @return
+     */
+    Integer insertRoomInfo(Map<String, Object> data) throws Exception;
 }

@@ -28,10 +28,20 @@
     </div>
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加</button>
       </div>
+    </script>
+    <script type="text/html" id="tabBar">
+      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+        <i class="layui-icon">&#xe601;</i>
+      </a>
+      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+      </a>
+      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+      </a>
     </script>
     <script type="text/html" id="switchTpl">
       <!-- 这里的 checked 的状态只是演示 -->
@@ -53,13 +63,26 @@
               ,page: true //开启分页
               ,limits:[10,15,20,25]
               ,limit:15
+              ,defaultToolbar:['filter', 'print', 'exports']
+              ,toolbar:'#toolbarDemo'
               ,cols: [
                   [
                       {type:"checkbox"}
-                      ,{field: 'room_num', title: '房间号'}
+                      ,{field: 'room_num', title: '房间号', align:'center'}
+                      ,{field: '', title: '所在地区', align:'center', templet:function(d) {
+                          return d.area_name+d.neighbourhood;
+                    }}
                       ,{field: 'building_name', title: '所属楼栋', align:'center'}
                       ,{field: 'room_type_name', title: '房间类型', align:'center'}
-                      ,{field: 'room_size', title: '房间大小', align:'center'}
+                      ,{field: 'room_size', title: '房间大小', align:'center',templet:function(d) {
+                          return d.room_size+"人间";
+                    }}
+                      ,{field: '', title: '是否入住', align:'center',templet:function(d) {
+                        if(d.people_num > 0) {
+                          return "<span class='greencell'>已入住"+d.people_num+"</span>";
+                        }
+                        return "<span class='redcell'>未入住</span>";
+                    }}
                       ,{field: 'is_del', title: '房间状态', align:'center',templet:function(d) {
                           if(d.is_del==0) {
                               return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">已启用</span>";
@@ -67,7 +90,7 @@
                               return "<span class=\"layui-btn span-status layui-btn-disabled layui-btn-mini\">已停用</span>";
                           }
                       }}
-                      ,{fixed: 'right', toolbar:'#toolbarDemo',title: '操作',align:'center', width: 80}
+                      ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
 
                   ]
               ]
@@ -82,6 +105,29 @@
           elem: '#end' //指定元素
         });
       });
+      /*用户-停用*/
+      function member_stop(obj,id){
+        layer.confirm('确认要停用吗？',function(index){
+
+          if($(obj).attr('title')=='启用'){
+
+            //发异步把用户状态进行更改
+            $(obj).attr('title','停用')
+            $(obj).find('i').html('&#xe62f;');
+
+            $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
+            layer.msg('已停用!',{icon: 5,time:1000});
+
+          }else{
+            $(obj).attr('title','启用')
+            $(obj).find('i').html('&#xe601;');
+
+            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+            layer.msg('已启用!',{icon: 5,time:1000});
+          }
+
+        });
+      }
     </script>
   </body>
 
