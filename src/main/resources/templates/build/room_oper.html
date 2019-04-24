@@ -178,6 +178,8 @@
             });
         });
         getAreaList();
+        getRoomType();
+        getLandlordList();
         /**
          * 获得区域列表
          */
@@ -216,6 +218,50 @@
                             $("#buildingId").append("<option value=''></option>");
                             $.each(data.data,function(i,item) {
                                 $("#buildingId").append("<option value='"+item.buildingId+"'>"+item.buildingName+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+
+        /**
+         * 获得房间类型
+         */
+        function getRoomType() {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/room/getRoomType",
+                    success:function(data) {
+                        if(data.code == 200) {
+                            $("#roomTypeId").empty();
+                            $("#roomTypeId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#roomTypeId").append("<option value='"+item.room_type_id+"'>"+item.room_type_name+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+        function getLandlordList() {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/landlord/getLandlordList",
+                    success:function(data) {
+                        if(data.code == 200) {
+                            $("#landlordId").empty();
+                            $("#landlordId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#landlordId").append("<option value='"+item.landlord_id+"'>"+item.landlord_name+"</option>");
                             });
                             form.render('select');
                         }

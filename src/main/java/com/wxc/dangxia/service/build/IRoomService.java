@@ -2,6 +2,7 @@ package com.wxc.dangxia.service.build;
 
 import com.wxc.dangxia.commons.ResultMsg;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,12 @@ public interface IRoomService {
      * @return
      */
     Integer insertRoomInfo(Map<String, Object> data) throws Exception;
+
+    /***
+     * 获的房间类型
+     * @return
+     */
+    List<Map<String, Object>> getRoomType(Map<String, Object> map) throws Exception;
+
+
 }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.misc.Request;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,4 +69,17 @@ public class RoomController {
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
+
+    @RequestMapping(value = "/getRoomType", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getRoomType(@RequestParam Map<String, Object> map) {
+        try {
+            List<Map<String, Object>> roomType = roomService.getRoomType(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.SUCCESS, roomType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
 }

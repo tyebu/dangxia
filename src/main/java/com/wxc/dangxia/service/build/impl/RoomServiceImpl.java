@@ -51,4 +51,15 @@ public class RoomServiceImpl implements IRoomService {
         }
         return roomDao.insertRoomInfo(data);
     }
+
+    /***
+     * 获的房间类型
+     * @param map
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getRoomType(Map<String, Object> map) throws Exception {
+        List<Map<String, Object>> roomType = roomDao.getRoomType(map);
+        return roomType;
+    }
 }

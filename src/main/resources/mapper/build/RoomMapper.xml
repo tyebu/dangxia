@@ -64,7 +64,7 @@
           room
     </select>
     <!--获取所有房间类型-->
-    <select id="getRoomType" resultType="map">
+    <select id="getRoomType" resultType="map" parameterType="map">
         SELECT
           room_type_id,
           room_type_name

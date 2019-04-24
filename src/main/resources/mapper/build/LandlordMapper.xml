@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxc.dangxia.dao.build.ILandlordDao">
+    <!--根据条件获的房东信息-->
+    <select id="getLandlordInfoByCondition" resultType="map" parameterType="map">
+        SELECT
+          ld.landlord_id,
+          ld.landlord_name,
+          ld.landlord_phone,
+          ld.landlord_sex,
+          ld.landlord_address,
+          ld.agreement_num,
+          ld.created_user,
+          DATE_FORMAT(ld.created_date, '%Y-%m-%d %h:%i:%s') AS created_date,
+          ld.modify_user,
+          DATE_FORMAT(ld.modify_date, '%Y-%m-%d %h:%i:%s') AS modify_date,
+          ld.is_del,
+          r.room_num
+        FROM landlord ld
+        LEFT JOIN room r ON(ld.landlord_id = r.landlord_id)
+        <where>
+            <if test="landlordPhone != null and landlordPhone != ''">
+                ld.landlord_phone = #{landlordPhone}
+            </if>
+        </where>
+    </select>
+</mapper>

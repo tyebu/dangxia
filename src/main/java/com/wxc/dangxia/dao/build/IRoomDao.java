@@ -37,5 +37,10 @@ public interface IRoomDao {
      */
     Integer insertRoomInfo(Map<String, Object> data) throws  Exception;
 
-
+    /**
+     * 获的房间类型
+     * @param map
+     * @return
+     */
+    List<Map<String, Object>> getRoomType(Map<String,Object> map) throws Exception;
 }
