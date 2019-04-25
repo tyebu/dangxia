@@ -10,6 +10,7 @@
         r.room_size,
         r.people_num,
         r.room_rent,
+        r.room_area,
         r.people_rent,
         r.start_date,
         r.end_date,
@@ -81,6 +82,14 @@
           count(*)
         FROM
           room
+        <where>
+            <if test="roomNum != null and roomNum != ''">
+                room_num = #{roomNum}
+            </if>
+            <if test="buildingId != null and buildingId != ''">
+                AND building_id = #{buildingId}
+            </if>
+        </where>
     </select>
     <!--添加房间-->
     <insert id="insertRoomInfo" parameterType="map">
@@ -90,6 +99,8 @@
           room_size,
           room_area,
           room_type_id,
+          room_rent,
+          people_rent,
           start_date,
           end_date,
           landlord_id,
@@ -101,12 +112,15 @@
         VALUES
         (
           #{roomNum},
-          #{roomSize},
+          #{roomSize,jdbcType = INTEGER},
           #{roomArea},
           #{roomTypeId},
+          #{roomRent},
+          #{peopleRent},
           #{startDate},
           #{endDate},
           #{landlordId},
+          #{buildingId},
           null,
           NOW(),
           #{record}

@@ -21,4 +21,10 @@ public interface ILandlordDao {
      * @return
      */
     List<Map<String, Object>> getLandlordInfoByCondition(Map<String,Object> map) throws Exception;
+
+    /**
+     * 获得房东列表
+     * @return
+     */
+    List<Map<String, Object>> getLandlordList();
 }

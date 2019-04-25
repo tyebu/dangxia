@@ -74,8 +74,14 @@
                     }}
                       ,{field: 'building_name', title: '所属楼栋', align:'center'}
                       ,{field: 'room_type_name', title: '房间类型', align:'center'}
-                      ,{field: 'room_size', title: '房间大小', align:'center',templet:function(d) {
-                          return d.room_size+"人间";
+                      ,{field: 'room_area', title: '面积', align:'center',templet:function(d) {
+                        return d.room_area+"m²";
+                    }}
+                      ,{field: 'room_size', title: '几人间', align:'center',templet:function(d) {
+                        if(d.room_size == null) {
+                          return "未指定";
+                        }
+                        return d.room_size+"人间";
                     }}
                       ,{field: '', title: '是否入住', align:'center',templet:function(d) {
                         if(d.people_num > 0) {

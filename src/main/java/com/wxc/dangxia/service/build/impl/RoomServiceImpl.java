@@ -9,6 +9,7 @@ import com.wxc.dangxia.dao.build.IRoomDao;
 import com.wxc.dangxia.service.build.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +44,18 @@ public class RoomServiceImpl implements IRoomService {
      */
     @Override
     public Integer insertRoomInfo(Map<String, Object> data) throws Exception {
+        if(ObjectUtils.isEmpty(data)) {
+            throw new Exception("提交数据不能为空。");
+        }
         //首先根据条件获的房间信息，查询是否有相同条件的房间
         Integer roomCount = roomDao.getCountByCondition(data);
         //若roomCount大于0就表示已存在相同条件的房间，抛出异常
         if(roomCount > 0) {
             throw new CommonException("已存在同条件房间，请检查关键字段。");
+        }
+        Object roomSize = data.get("roomSize");
+        if(ObjectUtils.isEmpty(roomSize)) {
+            data.put("roomSize",null);
         }
         return roomDao.insertRoomInfo(data);
     }

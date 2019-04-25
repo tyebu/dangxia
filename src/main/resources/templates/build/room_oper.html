@@ -95,7 +95,7 @@
           <div class="layui-form-item">
               <div class="layui-input-block">
                   <button  class="layui-btn" lay-filter="room_oper" id="room_oper" lay-submit>
-                      增加
+                      提交
                   </button>
               </div>
 
@@ -249,6 +249,10 @@
                 });
             });
         }
+
+        /**
+         * 获得所有房东
+         */
         function getLandlordList() {
             layui.use(['form'],function() {
                 var form = layui.form;

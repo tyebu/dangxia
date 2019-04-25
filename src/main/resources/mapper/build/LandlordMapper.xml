@@ -9,6 +9,7 @@
           ld.landlord_phone,
           ld.landlord_sex,
           ld.landlord_address,
+          ld.landlord_age,
           ld.agreement_num,
           ld.created_user,
           DATE_FORMAT(ld.created_date, '%Y-%m-%d %h:%i:%s') AS created_date,
@@ -17,11 +18,19 @@
           ld.is_del,
           r.room_num
         FROM landlord ld
-        LEFT JOIN room r ON(ld.landlord_id = r.landlord_id)
+        INNER JOIN room r ON(ld.landlord_id = r.landlord_id)
         <where>
             <if test="landlordPhone != null and landlordPhone != ''">
                 ld.landlord_phone = #{landlordPhone}
             </if>
         </where>
+    </select>
+    <!--获得房东列表-->
+    <select id="getLandlordList" resultType="map">
+        SELECT
+            landlord_id,
+            landlord_name
+        FROM
+            landlord
     </select>
 </mapper>

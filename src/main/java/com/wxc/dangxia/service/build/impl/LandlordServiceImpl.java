@@ -18,18 +18,18 @@ public class LandlordServiceImpl implements ILandlordService {
     @Autowired
     private ILandlordDao landlordDao;
     @Override
-    public List<Map<String, Object>> getLandlordInfoByCondition(Map<String, Object> map) {
-        return null;
+    public List<Map<String, Object>> getLandlordInfoByCondition(Map<String, Object> map) throws Exception {
+        return landlordDao.getLandlordInfoByCondition(map);
     }
 
     /**
      * 返回房东列表
-     * @param map
+     * @param
      * @return
      * @throws Exception
      */
     @Override
-    public List<Map<String, Object>> getLandlordList(Map<String, Object> map) throws Exception {
-        return landlordDao.getLandlordInfoByCondition(map);
+    public List<Map<String, Object>> getLandlordList() {
+        return landlordDao.getLandlordList();
     }
 }

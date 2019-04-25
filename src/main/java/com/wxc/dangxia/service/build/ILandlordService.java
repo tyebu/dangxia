@@ -14,14 +14,14 @@ public interface ILandlordService {
      * @param map
      * @return
      */
-    List<Map<String, Object>> getLandlordInfoByCondition(Map<String,Object> map);
+    List<Map<String, Object>> getLandlordInfoByCondition(Map<String,Object> map) throws Exception;
 
     /**
      * 获得房东列表
-     * @param map
+     * @param
      * @return
      */
-    List<Map<String, Object>> getLandlordList(Map<String,Object> map) throws Exception;
+    List<Map<String, Object>> getLandlordList();
 
 
 }
