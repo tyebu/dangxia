@@ -71,7 +71,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red">*</span>请选择区域
+                    <span class="x-red">*</span>请选择房间
                 </label>
                 <div class="layui-input-inline">
                     <select name="areaId" lay-filter="areaId" id="areaId" lay-verify = "required">
@@ -90,35 +90,51 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux" id="room_remark"></div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>起止日期</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" readonly="readonly"  autocomplete="off" placeholder="起租日期" name="startDate" id="startDate">
+                </div>
+                <div class="layui-input-inline">
+                    <input class="layui-input" readonly="readonly"  autocomplete="off" placeholder="到期日期" name="endDate" id="endDate">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="rentMoney" class="layui-form-label">
+                    <span class="x-red">*</span>缴纳金额
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="rentMoney" name="rentMoney" required="" lay-verify="rentMoney"
+                           autocomplete="off" class="layui-input" placeholder="￥">
+                </div>
+            </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="add" id="addBtn" lay-submit="">
+                      提交
+                  </button>
+              </div>
 
-          <div class="layui-form-item" style="text-align: right">
-              <button  class="layui-btn layui-btn-disabled" lay-filter="add" id="addBtn" lay-submit="">
-                  提交
-              </button>
           </div>
       </form>
     </div>
     <script>
-        layui.use(['form','layer','code'], function(){
+        layui.use(['form','layer','code','laydate'], function(){
             $ = layui.jquery;
           form = layui.form;
           var layer = layui.layer;
-          var parentData;
-          var operurl = "";
-          var areaId;
+          laydate = layui.laydate;
+          laydate.render({
+            elem: '#startDate', //指定元素
+            trigger:'click'
+            });
+          laydate.render({
+            elem: '#endDate', //指定元素
+            trigger:'click'
+             });
           //三级联动
           layui.code();
           $('#x-city').xcity('北京','市辖区','东城区');
-
-          if(parent.data != null) {
-              parentData = parent.data.data;
-              areaId = parentData.areaId;
-              form.val('form_oper',{
-                "areaName":parentData.areaName,
-                "neighbourhood":parentData.neighbourhood
-              });
-              operurl = "/dangxia/area/updateArea";
-          }
           //监听select选择框
             form.on('select(areaId)',function(data) {
                 getBuildingsByAreaId(data.value);
@@ -195,8 +211,6 @@
         }
         function getBuildingsByAreaId(areaId) {
             layui.use(['form'],function() {
-                var form = layui.form;
-                $ = layui.jquery;
                 $.ajax({
                     type:"get",
                     url:"/dangxia/buildings/getBuildingsByCondition",
