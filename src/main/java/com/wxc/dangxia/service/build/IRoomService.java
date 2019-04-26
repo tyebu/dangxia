@@ -32,4 +32,5 @@ public interface IRoomService {
     List<Map<String, Object>> getRoomType(Map<String, Object> map) throws Exception;
 
 
+    ResultMsg getRoomListByCondition(Map<String, Object> map) throws Exception;
 }

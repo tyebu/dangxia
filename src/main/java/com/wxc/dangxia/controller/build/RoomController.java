@@ -81,5 +81,14 @@ public class RoomController {
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
-
+    @RequestMapping(value = "getRoomListByCondition", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getRoomListByCondition(@RequestParam  Map<String,Object> map) {
+        try {
+            return roomService.getRoomListByCondition(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR,StatusMessage.ERROR);
+        }
+    }
 }

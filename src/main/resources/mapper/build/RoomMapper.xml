@@ -9,6 +9,7 @@
         r.room_num,
         r.room_size,
         r.people_num,
+        r.people_rent,
         r.room_rent,
         r.room_area,
         r.people_rent,
@@ -124,6 +125,16 @@
           null,
           NOW(),
           #{record}
+        )
+    </insert>
+
+    <!--向房间租客表中插入租客-->
+    <insert id="insertRoomUser" parameterType="map">
+        INSERT
+        INTO room_user
+        VALUES (
+          #{roomId},
+          #{userId}
         )
     </insert>
 </mapper>

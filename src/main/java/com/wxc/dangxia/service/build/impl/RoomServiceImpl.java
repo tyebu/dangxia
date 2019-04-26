@@ -70,4 +70,10 @@ public class RoomServiceImpl implements IRoomService {
         List<Map<String, Object>> roomType = roomDao.getRoomType(map);
         return roomType;
     }
+
+    @Override
+    public ResultMsg getRoomListByCondition(Map<String, Object> map) throws Exception {
+        List<Map<String, Object>> roomList = roomDao.getRoomInfoByCondition(map);
+        return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, roomList);
+    }
 }

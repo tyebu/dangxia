@@ -27,4 +27,11 @@ public interface ILandlordDao {
      * @return
      */
     List<Map<String, Object>> getLandlordList();
+
+    /**
+     * 根据条件获得房东数量
+     * @param map
+     * @return
+     */
+    Integer getCountByCondition(Map<String, Object> map) throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.wxc.dangxia.dao.build;
 
+import com.wxc.dangxia.commons.ResultMsg;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -43,4 +44,5 @@ public interface IRoomDao {
      * @return
      */
     List<Map<String, Object>> getRoomType(Map<String,Object> map) throws Exception;
+
 }

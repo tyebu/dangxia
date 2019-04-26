@@ -29,13 +29,9 @@
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加</button>
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-        <i class="layui-icon">&#xe601;</i>
-      </a>
       <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
       </a>
@@ -58,7 +54,7 @@
           table.render({
               elem: '#landlordTab'
               ,height: 'full-20'
-              ,url: '/dangxia/user/getLandlordByCondition' //数据接口
+              ,url: '/dangxia/user/getUserInfoByCondition' //数据接口
               ,method:'post'
               ,page: true //开启分页
               ,limits:[10,15,20,25]
@@ -68,16 +64,27 @@
               ,cols: [
                   [
                       {type:"checkbox"}
-                      ,{field: 'landlord_name', title: '姓名', align:'center'}
-                      ,{field: 'landlord_age', title: '年龄', align:'center', templet:function(d) {
-                          return d.landlord_age+"岁";
+                      ,{field: 'real_name', title: '真实姓名', align:'center'}
+                      ,{field: 'user_age', title: '年龄', align:'center', templet:function(d) {
+                          return d.user_age+"岁";
                     }}
-                      ,{field: 'landlord_sex', title: '性别', align:'center',templet:function(d) {
-                          return d.landlord_sex?"<span class='bluecell'>♂</span>":"<span class='pinkcell'>♀</span>";
+                      ,{field: '', title: '性别', align:'center',templet:function(d) {
+                          return d.user_sex?"<span class='bluecell'>♂</span>":"<span class='pinkcell'>♀</span>";
                     }}
-                      ,{field: 'landlord_phone', title: '手机号', align:'center'}
-                      ,{field: 'landlord_address', title: '联系地址', align:'center',templet:function(d) {
-                        return d.landlord_address;
+                      ,{field: 'user_phone', title: '手机号', align:'center'}
+                      ,{field: 'user_addr', title: '家庭地址', align:'center'}
+                      ,{field: 'room_num', title: '所住房间号', align:'center'}
+                      ,{field: 'live_status', title: '当前状态', align:'center', templet:function(d) {
+                          switch (d.live_status) {
+                            case 0:
+                              return "未入住";
+                              break;
+                            case 1:
+                              return "已入住";
+                              break;
+                            case 2:
+                              return "已离宿";
+                          }
                     }}
                       ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
                   ]

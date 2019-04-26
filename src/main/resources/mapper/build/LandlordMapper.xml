@@ -15,15 +15,14 @@
           DATE_FORMAT(ld.created_date, '%Y-%m-%d %h:%i:%s') AS created_date,
           ld.modify_user,
           DATE_FORMAT(ld.modify_date, '%Y-%m-%d %h:%i:%s') AS modify_date,
-          ld.is_del,
-          r.room_num
+          ld.is_del
         FROM landlord ld
-        INNER JOIN room r ON(ld.landlord_id = r.landlord_id)
         <where>
             <if test="landlordPhone != null and landlordPhone != ''">
                 ld.landlord_phone = #{landlordPhone}
             </if>
         </where>
+        ORDER BY ld.created_date DESC
     </select>
     <!--获得房东列表-->
     <select id="getLandlordList" resultType="map">
@@ -32,5 +31,16 @@
             landlord_name
         FROM
             landlord
+    </select>
+
+    <select id="getCountByCondition" parameterType="map" resultType="int">
+        SELECT  COUNT(*)
+        FROM
+          landlord
+        <where>
+            <if test="landlordPhone != null and landlordPhone != ''">
+                ld.landlord_phone = #{landlordPhone}
+            </if>
+        </where>
     </select>
 </mapper>

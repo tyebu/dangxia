@@ -1,5 +1,7 @@
 package com.wxc.dangxia.service.build;
 
+import com.wxc.dangxia.commons.ResultMsg;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,7 @@ public interface ILandlordService {
      * @param map
      * @return
      */
-    List<Map<String, Object>> getLandlordInfoByCondition(Map<String,Object> map) throws Exception;
+    ResultMsg getLandlordInfoByCondition(Map<String,Object> map) throws Exception;
 
     /**
      * 获得房东列表
@@ -23,5 +25,11 @@ public interface ILandlordService {
      */
     List<Map<String, Object>> getLandlordList();
 
+    /**
+     * 根据条件获得房东数量
+     * @param map
+     * @return
+     */
+    Integer getCountByCondition(Map<String, Object> map) throws Exception;
 
 }

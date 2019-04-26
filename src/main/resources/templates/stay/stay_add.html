@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>录入入住信息</title>
+  </head>
+  <body>
+    <div class="x-body">
+        <form class="layui-form" lay-filter="form_oper">
+          <div class="layui-form-item">
+              <label for="realName" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="realName" name="realName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="userAge" class="layui-form-label">
+                  <span class="x-red">*</span>年龄
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="userAge" name="userAge" required="" lay-verify="number"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>性别
+            </label>
+            <div class="layui-input-inline">
+                <input type="radio" name="sex" value="1" title="男" checked>
+                <input type="radio" name="sex" value="0" title="女">
+            </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="userCard" class="layui-form-label">
+                    <span class="x-red">*</span>证件号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userCard" name="userCard" required="" lay-verify="identity"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="userPhone" class="layui-form-label">
+                    <span class="x-red">*</span>手机号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userPhone" name="userPhone" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item" id="x-city">
+                <label class="layui-form-label"><span class="x-red">*</span>家庭住址</label>
+                <div class="layui-input-inline">
+                    <select name="province" lay-filter="province">
+                        <option value="">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="city" lay-filter="city">
+                        <option value="">请选择市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="area" lay-filter="area">
+                        <option value="">请选择县/区</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>请选择区域
+                </label>
+                <div class="layui-input-inline">
+                    <select name="areaId" lay-filter="areaId" id="areaId" lay-verify = "required">
+
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="buildingId" lay-filter="buildingId" id="buildingId" lay-verify = "required">
+
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="roomId" lay-filter="roomId" id="roomId" lay-verify = "required">
+
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="room_remark"></div>
+            </div>
+
+          <div class="layui-form-item" style="text-align: right">
+              <button  class="layui-btn layui-btn-disabled" lay-filter="add" id="addBtn" lay-submit="">
+                  提交
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','code'], function(){
+            $ = layui.jquery;
+          form = layui.form;
+          var layer = layui.layer;
+          var parentData;
+          var operurl = "";
+          var areaId;
+          //三级联动
+          layui.code();
+          $('#x-city').xcity('北京','市辖区','东城区');
+
+          if(parent.data != null) {
+              parentData = parent.data.data;
+              areaId = parentData.areaId;
+              form.val('form_oper',{
+                "areaName":parentData.areaName,
+                "neighbourhood":parentData.neighbourhood
+              });
+              operurl = "/dangxia/area/updateArea";
+          }
+          //监听select选择框
+            form.on('select(areaId)',function(data) {
+                getBuildingsByAreaId(data.value);
+            });
+            form.on('select(buildingId)',function(data) {
+                getRoomsInfoByBuildingId(data.value);
+            });
+            form.on('select(roomId)',function(data) {
+            });
+          //监听提交
+          form.on('submit(add)', function(data){
+              $("#addBtn").css("disabled",true);
+              var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                  time:5000
+              });
+             $.ajax({
+                type:"post",
+                url:operurl,
+                timeout:5000,
+                //contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                //contentType: 'application/json;charset=UTF-8',
+                data: {"areaName":data.field.areaName, "neighbourhood":data.field.neighbourhood,"areaId":areaId},
+                dataType: "json",
+                success: function(dat){
+                    if(dat.code == 0) {
+                        layer.msg(dat.message,{icon:1,time:2000},function() {
+                            layer.close(layerLoad);
+                            parent.layer.closeAll();
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.msg(dat.message,{icon:5,time:2000},function() {
+                            layer.close(layerLoad);
+                        });
+                    }
+                    $("#addBtn").css("disabled",false);
+                },
+                 error:function(e){
+                     layer.msg(e.message,{icon:5,time:2000});
+                     $("#addBtn").css("disabled",false);
+                     layer.close(layerLoad);
+                 }
+          }
+            );
+            //发异步，把数据提交给php
+            return false;
+          });
+        });
+        getAreaList();
+        /**
+         * 获得区域列表
+         */
+        function getAreaList() {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"get",
+                    url:"/dangxia/area/getAreaInfo",
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#areaId").empty();
+                            $("#areaId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#areaId").append("<option value='"+item.areaId+"'>"+item.areaName+item.neighbourhood+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+
+        }
+        function getBuildingsByAreaId(areaId) {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"get",
+                    url:"/dangxia/buildings/getBuildingsByCondition",
+                    data:{"areaId":areaId},
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#buildingId").empty();
+                            $("#buildingId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#buildingId").append("<option value='"+item.buildingId+"'>"+item.buildingName+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+        function getRoomsInfoByBuildingId(buildingId) {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/room/getRoomListByCondition",
+                    data:{"buildingId":buildingId},
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#roomId").empty();
+                            $("#roomId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#roomId").append("<option value='"+item.room_id+"'>"+item.room_num+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+  </body>
+
+</html>

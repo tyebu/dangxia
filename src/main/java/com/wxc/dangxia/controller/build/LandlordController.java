@@ -44,8 +44,7 @@ public class LandlordController {
     @ResponseBody
     public ResultMsg getLandlordByCondition(@RequestParam Map<String, Object> map) {
         try {
-            List<Map<String, Object>> lanldlordList = landlordService.getLandlordInfoByCondition(map);
-            return new ResultMsg(StatusCode.LAYUISUCCESS,StatusMessage.SUCCESS,lanldlordList);
+           return landlordService.getLandlordInfoByCondition(map);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR);
