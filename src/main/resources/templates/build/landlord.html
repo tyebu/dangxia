@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>房间管理</title>
+</head>
+  
+  <body class="">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">单元房源管理</a>
+        <a>
+          <cite>房东管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
+          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
+          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <table class="layui-table" lay-filter="landlordTab" id="landlordTab"></table>
+    </div>
+    <script type="text/html" id="toolbarDemo">
+      <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加</button>
+      </div>
+    </script>
+    <script type="text/html" id="tabBar">
+      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+        <i class="layui-icon">&#xe601;</i>
+      </a>
+      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+      </a>
+      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+      </a>
+    </script>
+    <script type="text/html" id="switchTpl">
+      <!-- 这里的 checked 的状态只是演示 -->
+      <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
+    </script>
+    <script>
+      layui.use(['layer','laydate','table'], function(){
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        //加载数据表格
+          table.render({
+              elem: '#landlordTab'
+              ,height: 'full-20'
+              ,url: '/dangxia/landlord/getLandlordByCondition' //数据接口
+              ,method:'post'
+              ,page: true //开启分页
+              ,limits:[10,15,20,25]
+              ,limit:15
+              ,defaultToolbar:['filter', 'print', 'exports']
+              ,toolbar:'#toolbarDemo'
+              ,cols: [
+                  [
+                      {type:"checkbox"}
+                      ,{field: 'landlord_name', title: '姓名', align:'center'}
+                      ,{field: 'landlord_age', title: '年龄', align:'center', templet:function(d) {
+                          return d.landlord_age+"岁";
+                    }}
+                      ,{field: 'landlord_sex', title: '性别', align:'center',templet:function(d) {
+                          return d.landlord_sex?"<span class='bluecell'>♂</span>":"<span class='pinkcell'>♀</span>";
+                    }}
+                      ,{field: 'landlord_phone', title: '手机号', align:'center'}
+                      ,{field: 'landlord_address', title: '联系地址', align:'center',templet:function(d) {
+                        return d.landlord_address;
+                    }}
+                      ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
+                  ]
+              ]
+          });
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+      });
+      /*用户-停用*/
+      function member_stop(obj,id){
+        layer.confirm('确认要停用吗？',function(index){
+          if($(obj).attr('title')=='启用'){
+
+            //发异步把用户状态进行更改
+            $(obj).attr('title','停用')
+            $(obj).find('i').html('&#xe62f;');
+
+            $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
+            layer.msg('已停用!',{icon: 5,time:1000});
+
+          }else{
+            $(obj).attr('title','启用')
+            $(obj).find('i').html('&#xe601;');
+
+            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+            layer.msg('已启用!',{icon: 5,time:1000});
+          }
+
+        });
+      }
+    </script>
+  </body>
+
+</html>
