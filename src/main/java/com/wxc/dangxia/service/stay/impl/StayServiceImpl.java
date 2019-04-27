@@ -1,10 +1,16 @@
 package com.wxc.dangxia.service.stay.impl;
 
 import com.wxc.dangxia.commons.CommonException;
+import com.wxc.dangxia.commons.ResultMsg;
+import com.wxc.dangxia.dao.build.IRoomDao;
+import com.wxc.dangxia.dao.deposit.IDepositDao;
+import com.wxc.dangxia.dao.rent.IRentDao;
+import com.wxc.dangxia.dao.stay.IStayDao;
 import com.wxc.dangxia.dao.user.IUserDao;
 import com.wxc.dangxia.service.stay.IStayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
@@ -20,13 +26,21 @@ import java.util.Map;
 public class StayServiceImpl implements IStayService {
     @Autowired
     private IUserDao userDao;
-
+    @Autowired
+    private IRoomDao roomDao;
+    @Autowired
+    private IRentDao rentDao;
+    @Autowired
+    private IStayDao stayDao;
+    @Autowired
+    private IDepositDao depositDao;
     /**
      * 录入信息
      * @param map
      * @return
      * @throws Exception
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer insertStayInfo(Map<String, Object> map) throws Exception {
         Integer phoneCount = userDao.getCountByCondition((Map<String, Object>) new HashMap<String, Object>().put("userPhone", map.get("userPhone")));
@@ -40,19 +54,27 @@ public class StayServiceImpl implements IStayService {
         if(cardCount > 0) {
             throw  new Exception("身份证号已存在！");
         }
-        Integer count = userDao.getCountByCondition(map);
-        return userDao.insertUserInfo(map);
+        map.put("userId",null);
+        userDao.insertUserInfo(map);
+
+        //向用户房间表插入数据
+        roomDao.insertRoomUser(map);
+        //向交租表插入数据
+        rentDao.insertRentRecord(map);
+        //向入住记录表插入数据
+        stayDao.insertStayRecord(map);
+        //向押金记录表插入信息
+        return depositDao.insertUserDeposit(map);
     }
 
     /**
-     * 获得录入的未入住租客信息
+     * 获得入住记录
      * @param map
      * @return
-     * @throws Exception
      */
     @Override
-    public List<Map<String, Object>> getStayInfoBycondition(Map<String, Object> map) throws Exception {
-
+    public ResultMsg getStayRecordByCondition(Map<String, Object> map) {
+        stayDao.getStayRecordByCondition(map);
         return null;
     }
 }

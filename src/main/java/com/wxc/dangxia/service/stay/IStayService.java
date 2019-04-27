@@ -1,5 +1,7 @@
 package com.wxc.dangxia.service.stay;
 
+import com.wxc.dangxia.commons.ResultMsg;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +19,9 @@ public interface IStayService {
     Integer insertStayInfo(Map<String, Object> map) throws Exception;
 
     /**
-     * 获得录入但还未入住的租客信息
+     * 获得入住记录
      * @param map
      * @return
-     * @throws Exception
      */
-    List<Map<String, Object>> getStayInfoBycondition(Map<String, Object> map) throws Exception;
+    ResultMsg getStayRecordByCondition(Map<String, Object> map);
 }

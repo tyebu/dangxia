@@ -3,6 +3,7 @@ package com.wxc.dangxia.controller.build;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
+import com.wxc.dangxia.controller.base.BaseController;
 import com.wxc.dangxia.service.build.ILandlordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/landlord")
-public class LandlordController {
+public class LandlordController extends BaseController {
     @Autowired
     private ILandlordService landlordService;
 

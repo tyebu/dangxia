@@ -1,7 +1,19 @@
 package com.wxc.dangxia.controller.stay;
 
+import com.wxc.dangxia.commons.CommonException;
+import com.wxc.dangxia.commons.ResultMsg;
+import com.wxc.dangxia.commons.StatusCode;
+import com.wxc.dangxia.commons.utils.StatusMessage;
+import com.wxc.dangxia.controller.base.BaseController;
+import com.wxc.dangxia.service.stay.IStayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @auther: Star.Wu
@@ -10,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  **/
 @Controller
 @RequestMapping("/stay")
-public class StayController {
+public class StayController extends BaseController {
+    @Autowired
+    private IStayService stayService;
     /**
      * 跳转录入信息页面
      * @return
@@ -21,10 +35,30 @@ public class StayController {
     }
 
     /**
-     * 跳转到待入住列表页面
+     * 新增租客
+     * @param map
      * @return
      */
-    public String toStay() {
-        return "stay/to_stay";
+    @RequestMapping(value = "/insertStayInfo", method = RequestMethod.POST)
+    public ResultMsg insertStayInfo(@RequestParam Map<String, Object> map) {
+        try {
+            Integer integer = stayService.insertStayInfo(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.ADDSUCCESS);
+        } catch (CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
+    /**
+     * 获得住房记录表
+     * @return
+     */
+    @RequestMapping(value = "/getStayRecordByCondition", method = RequestMethod.POST)
+    public ResultMsg getStayRecordByCondition(@RequestParam Map<String, Object> map) {
+
+        return stayService.getStayRecordByCondition(map);
     }
 }

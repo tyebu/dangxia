@@ -45,4 +45,10 @@ public interface IRoomDao {
      */
     List<Map<String, Object>> getRoomType(Map<String,Object> map) throws Exception;
 
+    /**
+     *
+     * @param map
+     * @return
+     */
+    Integer insertRoomUser(Map<String, Object> map);
 }

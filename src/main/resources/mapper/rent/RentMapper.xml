@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxc.dangxia.dao.rent.IRentDao">
+    <insert id="insertRentRecord" parameterType="map">
+      INSERT INTO
+        user_rent_record
+        VALUES
+            (
+             NULL,
+             #{userId, jdbcType = INTEGER},
+             #{roomId, jdbcType = INTEGER},
+             #{rentMoney, jdbcType = DOUBLE},
+             #{payPattern, jdbcType = VARCHAR},
+             #{payPic, jdbcType = VARCHAR},
+             #{startDate, jdbcType = DATE},
+             #{endDate, jdbcType = DATE},
+             #{paymentDate, jdbcType = DATE},
+             NOW(),
+             #{createUser, jdbcType = VARCHAR},
+             NULL,
+             NULL,
+             #{remark, jdbcType = VARCHAR},
+             NULL
+            )
+    </insert>
+    <!--获得租金记录-->
+
+</mapper>

@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wxc.dangxia.dao.stay.IStayDao">
+    <!--向入住记录表插入数据-->
+    <insert id="insertStayRecord" parameterType="map">
+        INSERT INTO
+          user_stay_record
+          VALUES
+         (
+            null,
+            #{userId, jdbcType = INTEGER},
+            #{roomId, jdbcType = INTEGER},
+            #{startDate, jdbcType = DATE},
+            #{endDate, jdbcType = DATE},
+            #{payStatus, jdbcType = BIT},
+            NOW(),
+            #{createdUser},
+            NULL,
+            NULL,
+            #{stayRemark},
+            NULL
+          )
+    </insert>
+    <select id="getStayRecordByCondition" parameterType="map" resultType="map">
+        SELECT
+          usr.user_stay_record_id,
+          usr.user_id,
+          u.real_name,
+          r.room_num,
+          DATE_FORMAT(usr.start_date, '%Y-%m-%d') start_date,
+          DATE_FORMAT(usr.end_date, '%Y-%m-%d') end_date,
+          DATE_FORMAT(usr.created_date, '%Y-%m-%d %h:%i:%s') created_date,
+          DATE_FORMAT(usr.modify_date, '%Y-%m-%d %h:%i:%s') modify_date,
+          usr.remark,
+          usr.is_del
+        FROM
+          user_stay_record usr
+        LEFT JOIN user u ON(usr.user_id = u.user_id)
+        LEFT JOIN room r ON(usr.room_id = usr.room_id)
 
+        ORDER BY usr.created_date DESC
+    </select>
 </mapper>

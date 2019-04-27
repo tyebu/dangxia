@@ -54,7 +54,7 @@
           <div class="layui-form-item" id="x-city">
                 <label class="layui-form-label"><span class="x-red">*</span>家庭住址</label>
                 <div class="layui-input-inline">
-                    <select name="province" lay-filter="province">
+                    <select name="province" lay-filter="province" id="province">
                         <option value="">请选择省</option>
                     </select>
                 </div>
@@ -108,6 +108,20 @@
                            autocomplete="off" class="layui-input" placeholder="￥">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red"></span>是否已交押金
+                </label>
+                <div class="layui-input-block">
+                    <input type="checkbox" lay-filter="depositStatus" name="depositStatus" title="押金">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea name="stayRemark" placeholder="备注" class="layui-textarea"></textarea>
+                </div>
+            </div>
           <div class="layui-form-item">
               <div class="layui-input-block">
                   <button  class="layui-btn" lay-filter="add" id="addBtn" lay-submit="">
@@ -142,9 +156,8 @@
             form.on('select(buildingId)',function(data) {
                 getRoomsInfoByBuildingId(data.value);
             });
-            form.on('select(roomId)',function(data) {
-            });
-          //监听提交
+            alert($("#depositStatus").is(":checked"));
+            //监听提交
           form.on('submit(add)', function(data){
               $("#addBtn").css("disabled",true);
               var layerLoad = layer.load(2, {
@@ -153,11 +166,25 @@
               });
              $.ajax({
                 type:"post",
-                url:operurl,
+                url:"/dangxia/stay/insertStayInfo",
                 timeout:5000,
                 //contentType: 'application/x-www-form-urlencoded;charset=utf-8',
                 //contentType: 'application/json;charset=UTF-8',
-                data: {"areaName":data.field.areaName, "neighbourhood":data.field.neighbourhood,"areaId":areaId},
+                data:
+                {
+                "realName":data.field.realName,
+                "userAge":data.field.userAge,
+                "userSex":data.field.userSex,
+                "userCard":data.field.userCard,
+                "userPhone":data.field.userPhone,
+                "roomId":data.field.roomId,
+                "startDate":data.field.startDate,
+                "endDate":data.field.endDate,
+                "depositStatus":data.field.depositStatus,
+                "rentMoney":data.field.rentMoney,
+                "userAddr":data.field.province+data.field.city+data.field.area,
+                "stayRemark":data.field.stayRemark
+                },
                 dataType: "json",
                 success: function(dat){
                     if(dat.code == 0) {

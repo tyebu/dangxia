@@ -56,8 +56,31 @@
             </if>
         </where>
     </select>
-    <!--获得已录入但未入住的租客信息-->
-    <select id="getStayInfoByCondition" parameterType="map" resultType="map">
-
+    <!--获得待交租人员-->
+    <select id="getToPayRentUser" resultType="map" parameterType="map">
+      SELECT
+        u.realname,
+        rr.rent_money,
+        r.people_rent
+      FROM user u
+      LEFT JOIN user_rent_record urr ON(u.user_id = urr.user_id)
+      LEFT JOIN
+       (
+         SELECT
+             user_rent_record_id,
+             user_id,
+             room_id,
+             rent_money,
+             start_date,
+             end_date
+         FROM
+             user_rent_record
+         ORDER BY end_date DESC
+         LIMIT 1
+           ) rent_record rr ON(u.user_id = rr.user_id)
+         LEFT JOIN room r ON(rr.room_id = r.room_id)
+      WHERE
+        u.is_del = 0
+        <![CDATA[  AND DATEDIFF(NOW,urr.end_date) <= 7   ]]>
     </select>
 </mapper>
