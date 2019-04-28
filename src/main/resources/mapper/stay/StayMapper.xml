@@ -27,6 +27,7 @@
           usr.user_id,
           u.real_name,
           r.room_num,
+          ud.deposit_status,
           DATE_FORMAT(usr.start_date, '%Y-%m-%d') start_date,
           DATE_FORMAT(usr.end_date, '%Y-%m-%d') end_date,
           DATE_FORMAT(usr.created_date, '%Y-%m-%d %h:%i:%s') created_date,
@@ -37,7 +38,7 @@
           user_stay_record usr
         LEFT JOIN user u ON(usr.user_id = u.user_id)
         LEFT JOIN room r ON(usr.room_id = usr.room_id)
-
+        LEFT JOIN user_deposit ud ON(u.user_id = ud.user_id)
         ORDER BY usr.created_date DESC
     </select>
 </mapper>

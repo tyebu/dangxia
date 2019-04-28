@@ -29,8 +29,8 @@
                 <span class="x-red">*</span>性别
             </label>
             <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男" checked>
-                <input type="radio" name="sex" value="0" title="女">
+                <input type="radio" name="userSex" value="1" title="男" checked>
+                <input type="radio" name="userSex" value="0" title="女">
             </div>
           </div>
           <div class="layui-form-item">
@@ -93,27 +93,35 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>起止日期</label>
                 <div class="layui-input-inline">
-                    <input class="layui-input" readonly="readonly"  autocomplete="off" placeholder="起租日期" name="startDate" id="startDate">
+                    <input class="layui-input" readonly="readonly" lay-verify="required" autocomplete="off" placeholder="起租日期" name="startDate" id="startDate">
                 </div>
                 <div class="layui-input-inline">
-                    <input class="layui-input" readonly="readonly"  autocomplete="off" placeholder="到期日期" name="endDate" id="endDate">
+                    <input class="layui-input" readonly="readonly" lay-verify="required" autocomplete="off" placeholder="到期日期" name="endDate" id="endDate">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="rentMoney" class="layui-form-label">
+                <label for="payRent" class="layui-form-label">
                     <span class="x-red">*</span>缴纳金额
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="rentMoney" name="rentMoney" required="" lay-verify="rentMoney"
+                    <input type="text" id="payRent" name="payRent" required="" lay-verify="number"
                            autocomplete="off" class="layui-input" placeholder="￥">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
-                    <span class="x-red"></span>是否已交押金
+                    <span class="x-red">*</span>押金
                 </label>
-                <div class="layui-input-block">
-                    <input type="checkbox" lay-filter="depositStatus" name="depositStatus" title="押金">
+                <div class="layui-input-inline">
+                    <input type="text" id="depositAmount" name="depositAmount" required="" lay-verify="number"
+                           autocomplete="off" class="layui-input" placeholder="￥">
+                </div>
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>支付方式
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="payPattern" name="payPattern" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" placeholder="现金/支付宝/微信/其他">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -156,7 +164,9 @@
             form.on('select(buildingId)',function(data) {
                 getRoomsInfoByBuildingId(data.value);
             });
-            alert($("#depositStatus").is(":checked"));
+            form.on('select(roomId)',function(data) {
+                $("#room_remark").html("应缴纳租金￥"+data.value.split(",")[1]+"/月");
+            });
             //监听提交
           form.on('submit(add)', function(data){
               $("#addBtn").css("disabled",true);
@@ -177,11 +187,13 @@
                 "userSex":data.field.userSex,
                 "userCard":data.field.userCard,
                 "userPhone":data.field.userPhone,
-                "roomId":data.field.roomId,
+                "roomId":data.field.roomId.split(",")[0],
+                "peopleRent":data.field.roomId.split(",")[0],
                 "startDate":data.field.startDate,
                 "endDate":data.field.endDate,
-                "depositStatus":data.field.depositStatus,
-                "rentMoney":data.field.rentMoney,
+                "depositAmount":data.field.depositAmount,
+                "payRent":data.field.payRent,
+                "payPattern":data.field.payPattern,
                 "userAddr":data.field.province+data.field.city+data.field.area,
                 "stayRemark":data.field.stayRemark
                 },
@@ -204,10 +216,14 @@
                      layer.msg(e.message,{icon:5,time:2000});
                      $("#addBtn").css("disabled",false);
                      layer.close(layerLoad);
+                 },
+                 complete:function(XMLHttpRequest, status) {
+                     if (status == 'timeout') {//status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror
+                         layer.msg("请求超时。",{icon:5,time:2000});
+                     }
                  }
           }
             );
-            //发异步，把数据提交给php
             return false;
           });
         });
@@ -268,7 +284,7 @@
                             $("#roomId").empty();
                             $("#roomId").append("<option value=''></option>");
                             $.each(data.data,function(i,item) {
-                                $("#roomId").append("<option value='"+item.room_id+"'>"+item.room_num+"</option>");
+                                $("#roomId").append("<option value='"+item.room_id+","+item.people_rent+"'>"+item.room_num+"</option>");
                             });
                             form.render('select');
                         }

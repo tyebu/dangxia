@@ -5,17 +5,18 @@
     <insert id="insertUserDeposit" parameterType="map">
         INSERT INTO
           user_deposit
+          (
+            user_id,
+            deposit_amount,
+            created_date,
+            created_user
+          )
           VALUES
          (
-            null,
             #{userId},
             #{depositAmount},
-            #{depositStatus},
             NOW(),
-            #{createdUser},
-            null,
-            null,
-            null
+            #{createdUser}
           )
     </insert>
 </mapper>

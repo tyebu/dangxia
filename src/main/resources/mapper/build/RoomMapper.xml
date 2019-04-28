@@ -132,9 +132,23 @@
     <insert id="insertRoomUser" parameterType="map">
         INSERT
         INTO room_user
-        VALUES (
+        (
+          room_id,
+          user_id
+        )
+        VALUES
+        (
           #{roomId},
           #{userId}
         )
     </insert>
+    <!--根据房间id查询到某个房间信息-->
+    <select id="getRoomInfoByRoomId" resultType="map" parameterType="int">
+        SELECT
+          *
+        FROM
+          room
+        WHERE
+          room_id = #{roomId}
+    </select>
 </mapper>

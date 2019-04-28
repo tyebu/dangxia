@@ -2,6 +2,8 @@ package com.wxc.dangxia.service.stay.impl;
 
 import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
+import com.wxc.dangxia.commons.StarPasswod;
+import com.wxc.dangxia.commons.utils.StarEncryp;
 import com.wxc.dangxia.dao.build.IRoomDao;
 import com.wxc.dangxia.dao.deposit.IDepositDao;
 import com.wxc.dangxia.dao.rent.IRentDao;
@@ -43,20 +45,28 @@ public class StayServiceImpl implements IStayService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer insertStayInfo(Map<String, Object> map) throws Exception {
-        Integer phoneCount = userDao.getCountByCondition((Map<String, Object>) new HashMap<String, Object>().put("userPhone", map.get("userPhone")));
+        Map<String, Object> data = new HashMap<>();
+        data.put("userPhone",map.get("userPhone"));
+        Integer phoneCount = userDao.getCountByCondition(data);
         if(ObjectUtils.isEmpty(map)) {
-            throw new Exception("录入信息不能为空");
+            throw new CommonException("录入信息不能为空");
         }
         if(phoneCount > 0) {
             throw new CommonException("该手机号已存在！");
         }
-        Integer cardCount = userDao.getCountByCondition((Map<String, Object>) new HashMap<String, Object>().put("userCard", map.get("userCard")));
+        data.put("userPhone",null);
+        data.put("userCard",map.get("userCard"));
+        Integer cardCount = userDao.getCountByCondition(data);
         if(cardCount > 0) {
-            throw  new Exception("身份证号已存在！");
+            throw  new CommonException("身份证号已存在！");
         }
-        map.put("userId",null);
-        userDao.insertUserInfo(map);
+        //判断选择的房间是否还有空闲
+        Map<String, Object> roomInfo = roomDao.getRoomInfoByRoomId(Integer.valueOf(map.get("roomId").toString()));
 
+        map.put("userId",null);
+        // 初始化密码
+        map.put("password", StarEncryp.encryp(StarPasswod.password));
+        userDao.insertUserInfo(map);
         //向用户房间表插入数据
         roomDao.insertRoomUser(map);
         //向交租表插入数据

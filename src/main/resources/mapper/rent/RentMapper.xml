@@ -4,12 +4,26 @@
     <insert id="insertRentRecord" parameterType="map">
       INSERT INTO
         user_rent_record
+              (
+                user_id,
+                room_id,
+                people_rent,
+                pay_rent,
+                pay_pattern,
+                pay_pic,
+                start_date,
+                end_date,
+                payment_date,
+                created_date,
+                created_user,
+                rent_remark
+              )
         VALUES
             (
-             NULL,
              #{userId, jdbcType = INTEGER},
              #{roomId, jdbcType = INTEGER},
-             #{rentMoney, jdbcType = DOUBLE},
+             #{peopleRent, jdbcType = DOUBLE},
+             #{payRent, jdbcType = DOUBLE},
              #{payPattern, jdbcType = VARCHAR},
              #{payPic, jdbcType = VARCHAR},
              #{startDate, jdbcType = DATE},
@@ -17,10 +31,7 @@
              #{paymentDate, jdbcType = DATE},
              NOW(),
              #{createUser, jdbcType = VARCHAR},
-             NULL,
-             NULL,
-             #{remark, jdbcType = VARCHAR},
-             NULL
+             #{rentRemark, jdbcType = VARCHAR}
             )
     </insert>
     <!--获得租金记录-->

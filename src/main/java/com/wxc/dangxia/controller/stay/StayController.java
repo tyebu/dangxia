@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -40,10 +41,11 @@ public class StayController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/insertStayInfo", method = RequestMethod.POST)
+    @ResponseBody
     public ResultMsg insertStayInfo(@RequestParam Map<String, Object> map) {
         try {
             Integer integer = stayService.insertStayInfo(map);
-            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.ADDSUCCESS);
+            return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ADDSUCCESS);
         } catch (CommonException e) {
             return new ResultMsg(StatusCode.ERROR, e.getMessage());
         } catch (Exception e) {
@@ -57,6 +59,7 @@ public class StayController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getStayRecordByCondition", method = RequestMethod.POST)
+    @ResponseBody
     public ResultMsg getStayRecordByCondition(@RequestParam Map<String, Object> map) {
 
         return stayService.getStayRecordByCondition(map);

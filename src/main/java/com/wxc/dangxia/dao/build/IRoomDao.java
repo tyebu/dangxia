@@ -50,5 +50,12 @@ public interface IRoomDao {
      * @param map
      * @return
      */
-    Integer insertRoomUser(Map<String, Object> map);
+    Integer insertRoomUser(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据房间id获得房间信息
+     * @param roomId
+     * @return
+     */
+    Map<String, Object> getRoomInfoByRoomId(Integer roomId);
 }

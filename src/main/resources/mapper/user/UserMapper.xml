@@ -9,21 +9,31 @@
         </selectKey>
         INSERT INTO
           user
+            (
+              user_id,
+              user_phone,
+              password,
+              real_name,
+              user_addr,
+              user_sex,
+              user_age,
+              user_card,
+              created_user,
+              created_date,
+              live_status
+            )
         VALUES(
           null,
           #{userPhone},
           #{passworrd},
-          #{real_name},
+          #{realName},
           #{userAddr},
           #{userSex},
           #{userAge},
           #{userCard},
-          null,
+          #{createdUser},
           NOW(),
-          null,
-          null,
-          0,
-          0
+          1
         )
     </insert>
     <!--根据条件获得租客信息-->
@@ -54,13 +64,16 @@
             <if test="userPhone != null and userPhone != ''">
                 u.user_phone = #{userPhone}
             </if>
+            <if test="userCard != null and userCard != ''">
+                AND u.user_card = #{userCard}
+            </if>
         </where>
     </select>
     <!--获得待交租人员-->
     <select id="getToPayRentUser" resultType="map" parameterType="map">
       SELECT
         u.realname,
-        rr.rent_money,
+        rr.room_rent,
         r.people_rent
       FROM user u
       LEFT JOIN user_rent_record urr ON(u.user_id = urr.user_id)
