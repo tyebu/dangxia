@@ -278,7 +278,7 @@
                 $.ajax({
                     type:"post",
                     url:"/dangxia/room/getRoomListByCondition",
-                    data:{"buildingId":buildingId},
+                    data:{"buildingId":buildingId,"isDel":0,"roomStatus":0},
                     success:function(data) {
                         if(data.code == 0) {
                             $("#roomId").empty();

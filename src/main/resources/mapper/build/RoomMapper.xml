@@ -55,6 +55,12 @@
           <if test="landlordName != null and landlordName != ''">
               AND l.landlord_name = #{landlordName}
           </if>
+          <if test="roomStatus != null and roomStatus != ''">
+              AND r.room_status = #{roomStatus}
+          </if>
+          <if test="isDel != null and isDel != ''">
+              AND r.is_del = #{isDel}
+          </if>
       </where>
       ORDER BY r.created_date DESC
     </select>

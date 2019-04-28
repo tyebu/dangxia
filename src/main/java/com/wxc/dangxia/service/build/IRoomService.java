@@ -31,6 +31,11 @@ public interface IRoomService {
      */
     List<Map<String, Object>> getRoomType(Map<String, Object> map) throws Exception;
 
-
+    /**
+     * 根据条件获得房间列表
+     * @param map
+     * @return
+     * @throws Exception
+     */
     ResultMsg getRoomListByCondition(Map<String, Object> map) throws Exception;
 }

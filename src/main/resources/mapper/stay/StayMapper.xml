@@ -5,21 +5,27 @@
     <insert id="insertStayRecord" parameterType="map">
         INSERT INTO
           user_stay_record
+              (
+                user_id,
+                room_id,
+                start_date,
+                end_date,
+                pay_status,
+                created_date,
+                created_user,
+                stay_remark
+              )
           VALUES
-         (
-            null,
-            #{userId, jdbcType = INTEGER},
-            #{roomId, jdbcType = INTEGER},
-            #{startDate, jdbcType = DATE},
-            #{endDate, jdbcType = DATE},
-            #{payStatus, jdbcType = BIT},
-            NOW(),
-            #{createdUser},
-            NULL,
-            NULL,
-            #{stayRemark},
-            NULL
-          )
+             (
+                #{userId, jdbcType = INTEGER},
+                #{roomId, jdbcType = INTEGER},
+                #{startDate, jdbcType = DATE},
+                #{endDate, jdbcType = DATE},
+                #{payStatus, jdbcType = BIT},
+                NOW(),
+                #{createdUser},
+                #{stayRemark}
+              )
     </insert>
     <select id="getStayRecordByCondition" parameterType="map" resultType="map">
         SELECT
@@ -39,6 +45,18 @@
         LEFT JOIN user u ON(usr.user_id = u.user_id)
         LEFT JOIN room r ON(usr.room_id = usr.room_id)
         LEFT JOIN user_deposit ud ON(u.user_id = ud.user_id)
+        <where>
+
+        </where>
         ORDER BY usr.created_date DESC
+    </select>
+    <select id="getStayRecordCountByCondition" resultType="int" parameterType="map">
+        SELECT
+          count(*)
+        FROM
+          user_stay_record usr
+        LEFT JOIN user u ON(usr.user_id = u.user_id)
+        LEFT JOIN room r ON(usr.room_id = usr.room_id)
+        LEFT JOIN user_deposit ud ON(u.user_id = ud.user_id)
     </select>
 </mapper>

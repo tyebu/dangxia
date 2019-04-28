@@ -55,6 +55,7 @@ public class StayServiceImpl implements IStayService {
             throw new CommonException("该手机号已存在！");
         }
         data.put("userPhone",null);
+
         data.put("userCard",map.get("userCard"));
         Integer cardCount = userDao.getCountByCondition(data);
         if(cardCount > 0) {
@@ -62,7 +63,11 @@ public class StayServiceImpl implements IStayService {
         }
         //判断选择的房间是否还有空闲
         Map<String, Object> roomInfo = roomDao.getRoomInfoByRoomId(Integer.valueOf(map.get("roomId").toString()));
-
+        Integer peopleNum = Integer.valueOf(roomInfo.get("people_num").toString());
+        Integer roomSize = Integer.valueOf(roomInfo.get("room_size").toString());
+        if(peopleNum >= roomSize) {
+            throw  new CommonException("该房间已住满。");
+        }
         map.put("userId",null);
         // 初始化密码
         map.put("password", StarEncryp.encryp(StarPasswod.password));
@@ -84,7 +89,8 @@ public class StayServiceImpl implements IStayService {
      */
     @Override
     public ResultMsg getStayRecordByCondition(Map<String, Object> map) {
-        stayDao.getStayRecordByCondition(map);
+        List<Map<String, Object>> stayRecordInfo = stayDao.getStayRecordByCondition(map);
+
         return null;
     }
 }

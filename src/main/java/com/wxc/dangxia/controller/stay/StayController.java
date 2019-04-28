@@ -35,6 +35,10 @@ public class StayController extends BaseController {
        return "stay/stay_add";
     }
 
+    @RequestMapping("/toStayRecord")
+    public String toStayRecord() {
+        return "stay/stay_record";
+    }
     /**
      * 新增租客
      * @param map
