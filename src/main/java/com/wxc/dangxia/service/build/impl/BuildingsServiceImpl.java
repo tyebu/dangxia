@@ -47,6 +47,7 @@ public class BuildingsServiceImpl implements IBuildingsService {
             throw  new CommonException("数据项不能为空。");
         }
         Area area = new Area();
+
         area.setAreaName(String.valueOf(data.get("areaName")));
         area.setNeighbourhood(String.valueOf(data.get("neighbourhood")));
         Integer areaId = areaDao.getIdByAreaNameAndNeighbourhood(area);

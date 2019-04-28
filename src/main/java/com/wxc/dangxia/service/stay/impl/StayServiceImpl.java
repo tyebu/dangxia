@@ -1,9 +1,12 @@
 package com.wxc.dangxia.service.stay.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StarPasswod;
+import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StarEncryp;
+import com.wxc.dangxia.commons.utils.StatusMessage;
 import com.wxc.dangxia.dao.build.IRoomDao;
 import com.wxc.dangxia.dao.deposit.IDepositDao;
 import com.wxc.dangxia.dao.rent.IRentDao;
@@ -89,8 +92,12 @@ public class StayServiceImpl implements IStayService {
      */
     @Override
     public ResultMsg getStayRecordByCondition(Map<String, Object> map) {
+        int pageNo = Integer.parseInt(map.get("page")+"");
+        int pageSize = Integer.parseInt(map.get("limit")+"");
+        PageHelper.startPage(pageNo,pageSize);
+        stayDao.getStayRecordCountByCondition(map);
         List<Map<String, Object>> stayRecordInfo = stayDao.getStayRecordByCondition(map);
 
-        return null;
+        return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, stayRecordInfo);
     }
 }

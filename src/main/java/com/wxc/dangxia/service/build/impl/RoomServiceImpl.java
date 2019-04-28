@@ -27,7 +27,6 @@ public class RoomServiceImpl implements IRoomService {
     private IRoomDao roomDao;
     @Override
     public ResultMsg getRoomInfoByCondition(Map<String, Object> data) throws Exception {
-        Map<String,Object> map = new HashMap<>();
         int pageNo = Integer.parseInt(data.get("page")+"");
         int pageSize = Integer.parseInt(data.get("limit")+"");
         PageHelper.startPage(pageNo,pageSize);

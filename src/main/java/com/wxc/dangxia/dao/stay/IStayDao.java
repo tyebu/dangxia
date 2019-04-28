@@ -27,4 +27,11 @@ public interface IStayDao {
      * @return
      */
     List<Map<String, Object>> getStayRecordByCondition(Map<String,Object> map);
+
+    /**
+     * 根据条件获得数量
+     * @param map
+     * @return
+     */
+    Integer getStayRecordCountByCondition(Map<String, Object> map);
 }
