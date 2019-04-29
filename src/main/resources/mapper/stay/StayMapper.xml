@@ -23,28 +23,40 @@
                 #{endDate, jdbcType = DATE},
                 #{payStatus, jdbcType = BIT},
                 NOW(),
-                #{createdUser},
+                #{createdUser, jdbcType = INTEGER},
                 #{stayRemark}
               )
     </insert>
     <select id="getStayRecordByCondition" parameterType="map" resultType="map">
         SELECT
-          usr.user_stay_record_id,
-          usr.user_id,
-          u.real_name,
-          r.room_num,
-          ud.deposit_status,
-          DATE_FORMAT(usr.start_date, '%Y-%m-%d') start_date,
-          DATE_FORMAT(usr.end_date, '%Y-%m-%d') end_date,
-          DATE_FORMAT(usr.created_date, '%Y-%m-%d %h:%i:%s') created_date,
-          DATE_FORMAT(usr.modify_date, '%Y-%m-%d %h:%i:%s') modify_date,
-          usr.remark,
-          usr.is_del
+        usr.user_stay_record_id,
+        usr.user_id,
+        u.real_name,
+        r.room_num,
+        usr.created_user,
+        DATE_FORMAT(usr.start_date, '%Y-%m-%d') start_date,
+        DATE_FORMAT(usr.end_date, '%Y-%m-%d') end_date,
+        DATE_FORMAT(
+        usr.created_date,
+        '%Y-%m-%d %h:%i:%s'
+        ) created_date,
+        DATE_FORMAT(
+        usr.modify_date,
+        '%Y-%m-%d %h:%i:%s'
+        ) modify_date,
+        usr.stay_remark,
+        usr.is_del,
+        a.area_name,
+        a.neighbourhood,
+        b.building_name
         FROM
-          user_stay_record usr
-        LEFT JOIN user u ON(usr.user_id = u.user_id)
-        LEFT JOIN room r ON(usr.room_id = usr.room_id)
-        LEFT JOIN user_deposit ud ON(u.user_id = ud.user_id)
+        user_stay_record usr
+        LEFT JOIN user u ON (usr.user_id = u.user_id)
+        LEFT JOIN room r ON (usr.room_id = r.room_id)
+        LEFT JOIN building b ON (
+        r.building_id = b.building_id
+        )
+        LEFT JOIN area a ON (a.area_id = b.building_id)
         <where>
 
         </where>
@@ -56,7 +68,8 @@
         FROM
           user_stay_record usr
         LEFT JOIN user u ON(usr.user_id = u.user_id)
-        LEFT JOIN room r ON(usr.room_id = usr.room_id)
-        LEFT JOIN user_deposit ud ON(u.user_id = ud.user_id)
+        LEFT JOIN room r ON(usr.room_id = r.room_id)
+        LEFT JOIN building b ON(r.building_id = b.building_id)
+        LEFT JOIN area a ON(a.area_id = b.building_id)
     </select>
 </mapper>

@@ -30,10 +30,47 @@
              #{endDate, jdbcType = DATE},
              #{paymentDate, jdbcType = DATE},
              NOW(),
-             #{createUser, jdbcType = VARCHAR},
+             #{createUser, jdbcType = INTEGER},
              #{rentRemark, jdbcType = VARCHAR}
             )
     </insert>
     <!--获得租金记录-->
+    <select id="getRentRecordByCondition" parameterType="map" resultType="map">
+        SELECT
+            urr.user_rent_record_id,
+            urr.user_id,
+            urr.people_rent,
+            urr.pay_rent,
+            urr.pay_pattern,
+            urr.pay_pic,
+            u.real_name,
+            r.room_num,
+            urr.created_user,
+            DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date,
+            DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date,
+            DATE_FORMAT(
+                urr.created_date,
+                '%Y-%m-%d %h:%i:%s'
+            ) created_date,
+            DATE_FORMAT(
+                urr.modify_date,
+                '%Y-%m-%d %h:%i:%s'
+            ) modify_date,
+            urr.rent_remark,
+            urr.is_del,
+            a.area_name,
+            a.neighbourhood,
+            b.building_name
+        FROM
+            user_rent_record urr
+        LEFT JOIN user u ON (urr.user_id = u.user_id)
+        LEFT JOIN room r ON (urr.room_id = r.room_id)
+        LEFT JOIN building b ON (
+            r.building_id = b.building_id
+        )
+        LEFT JOIN area a ON (a.area_id = b.building_id)
+        <where>
 
+        </where>
+    </select>
 </mapper>

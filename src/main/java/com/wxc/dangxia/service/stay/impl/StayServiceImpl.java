@@ -68,8 +68,12 @@ public class StayServiceImpl implements IStayService {
         Map<String, Object> roomInfo = roomDao.getRoomInfoByRoomId(Integer.valueOf(map.get("roomId").toString()));
         Integer peopleNum = Integer.valueOf(roomInfo.get("people_num").toString());
         Integer roomSize = Integer.valueOf(roomInfo.get("room_size").toString());
-        if(peopleNum >= roomSize) {
+        Integer roomStatus = Integer.valueOf(roomInfo.get("room_status").toString());
+        if(peopleNum >= roomSize || roomStatus == 2) {
             throw  new CommonException("该房间已住满。");
+        }
+        if(roomStatus == 3) {
+            throw new CommonException("该房间不可入住。");
         }
         map.put("userId",null);
         // 初始化密码
@@ -95,9 +99,9 @@ public class StayServiceImpl implements IStayService {
         int pageNo = Integer.parseInt(map.get("page")+"");
         int pageSize = Integer.parseInt(map.get("limit")+"");
         PageHelper.startPage(pageNo,pageSize);
-        stayDao.getStayRecordCountByCondition(map);
+        Integer count = stayDao.getStayRecordCountByCondition(map);
         List<Map<String, Object>> stayRecordInfo = stayDao.getStayRecordByCondition(map);
 
-        return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, stayRecordInfo);
+        return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, stayRecordInfo, count);
     }
 }

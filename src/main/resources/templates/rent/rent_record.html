@@ -8,9 +8,9 @@
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">入住管理</a>
+        <a href="">缴费管理</a>
         <a>
-          <cite>入住记录</cite></a>
+          <cite>交租记录</cite></a>
       </span>
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
@@ -50,7 +50,7 @@
           table.render({
               elem: '#roomtab'
               ,height: 'full-20'
-              ,url: '/dangxia/stay/getStayRecordByCondition' //数据接口
+              ,url: '/dangxia/stay/getRentRecordByCondition' //数据接口
               ,method:'post'
               ,page: true //开启分页
               ,limits:[10,15,20,25]
@@ -63,7 +63,8 @@
                       ,{field: 'user_id', title: '租客ID', align:'center'}
                       ,{field: 'real_name', title: '租客姓名', align:'center'}
                       ,{field: 'room_num', title: '房间号', align:'center'}
-                      ,{field: 'start_date', title: '入住时间', align:'center'}
+                      ,{field: '', title: '租金时间范围', align:'center'}
+                      ,{field: '', title: '交租时间', align:'center'}
                       ,{field: '', title: '所在楼栋', align:'center', templet:function(d) {
                           return d.area_name+d.neighbourhood+d.building_name;
                       }}
