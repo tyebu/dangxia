@@ -8,56 +8,26 @@ package com.wxc.dangxia.commons;
  */
 public class ResultMsg {
     private Integer code;
-    private String message;
+    private String msg;
     private Object data;
     private Integer count;
     public ResultMsg() {
 
     }
-    public ResultMsg(Integer code, String message) {
+    public ResultMsg(Integer code, String mesg) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
     }
-    public ResultMsg(Integer code, String message, Object data) {
+    public ResultMsg(Integer code, String msg, Object data) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
         this.data = data;
     }
-    public ResultMsg(Integer code, String message, Object data, Integer count) {
+    public ResultMsg(Integer code, String msg, Object data, Integer count) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
         this.data = data;
         this.count = count;
     }
-    public Integer getCode() {
-        return code;
-    }
 
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
 }

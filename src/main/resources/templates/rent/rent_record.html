@@ -50,7 +50,7 @@
           table.render({
               elem: '#roomtab'
               ,height: 'full-20'
-              ,url: '/dangxia/stay/getRentRecordByCondition' //数据接口
+              ,url: '/dangxia/rent/getRentRecordByCondition' //数据接口
               ,method:'post'
               ,page: true //开启分页
               ,limits:[10,15,20,25]
@@ -73,6 +73,9 @@
                       }}
                     ,{field: 'created_user', title: '操作人', align:'center'}
                     ,{field: 'created_date', title: '处理时间', align:'center'}
+                    ,{field: 'pay_pic', title: '转账截图', align:'center',templet:function(d) {
+                        return "<img src='pay_pic'/>";
+                    }}
                     ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
                   ]
               ]
