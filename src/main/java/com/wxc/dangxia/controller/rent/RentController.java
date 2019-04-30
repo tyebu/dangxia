@@ -28,6 +28,10 @@ public class RentController {
     public String toRentRecordList(){
         return "rent/rent_record";
     }
+    @RequestMapping("/toPayrentOffline")
+    public String toPayrentOffline() {
+        return "rent/payrent_offline";
+    }
     /***
      * 获得交租记录
      * @return
@@ -42,4 +46,5 @@ public class RentController {
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR);
         }
     }
+
 }

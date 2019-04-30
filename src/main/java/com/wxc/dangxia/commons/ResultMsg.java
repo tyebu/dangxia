@@ -1,11 +1,14 @@
 package com.wxc.dangxia.commons;
 
+import lombok.Data;
+
 /**
  * @ClassName ResultMsg
  * @Author Star.Wu
  * @Date 2019/4/7 15:42
  * 返回前台json数据
  */
+@Data
 public class ResultMsg {
     private Integer code;
     private String msg;
@@ -14,7 +17,7 @@ public class ResultMsg {
     public ResultMsg() {
 
     }
-    public ResultMsg(Integer code, String mesg) {
+    public ResultMsg(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

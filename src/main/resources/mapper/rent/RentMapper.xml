@@ -48,6 +48,7 @@
             urr.created_user,
             DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date,
             DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date,
+            DATE_FORMAT(urr.payment_date, '%Y-%m-%d %h:%i:%s') payment_date,
             DATE_FORMAT(
                 urr.created_date,
                 '%Y-%m-%d %h:%i:%s'
@@ -69,9 +70,8 @@
             r.building_id = b.building_id
         )
         LEFT JOIN area a ON (a.area_id = b.building_id)
-        <where>
 
-        </where>
+        ORDER BY urr.created_date DESC
     </select>
     <!--根据条件获得租金记录条数-->
     <select id="getRentRecordCountByCondition" resultType="int" parameterType="map">
@@ -85,8 +85,6 @@
             r.building_id = b.building_id
         )
         LEFT JOIN area a ON (a.area_id = b.building_id)
-        <where>
 
-        </where>
     </select>
 </mapper>

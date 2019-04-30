@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>线下交租</title>
+  </head>
+  <body>
+    <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">缴纳管理</a>
+            <a>
+              <cite>线下交租</cite></a>
+          </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+          <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+        <form class="layui-form layui-col-md12 x-so">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="text" name="userCard" id="userCard" style="width: 300px;"  placeholder="输入证件号查询房客信息" autocomplete="off" class="layui-input">
+                    <button class="layui-btn" type="button" onclick="getUserInfo()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                </div>
+            </div>
+        </form>
+
+        <form class="layui-form" lay-filter="form_oper">
+
+          <div class="layui-form-item">
+              <label for="realName" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="realName" name="realName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="roomNum" class="layui-form-label">
+                  <span class="x-red">*</span>房间号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="hidden" name="roomId" class="layui-input"/>
+                  <input type="text" id="roomNum" name="roomNum" lay-verify="number"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>续租时长(月)
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="month" name="month" lay-verify="number"
+                       autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="payRent" class="layui-form-label">
+                    <span class="x-red">*</span>缴纳金额
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="payRent" name="parRent" required="" lay-verify="number"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="userPhone" class="layui-form-label">
+                    <span class="x-red">*</span>手机号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userPhone" name="userPhone" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>支付方式
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="payPattern" name="payPattern" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" placeholder="现金/支付宝/微信/其他">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="rentRemark" style="width: 300px" placeholder="备注" class="layui-textarea"></textarea>
+                </div>
+            </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="add" id="addBtn" lay-submit="">
+                      提交
+                  </button>
+              </div>
+
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','code','laydate'], function(){
+            $ = layui.jquery;
+          form = layui.form;
+          layer = layui.layer;
+          laydate = layui.laydate;
+          laydate.render({
+            elem: '#startDate', //指定元素
+            trigger:'click'
+            });
+          laydate.render({
+            elem: '#endDate', //指定元素
+            trigger:'click'
+             });
+
+          // 监听提交
+          form.on('submit(add)', function(data){
+              $("#addBtn").css("disabled",true);
+              var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                  time:5000
+              });
+             $.ajax({
+                type:"post",
+                url:"/dangxia/stay/insertStayInfo",
+                timeout:5000,
+                //contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                //contentType: 'application/json;charset=UTF-8',
+                data:
+                {
+                "realName":data.field.realName,
+                "userAge":data.field.userAge,
+                "userSex":data.field.userSex,
+                "userCard":data.field.userCard,
+                "userPhone":data.field.userPhone,
+                "roomId":data.field.roomId.split(",")[0],
+                "peopleRent":data.field.roomId.split(",")[0],
+                "startDate":data.field.startDate,
+                "endDate":data.field.endDate,
+                "depositAmount":data.field.depositAmount,
+                "payRent":data.field.payRent,
+                "payPattern":data.field.payPattern,
+                "userAddr":data.field.province+data.field.city+data.field.area,
+                "stayRemark":data.field.stayRemark
+                },
+                dataType: "json",
+                success: function(dat){
+                    if(dat.code == 0) {
+                        layer.msg(dat.message,{icon:1,time:2000},function() {
+                            layer.close(layerLoad);
+                            parent.layer.closeAll();
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.msg(dat.message,{icon:5,time:2000},function() {
+                            layer.close(layerLoad);
+                        });
+                    }
+                    $("#addBtn").css("disabled",false);
+                },
+                 error:function(e){
+                     layer.msg(e.message,{icon:5,time:2000});
+                     $("#addBtn").css("disabled",false);
+                     layer.close(layerLoad);
+                 },
+                 complete:function(XMLHttpRequest, status) {
+                     if (status == 'timeout') {//status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror
+                         layer.msg("请求超时。",{icon:5,time:2000});
+                     }
+                 }
+          }
+            );
+            return false;
+          });
+        });
+        function getUserInfo() {
+
+        }
+    </script>
+  </body>
+
+</html>

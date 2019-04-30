@@ -15,6 +15,7 @@
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
+
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
@@ -44,7 +45,7 @@
         var laydate = layui.laydate;
         $ = layui.jquery;
         var table = layui.table;
-        var layer = layui.layer;
+        layer = layui.layer;
         var form = layui.form;
         //加载数据表格
           table.render({
@@ -63,8 +64,12 @@
                       ,{field: 'user_id', title: '租客ID', align:'center'}
                       ,{field: 'real_name', title: '租客姓名', align:'center'}
                       ,{field: 'room_num', title: '房间号', align:'center'}
-                      ,{field: '', title: '租金时间范围', align:'center'}
-                      ,{field: '', title: '交租时间', align:'center'}
+                      ,{field: 'pay_rent', title: '交租金额￥', align:'center'}
+                      ,{field: 'people_rent', title: '应交金额￥', align:'center'}
+                      ,{field: '', title: '租金到期时间', align:'center', templet:function (d) {
+                          return d.end_date;
+                    }}
+                      ,{field: 'payment_date', title: '交租时间', align:'center'}
                       ,{field: '', title: '所在楼栋', align:'center', templet:function(d) {
                           return d.area_name+d.neighbourhood+d.building_name;
                       }}
@@ -73,8 +78,13 @@
                       }}
                     ,{field: 'created_user', title: '操作人', align:'center'}
                     ,{field: 'created_date', title: '处理时间', align:'center'}
-                    ,{field: 'pay_pic', title: '转账截图', align:'center',templet:function(d) {
-                        return "<img src='pay_pic'/>";
+                    ,{field: '', title: '转账截图', align:'center',templet:function(d) {
+                        var url = d.pay_pic;
+                        if(url != null) {
+
+                          return "<a href=\"javascript:;\" onclick=\"BigImg('"+url+"')\"><img src='"+d.pay_pic+"'/></a>"
+                        }
+                        return "暂无截图";
                     }}
                     ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
                   ]
@@ -89,6 +99,17 @@
           elem: '#end' //指定元素
         });
       });
+      /*放大图片*/
+      function BigImg(url) {
+        layer.open({
+          type: 1,
+          title: false,
+          closeBtn: 0,
+          shadeClose: true,
+          area: [400, 300], //宽高
+          content: "<img src=" + url + " />"
+        });
+      }
       /*用户-停用*/
       function member_stop(obj,id){
         layer.confirm('确认要停用吗？',function(index){
