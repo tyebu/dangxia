@@ -49,4 +49,11 @@ public interface IUserDao {
      * @return
      */
     Map<String, Object> getRentUserInfoByCondition(Map<String,Object> map);
+
+    /**
+     * 修改用户信息
+     * @param map
+     * @return
+     */
+    Integer updateUserByCondition(Map<String, Object> map) throws  Exception;
 }

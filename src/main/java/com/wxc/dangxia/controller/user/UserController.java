@@ -44,8 +44,12 @@ public class UserController {
     }
     @RequestMapping(value = "/deleteUserByUserId", method = RequestMethod.POST)
     @ResponseBody
-    public ResultMsg deleteUserByUserId(Integer userId) {
-
+    public ResultMsg deleteUserByUserId(@RequestParam Map<String, Object> map) {
+        try {
+            userService.deleteUserByUserId(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

@@ -20,8 +20,8 @@ public interface IUserService {
 
     /**
      * 根据用户Id删除用户
-     * @param userId
+     * @param map
      * @return
      */
-    Integer deleteUserByUserId(Integer userId);
+    Integer deleteUserByUserId(Map<String, Object> map) throws Exception;
 }

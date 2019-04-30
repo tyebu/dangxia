@@ -29,7 +29,6 @@ public class IUserServiceImpl implements IUserService {
      */
     @Override
     public ResultMsg getUserInfoByCondition(Map<String, Object> map) throws Exception {
-        Map<String,Object> data = new HashMap<>();
         int pageNo = Integer.parseInt(map.get("page")+"");
         int pageSize = Integer.parseInt(map.get("limit")+"");
         PageHelper.startPage(pageNo,pageSize);
@@ -41,11 +40,13 @@ public class IUserServiceImpl implements IUserService {
 
     /***
      * 根据用户id删除用户
-     * @param userId
+     * @param map
      * @return
      */
     @Override
-    public Integer deleteUserByUserId(Integer userId) {
-        return null;
+    public Integer deleteUserByUserId(Map<String, Object> map) throws Exception {
+        //判断该用户状态是否还在入住
+
+        return userDao.updateUserByCondition(map);
     }
 }
