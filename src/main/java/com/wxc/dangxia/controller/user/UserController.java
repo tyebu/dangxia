@@ -42,4 +42,10 @@ public class UserController {
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS);
         }
     }
+    @RequestMapping(value = "/deleteUserByUserId", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg deleteUserByUserId(Integer userId) {
+
+        return null;
+    }
 }

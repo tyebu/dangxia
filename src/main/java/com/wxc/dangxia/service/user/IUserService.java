@@ -17,4 +17,11 @@ public interface IUserService {
      * @return
      */
     ResultMsg getUserInfoByCondition(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据用户Id删除用户
+     * @param userId
+     * @return
+     */
+    Integer deleteUserByUserId(Integer userId);
 }

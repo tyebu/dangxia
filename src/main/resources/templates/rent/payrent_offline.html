@@ -24,7 +24,7 @@
             </div>
         </form>
 
-        <form class="layui-form" lay-filter="form_oper">
+        <form class="layui-form" lay-filter="form_rent">
 
           <div class="layui-form-item">
               <label for="realName" class="layui-form-label">
@@ -63,15 +63,6 @@
                            autocomplete="off" class="layui-input">
                 </div>
           </div>
-          <div class="layui-form-item">
-                <label for="userPhone" class="layui-form-label">
-                    <span class="x-red">*</span>手机号
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="userPhone" name="userPhone" required="" lay-verify="phone"
-                           autocomplete="off" class="layui-input">
-                </div>
-          </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     <span class="x-red">*</span>支付方式
@@ -96,6 +87,12 @@
 
           </div>
       </form>
+    </div>
+    <div style="display: none;text-align:center;line-height: 30px;font-size: 13px;color: #393D49;padding-left: 10px" id="rentUser">
+        <!--到期时间-->
+        <div class="rentDate" style="text-align: left"></div>
+        <!--每月应缴-->
+        <div class="rentMoney" style="text-align: left"></div>
     </div>
     <script>
         layui.use(['form','layer','code','laydate'], function(){
@@ -173,7 +170,50 @@
           });
         });
         function getUserInfo() {
-
+            if($("#userCard").val() == null || $.trim($("#userCard").val()) == "") {
+                return;
+            }
+            var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                time:5000
+            });
+            $.ajax({
+                type:'post',
+                url:'/dangxia/rent/getRentUserInfoByCondition',
+                timeout:5000,
+                data:{"userCard":$("#userCard").val()},
+                dataType:'json',
+                success:function(data) {
+                    if(data.code == 200) {
+                        layer.close(layerLoad);
+                        $(".rentDate").html("房租到期时间："+data.data.end_date);
+                        $(".rentMoney").html("每月应缴纳￥"+data.data.people_rent);
+                        var rentindex = layer.open({
+                            type:1,
+                            shadeClose:true,
+                            area:['300px','200px'],
+                            shade:0.4,
+                            title:'提示',
+                            content:$('#rentUser')
+                        });
+                        form.val("form_rent",
+                        {
+                            "realName":data.data.real_name,
+                            "roomNum":data.data.room_num
+                        }
+                        );
+                    } else {
+                        layer.msg(data.msg,{icon:5,time:2000});
+                        layer.close(layerLoad);
+                    }
+                },
+                complete:function(XMLHttpRequest, status) {
+                    if(status == "timeout") {
+                        layer.msg("请求超时",{icon:5,time:2000});
+                    }
+                    layer.close(layerLoad);
+                }
+            });
         }
     </script>
   </body>

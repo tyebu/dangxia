@@ -350,7 +350,6 @@ function getCateId(cateId) {
         getCateId(id);
     });
 }
-
 /*弹出层*/
 /*
     参数解释：

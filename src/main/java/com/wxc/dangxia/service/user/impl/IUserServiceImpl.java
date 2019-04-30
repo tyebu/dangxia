@@ -38,4 +38,14 @@ public class IUserServiceImpl implements IUserService {
 
         return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, userInfoByCondition, count);
     }
+
+    /***
+     * 根据用户id删除用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public Integer deleteUserByUserId(Integer userId) {
+        return null;
+    }
 }

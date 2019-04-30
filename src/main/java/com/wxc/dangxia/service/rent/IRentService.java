@@ -12,4 +12,12 @@ import java.util.Map;
  **/
 public interface IRentService {
     ResultMsg getRentRecordByCondition(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据条件获得用户信息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Map<String, Object> getRentUserInfoByCondition(Map<String, Object> map) throws  Exception;
 }

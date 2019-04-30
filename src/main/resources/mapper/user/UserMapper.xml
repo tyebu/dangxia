@@ -10,7 +10,6 @@
         INSERT INTO
           user
             (
-              user_id,
               user_phone,
               password,
               real_name,
@@ -23,7 +22,6 @@
               live_status
             )
         VALUES(
-          null,
           #{userPhone},
           #{passworrd},
           #{realName},
@@ -47,12 +45,25 @@
           u.user_sex,
           u.user_age,
           u.user_card,
+          DATE_FORMAT(usr.end_date, '%Y-%m-%d %h:%i:%s') as end_date,
           DATE_FORMAT(u.created_date, '%Y-%m-%d %h:%i:%s') as created_date,
           r.room_num,
-          u.live_status
+          CASE u.live_status
+          WHEN 1 THEN '入住中'
+          WHEN 2 THEN '已离宿'
+          WHEN 3 THEN '游离人员'
+          END AS 'live_status'
         FROM user u
         LEFT JOIN room_user ru ON(ru.user_id = u.user_id)
         LEFT JOIN room r ON(ru.room_id = r.room_id)
+        LEFT JOIN (
+          SELECT
+            end_date,
+            user_id
+          FROM user_stay_record
+          ORDER BY end_date DESC
+          LIMIT 1
+        ) usr ON(u.user_id = usr.user_id)
         ORDER BY created_date DESC
     </select>
     <select id="getCountByCondition" parameterType="map" resultType="int">

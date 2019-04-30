@@ -42,4 +42,11 @@ public interface IUserDao {
      * @return
      */
     List<Map<String, Object>>getStayInfoByCondition(Map<String,Object> map);
+
+    /**
+     * 获得要交租的租客的信息
+     * @param map
+     * @return
+     */
+    Map<String, Object> getRentUserInfoByCondition(Map<String,Object> map);
 }

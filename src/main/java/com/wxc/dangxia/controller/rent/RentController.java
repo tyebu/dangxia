@@ -46,5 +46,15 @@ public class RentController {
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR);
         }
     }
+    @RequestMapping(value = "/getRentUserInfoByCondition", method = RequestMethod.POST)
+    @ResponseBody
+     public ResultMsg getRentUserInfoByCondition(@RequestParam Map<String, Object> map) {
+        try {
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.SUCCESS, rentService.getRentUserInfoByCondition(map));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
 
 }

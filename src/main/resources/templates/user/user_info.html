@@ -24,7 +24,7 @@
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <table class="layui-table" lay-filter="landlordTab" id="landlordTab"></table>
+      <table class="layui-table" lay-filter="userInfoTab" id="userInfoTab"></table>
     </div>
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
@@ -32,10 +32,10 @@
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+      <a title="编辑" lay-even="user_edit"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
       </a>
-      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+      <a title="删除" lay-event="user_del" onclick="member_del(this,'要删除的id')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
     </script>
@@ -52,7 +52,7 @@
         var form = layui.form;
         //加载数据表格
           table.render({
-              elem: '#landlordTab'
+              elem: '#userInfoTab'
               ,height: 'full-20'
               ,url: '/dangxia/user/getUserInfoByCondition' //数据接口
               ,method:'post'
@@ -74,22 +74,18 @@
                       ,{field: 'user_phone', title: '手机号', align:'center'}
                       ,{field: 'user_addr', title: '家庭地址', align:'center'}
                       ,{field: 'room_num', title: '所住房间号', align:'center'}
-                      ,{field: 'live_status', title: '当前状态', align:'center', templet:function(d) {
-                          switch (d.live_status) {
-                            case 0:
-                              return "未入住";
-                              break;
-                            case 1:
-                              return "已入住";
-                              break;
-                            case 2:
-                              return "已离宿";
-                          }
-                    }}
+                      ,{field: 'end_date', title: '到期时间', align:'center'}
+                      ,{field: 'live_status', title: '当前状态', align:'center'}
                       ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
                   ]
               ]
           });
+        table.on('tool(userInfoTab)',function(obj) {
+          var layEvent = obj.event;
+          if(layEvent == 'del') {
+            member_del(obj.tr,obj.data.user_id);
+          }
+        });
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -119,6 +115,34 @@
             layer.msg('已启用!',{icon: 5,time:1000});
           }
 
+        });
+      }
+      /*删除用户*/
+      function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+          //发异步删除数据
+          $.ajax({
+            type:"post",
+            url:"/dangxia/user/deleteUserByUserId",
+            timeout:5000,
+            data: {"areaId":obj.data.areaId},
+            dataType: "json",
+            success: function(data){
+              if(data.code == 0) {
+                obj.del();
+                layer.msg(data.msg,{icon:1,time:2000});
+              } else {
+                layer.msg(data.msg,{icon:5,time:2000});
+              }
+            },
+            complete:function(XMLHttpRequest, status) {
+              if(status == "timeout") {
+                layer.msg("请求超时",{icon:5,time:2000});
+              }
+            }
+          });
+          $(obj).parents("tr").remove();
+          layer.msg('已删除!',{icon:1,time:1000});
         });
       }
     </script>
