@@ -32,4 +32,32 @@ public interface ILandlordService {
      */
     Integer getCountByCondition(Map<String, Object> map) throws Exception;
 
+    /**
+     * 添加房东
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer insertLandlord(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据id删除房东
+     * @param map
+     * @return
+     */
+    Integer deleteLandlordById(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据条件获得单个房东信息
+     * @param map
+     * @return
+     */
+    Map<String, Object> getLandlordByLandlordId(Map<String, Object> map) throws Exception;
+
+    /***
+     * 根据条件修改房东信息
+     * @param map
+     * @return
+     */
+    Integer updateLandlordByCondition(Map<String, Object> map) throws Exception;
 }

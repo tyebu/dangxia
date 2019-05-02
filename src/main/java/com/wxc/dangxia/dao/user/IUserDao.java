@@ -56,4 +56,12 @@ public interface IUserDao {
      * @return
      */
     Integer updateUserByCondition(Map<String, Object> map) throws  Exception;
+
+    /**
+     * 根据用户id获得用户状态
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    Integer getUserStatusByUserId(Integer userId) throws  Exception;
 }

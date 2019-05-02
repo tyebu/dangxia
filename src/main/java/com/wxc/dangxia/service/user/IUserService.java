@@ -24,4 +24,13 @@ public interface IUserService {
      * @return
      */
     Integer deleteUserByUserId(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据用户id获得用户信息
+     * @param map
+     * @return
+     */
+    Map<String, Object> getUserInfoByUserId(Map<String, Object> map) throws Exception;
+
+    Integer updateUser(Map<String, Object> map) throws Exception;
 }

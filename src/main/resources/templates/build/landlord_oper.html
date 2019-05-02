@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+    <title>房东操作页面</title>
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form" lay-filter="form_oper">
+          <div class="layui-form-item">
+              <label for="landlordName" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="landlordName" name="landlordName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="landlordPhone" class="layui-form-label">
+                  <span class="x-red">*</span>手机号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="landlordPhone" name="landlordPhone" required="" lay-verify="phone"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+            <div class="layui-form-item">
+                <label for="landlordPhone" class="layui-form-label">
+                    <span class="x-red"></span>年龄
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="landlordAge" name="landlordAge" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>性别
+                </label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="landlordSex" value="1" title="男">
+                    <input type="radio" name="landlordSex" value="0" title="女" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="agreementNum" class="layui-form-label">
+                    <span class="x-red">*</span>联系地址
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="landlordAddress" name="landlordAddress" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+          <div class="layui-form-item">
+                <label for="agreementNum" class="layui-form-label">
+                    <span class="x-red"></span>协议编码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="agreementNum" name="agreementNum" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="landlord_oper" id="landlord_oper" lay-submit>
+                      提交
+                  </button>
+              </div>
+
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','laydate'], function(){
+            $ = layui.jquery;
+            form = layui.form
+            ,layer = layui.layer;
+            var laydate = layui.laydate;
+            var operurl = "/dangxia/landlord/insertLandlord";
+            var parentData;
+            var landlordId;
+            if(parent.data != null) {
+                parentData = parent.data.data;
+            }
+            if(parentData != null) {
+                landlordId = parentData.landlord_id
+                getLandlordByLandlordId(landlordId);
+                operurl = "/dangxia/landlord/updateLandlordByCondition";
+            }
+            //监听提交
+            form.on('submit(landlord_oper)', function(obj){
+                var layerLoad = layer.load(2, {
+                    shade: [0.4,'#3C3C3C'],
+                    time:5000
+                });
+                $.ajax({
+                        type:"post",
+                        url:operurl,
+                        timeout:5000,
+                        data: {
+                            "landlordName":obj.field.landlordName,
+                            "landlordPhone":obj.field.landlordPhone,
+                            "landlordSex":$("input[name = 'landlordSex']:checked").val(),
+                            "landlordAge":obj.field.landlordAge,
+                            "landlordAddress":obj.field.landlordAddress,
+                            "agreementNum":obj.field.agreementNum,
+                            "landlordId":landlordId
+                        },
+                        dataType: "json",
+                        success: function(dat){
+                            if(dat.code == 200) {
+                                layer.close(layerLoad);
+                                layer.msg(dat.msg,{icon:1,time:2000},function() {
+
+                                    parent.layer.closeAll();
+                                    window.parent.location.reload();
+                                });
+                            } else {
+                                layer.close(layerLoad);
+                                layer.msg(dat.msg,{icon:5,time:2000});
+                            }
+                        },
+                        complete:function(XMLHttpRequest, status) {
+                            layer.close(layerLoad);
+                            if(status == "timeout") {
+                                layer.msg("请求超时",{icon:5,time:2000});
+                            }
+                        }
+                    }
+                );
+                return false;
+            });
+        });
+        function getLandlordByLandlordId(landlordId) {
+            var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                time:5000
+            });
+            $.ajax({
+                    type:"post",
+                    url:"/dangxia/landlord/getLandlordByLandlordId",
+                    timeout:5000,
+                    data: {
+                        "landlordId":landlordId
+                    },
+                    dataType: "json",
+                    success: function(dat){
+                        if(dat.code == 200) {
+                            layer.close(layerLoad);
+                            if(dat.data.sex_code) {
+                                $("input[name='landlordSex'][value='1']").prop("checked",true)
+                            } else {
+                                $("input[name='landlordSex'][value='0']").prop("checked",true);
+                            }
+                            form.val('form_oper',{
+                                landlordName:dat.data.landlord_name,
+                                landlordPhone:dat.data.landlord_phone,
+                                landlordAge:dat.data.landlord_age,
+                                landlordAddress:dat.data.landlord_address,
+                                agreementNum:dat.data.agreement_num
+                            });
+                        } else {
+                            layer.close(layerLoad);
+                            layer.msg(dat.msg,{icon:5,time:2000});
+                        }
+                    },
+                    complete:function(XMLHttpRequest, status) {
+                        layer.close(layerLoad);
+                        if(status == "timeout") {
+                            layer.msg("请求超时",{icon:5,time:2000});
+                        }
+                    }
+                }
+            );
+        }
+    </script>
+  </body>
+
+</html>

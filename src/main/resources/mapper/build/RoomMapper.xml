@@ -9,10 +9,20 @@
         r.room_num,
         r.room_size,
         r.people_num,
+        CASE
+        WHEN r.people_num = 0 THEN '未入住'
+        WHEN r.people_num is null THEN '未入住'
+        ELSE CONCAT('已入住',r.people_num,'人')
+        END AS people_num2,
+        CASE
+        WHEN r.room_status = 0 THEN '已启用'
+        WHEN r.room_status = 1 THEN '已住满'
+        WHEN r.room_status = 2 THEN '已停用'
+        END AS room_status,
+        r.room_status room_status2,
         r.people_rent,
         r.room_rent,
         r.room_area,
-        r.people_rent,
         r.start_date,
         r.end_date,
         r.created_user,
@@ -38,7 +48,7 @@
       LEFT JOIN room_type rt ON (r.room_type_id = rt.room_type_id)
       <where>
           <if test="buildingId != null and buildingId != ''">
-              r.building_id = #{buildingId}
+              a.area_id = #{areaId}
           </if>
           <if test="roomNum != null and roomNum != ''">
               AND r.room_num = #{roomNum}
@@ -49,17 +59,17 @@
           <if test="endDate != null and endDate != ''">
               <![CDATA[  AND DATE_FORMAT(r.end_date,, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
           </if>
+          <if test="peopleRent != null and peopleRent != ''">
+              <![CDATA[ AND r.people_rent <= #{peopleRent}   ]]>
+          </if>
           <if test="roomTypeId != null and roomTypeId != ''">
               AND r.room_type_id = #{roomTypeId}
           </if>
           <if test="landlordName != null and landlordName != ''">
-              AND l.landlord_name = #{landlordName}
+              AND l.landlord_name like concat(concat('%',#{landlordName}),'%')
           </if>
           <if test="roomStatus != null and roomStatus != ''">
               AND r.room_status = #{roomStatus}
-          </if>
-          <if test="isDel != null and isDel != ''">
-              AND r.is_del = #{isDel}
           </if>
       </where>
       ORDER BY r.created_date DESC
@@ -148,12 +158,36 @@
           #{userId}
         )
     </insert>
+    <!--修改房间表-->
+    <update id="updateRoomInfo" parameterType="map">
+        UPDATE
+            room
+        <set>
+            <if test="peopleNum != null and peopleNum != ''">
+                people_num = #{peopleNum, jdbcType = INTEGER},
+            </if>
+            <if test="isDel != null and isDel != ''">
+                is_del = #{isDel, jdbcTye = BIT}
+            </if>
+        </set>
+        WHERE
+          room_id = #{roomId}
+    </update>
     <!--根据房间id查询到某个房间信息-->
     <select id="getRoomInfoByRoomId" resultType="map" parameterType="int">
         SELECT
           *
         FROM
           room
+        WHERE
+          room_id = #{roomId}
+    </select>
+    <!--根据房间id获得某个房间的入住人数-->
+    <select id="getPeopleCountByRoomId" parameterType="map" resultType="int">
+        SELECT
+          COUNT (*)
+        FROM
+          room_user
         WHERE
           room_id = #{roomId}
     </select>

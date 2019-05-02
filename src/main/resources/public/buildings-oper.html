@@ -81,22 +81,22 @@
                       dataType: "json",
                       success: function(dat){
                           if(dat.code == 200) {
-                              layer.msg(dat.message,{icon:1,time:2000},function() {
-                                  layer.close(layerLoad);
+                              layer.close(layerLoad);
+                              layer.msg(dat.msg,{icon:1,time:2000},function() {
                                   parent.layer.closeAll();
                                   window.parent.location.reload();
                               });
                           } else {
-                              layer.msg(dat.message,{icon:5,time:2000},function() {
-                                  layer.close(layerLoad);
-                              });
+                              layer.close(layerLoad);
+                              layer.msg(dat.msg,{icon:5,time:2000});
                           }
                           $("#operBtn").css("disabled",false);
                       },
-                      error:function(e){
-                          layer.msg(e.message,{icon:5,time:2000});
-                          $("#operBtn").css("disabled",false);
+                      complete:function(XMLHttpRequest, status) {
                           layer.close(layerLoad);
+                          if(status == "timeout") {
+                              layer.msg("请求超时",{icon:5,time:2000});
+                          }
                       }
                   }
               );

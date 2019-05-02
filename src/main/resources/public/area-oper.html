@@ -85,23 +85,18 @@
                 dataType: "json",
                 success: function(dat){
                     if(dat.code == 0) {
-                        layer.msg(dat.message,{icon:1,time:2000},function() {
+                        layer.msg(dat.msg,{icon:1,time:2000},function() {
                             layer.close(layerLoad);
                             parent.layer.closeAll();
                             window.parent.location.reload();
                         });
                     } else {
-                        layer.msg(dat.message,{icon:5,time:2000},function() {
+                        layer.msg(dat.msg,{icon:5,time:2000},function() {
                             layer.close(layerLoad);
                         });
                     }
                     $("#addBtn").css("disabled",false);
-                },
-                 error:function(e){
-                     layer.msg(e.message,{icon:5,time:2000});
-                     $("#addBtn").css("disabled",false);
-                     layer.close(layerLoad);
-                 }
+                }
           }
             );
             //发异步，把数据提交给php

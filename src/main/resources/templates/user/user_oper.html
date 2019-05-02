@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>录入入住信息</title>
+  </head>
+  <body>
+    <div class="x-body">
+        <form class="layui-form" lay-filter="form_oper">
+          <div class="layui-form-item">
+              <label for="realName" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="realName" name="realName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="userAge" class="layui-form-label">
+                  <span class="x-red">*</span>年龄
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="userAge" name="userAge" required="" lay-verify="number"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>性别
+            </label>
+            <div class="layui-input-inline">
+                <input type="radio" name="userSex" value="1" title="男">
+                <input type="radio" name="userSex" value="0" title="女" checked>
+            </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="userCard" class="layui-form-label">
+                    <span class="x-red">*</span>证件号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userCard" name="userCard" required="" lay-verify="identity"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+                <label for="userPhone" class="layui-form-label">
+                    <span class="x-red">*</span>手机号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userPhone" name="userPhone" required="" lay-verify="phone"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+            <div class="layui-form-item">
+                <label for="password" class="layui-form-label">
+                    <span class="x-red">*</span>密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="password" name="password" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="userAddr" class="layui-form-label">
+                    <span class="x-red">*</span>家庭地址
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userAddr" name="userAddr" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>所在房间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="userRoom" name="userRoom" required="" lay-verify="required"
+                           autocomplete="off" disabled class="layui-input">
+                </div>
+            </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="oper" id="operBtn" lay-submit>
+                      提交
+                  </button>
+              </div>
+
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','code','laydate'], function(){
+            $ = layui.jquery;
+          form = layui.form;
+          layer = layui.layer;
+          laydate = layui.laydate;
+          var userId;
+          var parentData;
+            if(parent.data != null) {
+                parentData = parent.data.data;
+                userId = parentData.user_id;
+                getUserInfoByUserId(userId);
+            }
+
+          laydate.render({
+            elem: '#startDate', //指定元素
+            trigger:'click'
+            });
+          laydate.render({
+            elem: '#endDate', //指定元素
+            trigger:'click'
+             });
+
+          //监听select选择框
+            form.on('select(areaId)',function(data) {
+                getBuildingsByAreaId(data.value);
+            });
+            form.on('select(buildingId)',function(data) {
+                getRoomsInfoByBuildingId(data.value);
+            });
+            form.on('select(roomId)',function(data) {
+                $("#room_remark").html("应缴纳租金￥"+data.value.split(",")[1]+"/月");
+            });
+            //监听提交
+          form.on('submit(oper)', function(data){
+              var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                  time:5000
+              });
+             $.ajax({
+                type:"post",
+                url:"/dangxia/user/updateUser",
+                timeout:5000,
+                //contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                //contentType: 'application/json;charset=UTF-8',
+                data:
+                {
+                "realName":data.field.realName,
+                "userAge":data.field.userAge,
+                "userSex":data.field.userSex,
+                "userCard":data.field.userCard,
+                "userPhone":data.field.userPhone,
+                "password":data.field.password,
+                "roomId":data.field.roomId,
+                "userId":userId
+                },
+                dataType: "json",
+                success: function(dat){
+                    if(dat.code == 200) {
+                        layer.close(layerLoad);
+                        layer.msg(dat.msg,{icon:1,time:2000},function() {
+                            parent.layer.closeAll();
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.close(layerLoad);
+                        layer.msg(dat.msg,{icon:5,time:2000});
+                    }
+                    $("#addBtn").css("disabled",false);
+                },
+                 complete:function(XMLHttpRequest, status) {
+                     layer.close(layerLoad);
+                     if (status == 'timeout') {//status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror
+                         layer.msg("请求超时。",{icon:5,time:2000});
+                     }
+                 }
+          }
+            );
+            return false;
+          });
+        });
+        getAreaList();
+        /**
+         * 获得区域列表
+         */
+        function getAreaList() {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"get",
+                    url:"/dangxia/area/getAreaInfo",
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#areaId").empty();
+                            $("#areaId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#areaId").append("<option value='"+item.areaId+"'>"+item.areaName+item.neighbourhood+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+
+        }
+        function getBuildingsByAreaId(areaId) {
+            layui.use(['form'],function() {
+                $.ajax({
+                    type:"get",
+                    url:"/dangxia/buildings/getBuildingsByCondition",
+                    data:{"areaId":areaId},
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#buildingId").empty();
+                            $("#buildingId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#buildingId").append("<option value='"+item.buildingId+"'>"+item.buildingName+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+        function getRoomsInfoByBuildingId(buildingId) {
+            layui.use(['form'],function() {
+                var form = layui.form;
+                $ = layui.jquery;
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/room/getRoomListByCondition",
+                    data:{"buildingId":buildingId,"isDel":0,"roomStatus":0},
+                    success:function(data) {
+                        if(data.code == 0) {
+                            $("#roomId").empty();
+                            $("#roomId").append("<option value=''></option>");
+                            $.each(data.data,function(i,item) {
+                                $("#roomId").append("<option value='"+item.room_id+","+item.people_rent+"'>"+item.room_num+"</option>");
+                            });
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+        }
+        /*根据userid获得用户信息*/
+        function getUserInfoByUserId(userId) {
+            var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                time:5000
+            });
+            $.ajax({
+                type:"post",
+                url:"/dangxia/user/getUserInfoByUserId",
+                data:{"userId":userId},
+                success:function(data) {
+                    layer.close(layerLoad);
+                    if(data.code == 200) {
+                        $("#buildingId").append("<option value='"+data.data.building_id+"'>"+data.data.building_name+"</option>");
+                        $("#roomId").append("<option value='"+data.data.room_id+"'>"+data.data.room_num+"</option>");
+                        if(data.data.user_sex2) {
+                            $("input[name='userSex'][value='1']").prop("checked",true)
+                        } else {
+                            $("input[name='userSex'][value='0']").prop("checked",true);
+                        }
+                        form.val('form_oper',{
+                            "realName":data.data.real_name,
+                            "userAge":data.data.user_age,
+                            "password":data.data.password,
+                            "userSex":data.data.user_sex2,
+                            "userCard":data.data.user_card,
+                            "userPhone":data.data.user_phone,
+
+                            "userRoom":data.data.area_name+data.data.neighbourhood+data.data.building_name + data.data.room_num,
+                            "userAddr":data.data.user_addr
+                        });
+                    } else {
+                        layer.close(layerLoad);
+                        layer.msg(data.msg,{icon:5,time:2000});
+                    }
+                },
+                complete:function(XMLHttpRequest, status) {
+                    layer.close(layerLoad);
+                    if(status == "timeout") {
+                        layer.msg("请求超时",{icon:5,time:2000});
+                    }
+                }
+            });
+        }
+    </script>
+  </body>
+
+</html>

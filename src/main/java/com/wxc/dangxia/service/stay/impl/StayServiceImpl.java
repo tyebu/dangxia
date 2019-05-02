@@ -81,6 +81,10 @@ public class StayServiceImpl implements IStayService {
         userDao.insertUserInfo(map);
         //向用户房间表插入数据
         roomDao.insertRoomUser(map);
+        // 修改房间表入住人数
+
+
+        roomDao.updateRoomInfo(map);
         //向交租表插入数据
         rentDao.insertRentRecord(map);
         //向入住记录表插入数据

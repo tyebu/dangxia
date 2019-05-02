@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
 <head th:replace= "common/common :: commons(~{::title})">
-  <title>房间管理</title>
+  <title>房东管理</title>
 </head>
   
   <body class="">
@@ -17,11 +17,10 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
-          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        <form class="layui-form layui-col-md12 x-so" lay-filter="searchForm">
+          <input type="text" name="landlordName"  placeholder="姓名" autocomplete="off" class="layui-input">
+          <input type="text" name="landlordPhone"  placeholder="手机号" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit lay-filter="landlord_search"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <table class="layui-table" lay-filter="landlordTab" id="landlordTab"></table>
@@ -29,17 +28,14 @@
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加房东','/dangxia/landlord/toLandlordOper',600,450)"><i class="layui-icon"></i>添加</button>
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-        <i class="layui-icon">&#xe601;</i>
+      <a title="编辑" lay-event="landlord_edit" href="javascript:;">
+        <i class="layui-icon" >&#xe642;</i>
       </a>
-      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
-        <i class="layui-icon">&#xe642;</i>
-      </a>
-      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+      <a title="删除" lay-event="landlord_del" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
     </script>
@@ -48,72 +44,119 @@
       <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
     </script>
     <script>
-      layui.use(['layer','laydate','table'], function(){
-        var laydate = layui.laydate;
-        $ = layui.jquery;
-        var table = layui.table;
-        var layer = layui.layer;
-        var form = layui.form;
-        //加载数据表格
+      layui.use(['layer','laydate','table','form'], function() {
+          var laydate = layui.laydate;
+          $ = layui.jquery;
+          var table = layui.table;
+          layer = layui.layer;
+          var form = layui.form;
+          //加载数据表格
           table.render({
               elem: '#landlordTab'
-              ,height: 'full-20'
-              ,url: '/dangxia/landlord/getLandlordByCondition' //数据接口
-              ,method:'post'
-              ,page: true //开启分页
-              ,limits:[10,15,20,25]
-              ,limit:15
-              ,defaultToolbar:['filter', 'print', 'exports']
-              ,toolbar:'#toolbarDemo'
-              ,cols: [
+              , height: 'full-20'
+              , url: '/dangxia/landlord/getLandlordByCondition' //数据接口
+              , method: 'post'
+              , page: true //开启分页
+              , limits: [10, 15, 20, 25]
+              , limit: 15
+              , defaultToolbar: ['filter', 'print', 'exports']
+              , toolbar: '#toolbarDemo'
+              , cols: [
                   [
-                      {type:"checkbox"}
-                      ,{field: 'landlord_name', title: '姓名', align:'center'}
-                      ,{field: 'landlord_age', title: '年龄', align:'center', templet:function(d) {
-                          return d.landlord_age+"岁";
-                    }}
-                      ,{field: 'landlord_sex', title: '性别', align:'center',templet:function(d) {
-                          return d.landlord_sex?"<span class='bluecell'>♂</span>":"<span class='pinkcell'>♀</span>";
-                    }}
-                      ,{field: 'landlord_phone', title: '手机号', align:'center'}
-                      ,{field: 'landlord_address', title: '联系地址', align:'center',templet:function(d) {
-                        return d.landlord_address;
-                    }}
-                      ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
+                      {type: "checkbox"}
+                      , {field: 'landlord_name', title: '姓名', align: 'center'}
+                      , {
+                      field: 'landlord_age', title: '年龄', align: 'center', templet: function (d) {
+                          return d.landlord_age + "岁";
+                      }
+                  }
+                      , {field: 'landlord_sex', title: '性别', align: 'center'}
+                      , {field: 'landlord_phone', title: '手机号', align: 'center'}
+                      , {
+                      field: 'landlord_address', title: '联系地址', align: 'center', templet: function (d) {
+                          return d.landlord_address;
+                      }
+                  }
+                      , {field: 'roomCount', title: '出租房数量', align: 'center'}
+                      , {fixed: 'right', toolbar: '#tabBar', title: '操作', align: 'center', width: 80}
                   ]
               ]
           });
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
+          /*监听数据表格工具点击事件*/
+          table.on('tool(landlordTab)',function(obj) {
+              var layEvent = obj.event;
+              if(layEvent == 'landlord_del') {
+                  if(obj.data.roomCount > 0) {
+                      layer.msg("该房东下有租房。",{icon:5,time:2000});
+                      return;
+                  }
+                  landlord_del(obj,obj.data.landlord_id);
+              }
+              if(layEvent == 'landlord_edit') {
+                  data = {data:obj.data};
+                  x_admin_show('编辑用户','/dangxia/landlord/toLandlordOper');
+              }
+          });
+          form.on('submit(landlord_search)', function (obj) {
+              table.reload('landlordTab', {
+                  url: '/dangxia/landlord/getLandlordByCondition',
+                  method: 'post',
+                  where: {
+                      landlordName: obj.field.landlordName,
+                      landlordPhone: obj.field.landlordPhone
+                  }
+              });
+              return false;
+          });
       });
-      /*用户-停用*/
-      function member_stop(obj,id){
-        layer.confirm('确认要停用吗？',function(index){
-          if($(obj).attr('title')=='启用'){
+          /*用户-停用*/
+          function member_stop(obj, id) {
+              layer.confirm('确认要停用吗？', function (index) {
+                  if ($(obj).attr('title') == '启用') {
 
-            //发异步把用户状态进行更改
-            $(obj).attr('title','停用')
-            $(obj).find('i').html('&#xe62f;');
+                      //发异步把用户状态进行更改
+                      $(obj).attr('title', '停用')
+                      $(obj).find('i').html('&#xe62f;');
 
-            $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
-            layer.msg('已停用!',{icon: 5,time:1000});
+                      $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
+                      layer.msg('已停用!', {icon: 5, time: 1000});
 
-          }else{
-            $(obj).attr('title','启用')
-            $(obj).find('i').html('&#xe601;');
+                  } else {
+                      $(obj).attr('title', '启用')
+                      $(obj).find('i').html('&#xe601;');
 
-            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-            layer.msg('已启用!',{icon: 5,time:1000});
+                      $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                      layer.msg('已启用!', {icon: 5, time: 1000});
+                  }
+
+              });
           }
-
-        });
-      }
+        /*删除房东*/
+        function landlord_del(obj,id){
+            layer.confirm('确认要删除吗？',function(index){
+                //发异步删除数据
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/landlord/deleteLandlordById",
+                    timeout:5000,
+                    data: {"landlordId":id},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.code == 200) {
+                            obj.del();
+                            layer.msg(data.msg,{icon:1,time:2000});
+                        } else {
+                            layer.msg(data.msg,{icon:5,time:2000});
+                        }
+                    },
+                    complete:function(XMLHttpRequest, status) {
+                        if(status == "timeout") {
+                            layer.msg("请求超时",{icon:5,time:2000});
+                        }
+                    }
+                });
+            });
+        }
     </script>
   </body>
 

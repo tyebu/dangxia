@@ -75,4 +75,19 @@ public class RoomServiceImpl implements IRoomService {
         List<Map<String, Object>> roomList = roomDao.getRoomInfoByCondition(map);
         return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, roomList);
     }
+
+    @Override
+    public Integer deleteRoomById(Map<String, Object> map) throws Exception {
+        //判断该房间下是否还有租客
+        Integer count = roomDao.getPeopleCountByRoomId(map);
+        if(count > 0) {
+            throw new CommonException("该房间中还有租客。");
+        }
+        map.put("isDel",true);
+        Integer rows = roomDao.updateRoomInfo(map);
+        if(rows == null || rows <= 0) {
+            throw new CommonException("删除失败");
+        }
+        return rows;
+    }
 }

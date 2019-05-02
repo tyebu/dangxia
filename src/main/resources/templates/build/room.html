@@ -17,115 +17,233 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
-          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        <form class="layui-form layui-col-md12 x-so" lay-filter="searchForm">
+          <div class="layui-input-inline">
+            <select name="areaId" lay-filter="areaId" id="areaId">
+
+            </select>
+          </div>
+          <input type="text" name="roomNum"  placeholder="房间号" autocomplete="off" class="layui-input">
+          <input type="text" name="peopleRent"  placeholder="不高于多少的租金" autocomplete="off" class="layui-input">
+          <div class="layui-input-inline">
+            <select name="roomTypeId" lay-filter="roomTypeId" id="roomTypeId" >
+
+            </select>
+          </div>
+          <button class="layui-btn"  lay-submit lay-filter="room_search"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <table class="layui-table" lay-filter="room" id="roomtab"></table>
+      <table class="layui-table" lay-filter="roomtab" id="roomtab"></table>
     </div>
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加房间','/dangxia/room/roomOper',620,500)"><i class="layui-icon"></i>添加房间</button>
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+      <a lay-event="startStop" href="javascript:;">
         <i class="layui-icon">&#xe601;</i>
       </a>
-      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+      <a title="编辑" lay-event="room_edit" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
       </a>
-      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+      <a title="删除" lay-event="room_del" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
     </script>
     <script>
       layui.use(['layer','laydate','table'], function(){
-        var laydate = layui.laydate;
         $ = layui.jquery;
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
         //加载数据表格
-          table.render({
-              elem: '#roomtab'
-              ,height: 'full-20'
-              ,url: '/dangxia/room/getRoomInfoByCondition' //数据接口
-              ,method:'post'
-              ,page: true //开启分页
-              ,limits:[10,15,20,25]
-              ,limit:15
-              ,defaultToolbar:['filter', 'print', 'exports']
-              ,toolbar:'#toolbarDemo'
-              ,cols: [
-                  [
-                      {type:"checkbox"}
-                      ,{field: 'room_num', title: '房间号', align:'center'}
-                      ,{field: '', title: '所在地区', align:'center', templet:function(d) {
-                          return d.area_name+d.neighbourhood;
-                    }}
-                      ,{field: 'building_name', title: '所属楼栋', align:'center'}
-                      ,{field: 'room_type_name', title: '房间类型', align:'center'}
-                      ,{field: 'room_area', title: '面积', align:'center',templet:function(d) {
-                        return d.room_area+"m²";
-                    }}
-                      ,{field: 'room_size', title: '几人间', align:'center',templet:function(d) {
-                        if(d.room_size == null) {
-                          return "未指定";
+        table.render({
+            elem: '#roomtab'
+            ,height: 'full-20'
+            ,url: '/dangxia/room/getRoomInfoByCondition' //数据接口
+            ,method:'post'
+            ,page: true //开启分页
+            ,limits:[10,15,20,25]
+            ,limit:15
+            ,defaultToolbar:['filter', 'print', 'exports']
+            ,toolbar:'#toolbarDemo'
+            ,cols: [
+                [
+                    {type:"checkbox"}
+                    ,{field: 'room_num', title: '房间号', align:'center'}
+                    ,{field: '', title: '所在地区', align:'center', templet:function(d) {
+                        return d.area_name+d.neighbourhood;
+                  }}
+                    ,{field: 'building_name', title: '所属楼栋', align:'center'}
+                    ,{field: 'room_type_name', title: '房间类型', align:'center'}
+                    ,{field: 'people_rent', title: '房间租金', align:'center'}
+                    ,{field: 'room_area', title: '面积', align:'center',templet:function(d) {
+                      return d.room_area+"m²";
+                  }}
+                    ,{field: 'landlord_name', title: '所属房东', align:'center'}
+                    ,{field: 'room_size', title: '几人间', align:'center',templet:function(d) {
+                      if(d.room_size == null) {
+                        return "未指定";
+                      }
+                      return d.room_size+"人间";
+                  }}
+                    ,{field: 'people_num2', title: '是否入住', align:'center'}
+                    ,{field: 'room_status', title: '房间状态', align:'center',templet:function(d) {
+                        if(d.room_status2==0) {
+                            $(this).attr('title','有空闲')
+                            $(this).find('i').html('&#xe601;');
+                            return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">有空闲</span>";
+
+                        } else if(d.room_status2==1){
+                            $(this).attr('title','已住满')
+                            $(this).find('i').html('&#xe62f;');
+                            return "<span class=\"layui-btn span-status layui-btn-danger layui-btn-mini\">已住满</span>";
                         }
-                        return d.room_size+"人间";
                     }}
-                      ,{field: '', title: '是否入住', align:'center',templet:function(d) {
-                        if(d.people_num > 0) {
-                          return "<span class='greencell'>已入住"+d.people_num+"</span>";
-                        }
-                        return "<span class='redcell'>未入住</span>";
-                    }}
-                      ,{field: 'is_del', title: '房间状态', align:'center',templet:function(d) {
-                          if(d.is_del==0) {
-                              return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">已启用</span>";
-                          } else {
-                              return "<span class=\"layui-btn span-status layui-btn-disabled layui-btn-mini\">已停用</span>";
-                          }
-                      }}
-                      ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
-                  ]
-              ]
-          });
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
+                    ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
+                ]
+            ]
         });
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
+        table.on('tool(roomtab)',function(obj) {
+            var layEvent = obj.event;
+            if(layEvent == 'startStop') {
+                member_stop(this,obj.data.room_id);
+            }
+            if(layEvent == 'room_edit') {
+                x_admin_show('编辑','/dangxia/room/roomOper');
+            }
+            if(layEvent == 'room_del') {
+               /* if(obj.data.people_num > 0) {
+                    layer.msg("该房间下还有租客",{icon:5,time:2000});
+                    return;
+                }*/
+                room_del(obj,obj.data.room_id);
+            }
+        });
+        form.on('submit(room_search)',function(obj) {
+            table.reload('roomtab', {
+                url: '/dangxia/room/getRoomInfoByCondition',
+                method: 'post',
+                where: {
+                    areaId:obj.field.areaId,
+                    roomNum:obj.field.roomNum,
+                    peopleRent:obj.field.peopleRent,
+                    roomTypeId:obj.field.roomTypeId
+                }
+            });
+            return false;
         });
       });
-      /*用户-停用*/
+
       function member_stop(obj,id){
-        layer.confirm('确认要停用吗？',function(index){
-          if($(obj).attr('title')=='启用'){
+        var content;
+        layer.confirm("确认修改状态？",function(index){
+          if($(obj).attr('title')=='有空闲'){
 
             //发异步把用户状态进行更改
-            $(obj).attr('title','停用')
-            $(obj).find('i').html('&#xe62f;');
-
-            $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
-            layer.msg('已停用!',{icon: 5,time:1000});
-
-          }else{
-            $(obj).attr('title','启用')
+            $(obj).attr('title','已住满')
             $(obj).find('i').html('&#xe601;');
 
-            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-            layer.msg('已启用!',{icon: 5,time:1000});
-          }
+            $(obj).parents("tr").find(".span-status").removeClass('layui-btn-danger').html('有空闲');
+            layer.msg('已修改!',{icon: 1,time:1000});
+          }else{
+            $(obj).attr('title','有空闲')
+            $(obj).find('i').html('&#xe62f;');
 
+            $(obj).parents("tr").find(".span-status").addClass('layui-btn-danger').html('已住满');
+            layer.msg('已修改!',{icon: 1,time:1000});
+          }
         });
+      }
+      getAreaList();
+      getRoomType();
+      /**
+       * 获得区域列表
+       */
+      function getAreaList() {
+          layui.use(['form'],function() {
+              var form = layui.form;
+              $ = layui.jquery;
+              $.ajax({
+                  type:"get",
+                  url:"/dangxia/area/getAreaInfo",
+                  success:function(data) {
+                      if(data.code == 0) {
+                          $("#areaId").empty();
+                          $("#areaId").append("<option value=''>选择区域</option>");
+                          $.each(data.data,function(i,item) {
+                              $("#areaId").append("<option value='"+item.areaId+"'>"+item.areaName+item.neighbourhood+"</option>");
+                          });
+                          form.render('select');
+                      }
+                  }
+              });
+          });
+
+      }
+      /**
+       * 获得房间类型
+       */
+      function getRoomType() {
+          layui.use(['form'],function() {
+              var form = layui.form;
+              $ = layui.jquery;
+              $.ajax({
+                  type:"post",
+                  url:"/dangxia/room/getRoomType",
+                  success:function(data) {
+                      if(data.code == 200) {
+                          $("#roomTypeId").empty();
+                          $("#roomTypeId").append("<option value=''>选择房间类型</option>");
+                          $.each(data.data,function(i,item) {
+                              $("#roomTypeId").append("<option value='"+item.room_type_id+"'>"+item.room_type_name+"</option>");
+                          });
+                          form.render('select');
+                      }
+                  }
+              });
+          });
+      }
+
+      /**
+       * 删除房间
+       * @param obj
+       * @param id
+       */
+      function room_del(obj,id){
+          alert(id);
+          layer.confirm('确认要删除吗？',function(index){
+              var layerLoad = layer.load(2, {
+                  shade: [0.4,'#3C3C3C'],
+                  time:5000
+              });
+              //发异步删除数据
+              $.ajax({
+                  type:"post",
+                  url:"/dangxia/room/deleteRoomById",
+                  timeout:5000,
+                  data: {"roomId":parseInt(id)},
+                  dataType: "json",
+                  success: function(data){
+                      if(data.code == 200) {
+                          layer.close(layerLoad);
+                          obj.del();
+                          layer.msg(data.msg,{icon:1,time:2000});
+                      } else {
+                          layer.close(layerLoad);
+                          layer.msg(data.msg,{icon:5,time:2000});
+                      }
+                  },
+                  complete:function(XMLHttpRequest, status) {
+                      layer.close(layerLoad);
+                      if(status == "timeout") {
+                          layer.msg("请求超时",{icon:5,time:2000});
+                      }
+                  }
+              });
+          });
       }
     </script>
   </body>

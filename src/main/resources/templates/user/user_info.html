@@ -17,11 +17,21 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
-          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        <form class="layui-form layui-col-md12 x-so" lay-filter="searchForm">
+          <input class="layui-input"  autocomplete="off" placeholder="开始入住时间" name="startDate" id="start">
+          <input class="layui-input"  autocomplete="off" placeholder="到期时间时间" name="endDate" id="end">
+          <input type="text" name="realName"  placeholder="姓名" autocomplete="off" class="layui-input">
+          <input type="text" name="userPhone"  placeholder="手机号" autocomplete="off" class="layui-input">
+          <div class="layui-inline">
+            <select name="liveStatus" lay-filter="liveStatus">
+              <option value=""></option>
+              <option value="1">入住中</option>
+              <option value="2">已离宿</option>
+              <option value="3">其他</option>
+            </select>
+          </div>
+
+          <button class="layui-btn"  lay-submit lay-filter="user_search"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <table class="layui-table" lay-filter="userInfoTab" id="userInfoTab"></table>
@@ -32,16 +42,12 @@
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a title="编辑" lay-even="user_edit"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
+      <a title="编辑" lay-event="user_edit" href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
       </a>
-      <a title="删除" lay-event="user_del" onclick="member_del(this,'要删除的id')" href="javascript:;">
+      <a title="删除" lay-event="user_del" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
-    </script>
-    <script type="text/html" id="switchTpl">
-      <!-- 这里的 checked 的状态只是演示 -->
-      <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
     </script>
     <script>
       layui.use(['layer','laydate','table'], function(){
@@ -51,40 +57,61 @@
         var layer = layui.layer;
         var form = layui.form;
         //加载数据表格
-          table.render({
-              elem: '#userInfoTab'
-              ,height: 'full-20'
-              ,url: '/dangxia/user/getUserInfoByCondition' //数据接口
-              ,method:'post'
-              ,page: true //开启分页
-              ,limits:[10,15,20,25]
-              ,limit:15
-              ,defaultToolbar:['filter', 'print', 'exports']
-              ,toolbar:'#toolbarDemo'
-              ,cols: [
-                  [
-                      {type:"checkbox"}
-                      ,{field: 'real_name', title: '真实姓名', align:'center'}
-                      ,{field: 'user_age', title: '年龄', align:'center', templet:function(d) {
-                          return d.user_age+"岁";
-                    }}
-                      ,{field: '', title: '性别', align:'center',templet:function(d) {
-                          return d.user_sex?"<span class='bluecell'>♂</span>":"<span class='pinkcell'>♀</span>";
-                    }}
-                      ,{field: 'user_phone', title: '手机号', align:'center'}
-                      ,{field: 'user_addr', title: '家庭地址', align:'center'}
-                      ,{field: 'room_num', title: '所住房间号', align:'center'}
-                      ,{field: 'end_date', title: '到期时间', align:'center'}
-                      ,{field: 'live_status', title: '当前状态', align:'center'}
-                      ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
-                  ]
-              ]
-          });
+        table.render({
+            elem: '#userInfoTab'
+            ,height: 'full-20'
+            ,url: '/dangxia/user/getUserInfoByCondition' //数据接口
+            ,method:'post'
+            ,page: true //开启分页
+            ,limits:[10,15,20,25]
+            ,limit:15
+            ,defaultToolbar:['filter', 'print', 'exports']
+            ,toolbar:'#toolbarDemo'
+            ,cols: [
+                [
+                    {type:"checkbox"}
+                    ,{field: 'real_name', title: '真实姓名', align:'center'}
+                    ,{field: 'user_age', title: '年龄', align:'center', templet:function(d) {
+                        return d.user_age+"岁";
+                  }}
+                    ,{field: 'user_sex', title: '性别', align:'center'}
+                    ,{field: 'user_phone', title: '手机号', align:'center'}
+                    ,{field: 'user_addr', title: '家庭地址', align:'center'}
+                    ,{field: 'room_num', title: '所住房间号', align:'center'}
+                    ,{field: 'end_date', title: '到期时间', align:'center'}
+                    ,{field: 'live_status', title: '当前状态', align:'center'}
+                    ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
+                ]
+            ]
+        });
         table.on('tool(userInfoTab)',function(obj) {
           var layEvent = obj.event;
-          if(layEvent == 'del') {
-            member_del(obj.tr,obj.data.user_id);
+          if(layEvent == 'user_del') {
+            if(obj.data.status_code == 1) {
+                layer.msg("该用户在入住中。",{icon:5,time:2000});
+                return;
+            }
+            member_del(obj,obj.data.user_id);
           }
+          if(layEvent == 'user_edit') {
+              data = {data:obj.data};
+              x_admin_show('编辑用户','/dangxia/user/toUserOper');
+          }
+        });
+        form.on('submit(user_search)',function(obj) {
+            console.log(obj);
+            table.reload('userInfoTab', {
+                url : '/dangxia/user/getUserInfoByCondition',
+                method : 'post',
+                where : {
+                    startDate : obj.field.startDate,
+                    endDate : obj.field.endDate,
+                    userPhone : obj.field.userPhone,
+                    realName : obj.field.realName,
+                    liveStatus : obj.field.liveStatus
+                }
+            });
+            return false;
         });
         //执行一个laydate实例
         laydate.render({
@@ -125,10 +152,10 @@
             type:"post",
             url:"/dangxia/user/deleteUserByUserId",
             timeout:5000,
-            data: {"areaId":obj.data.areaId},
+            data: {"userId":id},
             dataType: "json",
             success: function(data){
-              if(data.code == 0) {
+              if(data.code == 200) {
                 obj.del();
                 layer.msg(data.msg,{icon:1,time:2000});
               } else {
@@ -141,8 +168,6 @@
               }
             }
           });
-          $(obj).parents("tr").remove();
-          layer.msg('已删除!',{icon:1,time:1000});
         });
       }
     </script>

@@ -34,4 +34,20 @@ public interface ILandlordDao {
      * @return
      */
     Integer getCountByCondition(Map<String, Object> map) throws Exception;
+
+    /**
+     * 添加房东
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer insertLandlord(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据条件修改房东
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer updateLandlordByCondition(Map<String, Object> map) throws  Exception;
 }

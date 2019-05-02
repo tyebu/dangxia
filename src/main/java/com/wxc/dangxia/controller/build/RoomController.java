@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.Request;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +91,25 @@ public class RoomController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultMsg(StatusCode.ERROR,StatusMessage.ERROR);
+        }
+    }
+
+    /**
+     * 根据id删除房间
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "deleteRoomById", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg deleteRoomById(@RequestParam Map<String, Object> map) {
+        try {
+            Integer rows = roomService.deleteRoomById(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.DELETESUCCESS);
+        } catch(CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
 }

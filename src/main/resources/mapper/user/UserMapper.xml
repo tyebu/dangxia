@@ -42,12 +42,24 @@
           u.password,
           u.real_name,
           u.user_addr,
-          u.user_sex,
+          u.user_sex AS user_sex2,
+          CASE u.user_sex
+          WHEN 1 THEN '男'
+          WHEN 0 THEN '女'
+          END AS 'user_sex',
           u.user_age,
           u.user_card,
-          DATE_FORMAT(usr.end_date, '%Y-%m-%d %h:%i:%s') as end_date,
+          DATE_FORMAT(usr.end_date, '%Y-%m-%d') as end_date,
+          DATE_FORMAT(usr.start_date, '%Y-%m-%d') as start_date,
           DATE_FORMAT(u.created_date, '%Y-%m-%d %h:%i:%s') as created_date,
           r.room_num,
+          r.room_id,
+          r.building_id,
+          b.area_id,
+          b.building_name,
+          a.area_name,
+          a.neighbourhood,
+          u.live_status status_code,
           CASE u.live_status
           WHEN 1 THEN '入住中'
           WHEN 2 THEN '已离宿'
@@ -56,8 +68,11 @@
         FROM user u
         LEFT JOIN room_user ru ON(ru.user_id = u.user_id)
         LEFT JOIN room r ON(ru.room_id = r.room_id)
+        LEFT JOIN building b ON(b.building_id = r.building_id)
+        LEFT JOIN area a ON(a.area_id = b.area_id)
         LEFT JOIN (
           SELECT
+            start_date,
             end_date,
             user_id
           FROM user_stay_record
@@ -65,11 +80,23 @@
           LIMIT 1
         ) usr ON(u.user_id = usr.user_id)
         WHERE  u.is_del = 0
+        <if test="userId != null and userId != ''">
+            AND u.user_id = #{userId}
+        </if>
         <if test="userPhone != null and userPhone != ''">
             AND u.user_phone = #{userPhone}
         </if>
-        <if test="userCard != null and userCard != ''">
-            AND u.user_card = #{userCard}
+        <if test="realName != null and realName != ''">
+            AND u.real_name like concat(concat('%',#{realName}),'%')
+        </if>
+        <if test="startDate != null and startDate != ''">
+            <![CDATA[  AND DATE_FORMAT(usr.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <![CDATA[  AND DATE_FORMAT(usr.end_date, '%Y-%m-%d') >= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="liveStatus != null and liveStatus != ''">
+            AND usr.live_status = #{liveStatus}
         </if>
         ORDER BY created_date DESC
     </select>
@@ -78,12 +105,21 @@
         FROM user u
         LEFT JOIN room_user ru ON(ru.user_id = u.user_id)
         LEFT JOIN room r ON(ru.room_id = r.room_id)
-        WHERE u.is_del = 0
+        WHERE  u.is_del = 0
         <if test="userPhone != null and userPhone != ''">
             AND u.user_phone = #{userPhone}
         </if>
-        <if test="userCard != null and userCard != ''">
-            AND u.user_card = #{userCard}
+        <if test="realName != null and realName != ''">
+            AND u.real_name like concat(concat('%',#{realName}),'%')
+        </if>
+        <if test="startDate != null and startDate != ''">
+            <![CDATA[  AND DATE_FORMAT(usr.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <![CDATA[  AND DATE_FORMAT(usr.end_date, '%Y-%m-%d') >= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="liveStatus != null and liveStatus != ''">
+            AND usr.live_status = #{liveStatus}
         </if>
     </select>
     <!--获得待交租人员-->
@@ -147,15 +183,35 @@
         UPDATE
           user
         <set>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName, jdbcType = VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password, jdbcType = VARCHAR},
+            </if>
+            <if test="uerPhone != null and userPhone != ''">
+                user_phone = #{userPhone, jdbcType = VARCHAR},
+            </if>
+            <if test="userCard != null and userCard != ''">
+                user_card = #{userCard, jdbcType = VARCHAR},
+            </if>
+            <if test="userSex != null and userSex != ''">
+                user_sex = #{userSex, jdbcType = BIT},
+            </if>
             <if test="isDel != null and isDel != ''">
-                is_del = #{isDel}
+                is_del = #{isDel, jdbcType = BIT}
             </if>
         </set>
         WHERE
           user_id = #{userId}
     </update>
     <!--根据用户Id获得状态-->
-    <select id="">
-
+    <select id="getUserStatusByUserId" parameterType="int" resultType="int">
+        SELECT
+          live_status
+        FROM
+          user
+        WHERE user_id = #{userId}
     </select>
+
 </mapper>

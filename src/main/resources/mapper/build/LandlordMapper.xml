@@ -7,7 +7,11 @@
           ld.landlord_id,
           ld.landlord_name,
           ld.landlord_phone,
-          ld.landlord_sex,
+          CASE ld.landlord_sex
+          WHEN 0 THEN '女'
+          WHEN 1 THEN '男'
+          END AS 'landlord_sex',
+          ld.landlord_sex sex_code,
           ld.landlord_address,
           ld.landlord_age,
           ld.agreement_num,
@@ -15,13 +19,34 @@
           DATE_FORMAT(ld.created_date, '%Y-%m-%d %h:%i:%s') AS created_date,
           ld.modify_user,
           DATE_FORMAT(ld.modify_date, '%Y-%m-%d %h:%i:%s') AS modify_date,
+        (CASE
+          WHEN r.roomCount = '' THEN '0'
+          WHEN r.roomCount is null THEN '0'
+          ELSE r.roomCount
+          END )AS roomCount,
           ld.is_del
         FROM landlord ld
-        <where>
-            <if test="landlordPhone != null and landlordPhone != ''">
-                ld.landlord_phone = #{landlordPhone}
-            </if>
-        </where>
+        LEFT JOIN(
+          SELECT
+             ll.landlord_id,
+             count(*) AS roomCount
+          FROM room r
+          LEFT JOIN landlord ll ON(r.landlord_id = ll.landlord_id)
+          WHERE
+            r.is_del = 0
+          GROUP BY ll.landlord_id
+        ) AS r ON(r.landlord_id = ld.landlord_id)
+        WHERE
+          ld.is_del = 0
+        <if test="landlordPhone != null and landlordPhone != ''">
+            AND ld.landlord_phone = #{landlordPhone}
+        </if>
+        <if test="landlordName != null and landlordName != ''">
+            AND ld.landlord_name like concat(concat('%',#{landlordName}),'%')
+        </if>
+        <if test="landlordId != null and landlordId != ''">
+            AND ld.landlord_id = #{landlordId, jdbcType = INTEGER}
+        </if>
         ORDER BY ld.created_date DESC
     </select>
     <!--获得房东列表-->
@@ -37,10 +62,71 @@
         SELECT  COUNT(*)
         FROM
           landlord
-        <where>
-            <if test="landlordPhone != null and landlordPhone != ''">
-                ld.landlord_phone = #{landlordPhone}
-            </if>
-        </where>
+        WHERE
+        is_del = 0
+        <if test="landlordPhone != null and landlordPhone != ''">
+            AND landlord_phone = #{landlordPhone}
+        </if>
+        <if test="landlordName != null and landlordName != ''">
+            AND landlord_name like concat(concat('%',#{landlordName}),'%')
+        </if>
+        <if test="landlordId != null and landlordId != ''">
+            AND landlord_id = #{landlordId}
+        </if>
     </select>
+    <insert id="insertLandlord" parameterType="map">
+        INSERT
+        INTO
+        landlord
+            (
+              landlord_name,
+              landlord_phone,
+              landlord_sex,
+              landlord_age,
+              landlord_address,
+              agreement_num,
+              created_user,
+              created_date
+            )
+        VALUES
+            (
+              #{landlordName, jdbcType = VARCHAR},
+              #{landlordPhone, jdbcType = VARCHAR},
+              #{landlordSex, jdbcType = BIT},
+              #{landlordAge, jdbcType = INTEGER},
+              #{landlordAddress, jdbcType = VARCHAR},
+              #{agreementNum, jdbcType = VARCHAR},
+              #{createdUser, jdbcType = INTEGER},
+              NOW()
+            )
+    </insert>
+    <update id="updateLandlordByCondition" parameterType="map">
+        UPDATE
+          landlord
+        <set>
+            <if test="isDel != null and isDel != ''">
+                is_del = #{isDel, jdbcType = BIT},
+            </if>
+            <if test="landlordName != null and landlordName != ''">
+                landlord_name = #{landlordName, jdbcType = VARCHAR},
+            </if>
+            <if test="landlordPhone != null and landlordPhone != ''">
+                landlord_phone = #{landlordPhone, jdbcType = VARCHAR},
+            </if>
+            <if test="landlordSex != null">
+                landlord_sex = #{landlordSex, jdbcType = BIT},
+            </if>
+            <if test="landlordAge != null and landlordAge != ''">
+                landlord_age = #{landlordAge, jdbcType = INTEGER},
+            </if>
+            <if test="landlordAddress != null and landlordAddress != ''">
+                landlord_address = #{landlordAddress, jdbcType = VARCHAR},
+            </if>
+            <if test="agreementNum != null and agreementNum != ''">
+                agreement_num = #{agreementNum, jdbcType = VARCHAR}
+            </if>
+        </set>
+        WHERE
+          landlord_id = #{landlordId}
+    </update>
 </mapper>

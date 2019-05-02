@@ -38,4 +38,11 @@ public interface IRoomService {
      * @throws Exception
      */
     ResultMsg getRoomListByCondition(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据条件删除房间
+     * @param map
+     * @return
+     */
+    Integer deleteRoomById(Map<String, Object> map) throws Exception;
 }

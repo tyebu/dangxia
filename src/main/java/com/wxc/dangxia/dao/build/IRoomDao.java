@@ -58,4 +58,19 @@ public interface IRoomDao {
      * @return
      */
     Map<String, Object> getRoomInfoByRoomId(Integer roomId);
+
+    /**
+     * 修改房间信息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer updateRoomInfo(Map<String, Object> map) throws  Exception;
+
+    /**
+     * 获得房间入住人数
+     * @param map
+     * @return
+     */
+    Integer getPeopleCountByRoomId(Map<String, Object> map);
 }

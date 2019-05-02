@@ -1,5 +1,6 @@
 package com.wxc.dangxia.controller.build;
 
+import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
@@ -25,10 +26,13 @@ import java.util.Map;
 public class LandlordController extends BaseController {
     @Autowired
     private ILandlordService landlordService;
-
     @RequestMapping("/toLandlord")
     public String toLandlord() {
         return "build/landlord";
+    }
+    @RequestMapping("/toLandlordOper")
+    public String toLandlordOper() {
+        return "build/landlord_oper";
     }
     @RequestMapping(value = "/getLandlordList", method = RequestMethod.POST)
     @ResponseBody
@@ -49,6 +53,70 @@ public class LandlordController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR);
+        }
+    }
+
+    /**
+     * 添加房东
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/insertLandlord", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg insertLandlord(@RequestParam Map<String, Object> map) {
+        try {
+            landlordService.insertLandlord(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.ADDSUCCESS);
+        } catch(CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
+    /**
+     * 根据id删除房东
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/deleteLandlordById", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg deleteLandlordById(@RequestParam Map<String,Object> map) {
+        try {
+            landlordService.deleteLandlordById(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.DELETESUCCESS);
+        } catch(CommonException e){
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/getLandlordByLandlordId", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getLandlordByLandlordId(@RequestParam Map<String, Object> map) {
+        try {
+            Map<String, Object> landlordByLandlordId = landlordService.getLandlordByLandlordId(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.SUCCESS, landlordByLandlordId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/updateLandlordByCondition", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg updateLandlordByCondition(@RequestParam Map<String, Object> map) {
+        try {
+            Integer rows = landlordService.updateLandlordByCondition(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.UPDATESUCCESS);
+        } catch (CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
 }
