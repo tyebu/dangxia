@@ -22,14 +22,14 @@
               live_status
             )
         VALUES(
-          #{userPhone},
-          #{passworrd},
-          #{realName},
-          #{userAddr},
-          #{userSex},
-          #{userAge},
-          #{userCard},
-          #{createdUser},
+          #{userPhone, jdbcType = VARCHAR},
+          #{password, jdbcType = VARCHAR},
+          #{realName, jdbcType = VARCHAR},
+          #{userAddr, jdbcType = VARCHAR},
+          #{userSex,jdbcType = BIT},
+          #{userAge, jdbcType = INTEGER},
+          #{userCard, jdbcType = VARCHAR},
+          #{createdUser, jdbcType = INTEGER},
           NOW(),
           1
         )
@@ -72,12 +72,13 @@
         LEFT JOIN area a ON(a.area_id = b.area_id)
         LEFT JOIN (
           SELECT
-            start_date,
-            end_date,
-            user_id
-          FROM user_stay_record
-          ORDER BY end_date DESC
-          LIMIT 1
+            usr2.start_date,
+            usr2.end_date,
+            usr2.user_id
+          FROM user_stay_record usr2
+          ORDER BY usr2.end_date DESC,
+          usr2.user_stay_record_id ASC
+          LIMIT 2
         ) usr ON(u.user_id = usr.user_id)
         WHERE  u.is_del = 0
         <if test="userId != null and userId != ''">
@@ -105,12 +106,24 @@
         FROM user u
         LEFT JOIN room_user ru ON(ru.user_id = u.user_id)
         LEFT JOIN room r ON(ru.room_id = r.room_id)
+        LEFT JOIN (
+        SELECT
+        start_date,
+        end_date,
+        user_id
+        FROM user_stay_record
+        ORDER BY end_date DESC
+        LIMIT 1
+        ) usr ON(u.user_id = usr.user_id)
         WHERE  u.is_del = 0
         <if test="userPhone != null and userPhone != ''">
             AND u.user_phone = #{userPhone}
         </if>
         <if test="realName != null and realName != ''">
             AND u.real_name like concat(concat('%',#{realName}),'%')
+        </if>
+        <if test="userCard != null and userCard != ''">
+            AND u.user_card = #{userCard}
         </if>
         <if test="startDate != null and startDate != ''">
             <![CDATA[  AND DATE_FORMAT(usr.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
@@ -175,10 +188,9 @@
             <if test="userCard != null and userCard != ''">
                 u.user_card = #{userCard}
             </if>
-
         </where>
     </select>
-    <!--更改用户用户-->
+    <!--更改用户-->
     <update id="updateUserByCondition" parameterType="map">
         UPDATE
           user
@@ -199,7 +211,10 @@
                 user_sex = #{userSex, jdbcType = BIT},
             </if>
             <if test="isDel != null and isDel != ''">
-                is_del = #{isDel, jdbcType = BIT}
+                is_del = #{isDel, jdbcType = BIT},
+            </if>
+            <if test="liveStatus != null and liveStatus != ''">
+                live_status = #{liveStatus, jdbcType = INTEGER}
             </if>
         </set>
         WHERE
@@ -213,5 +228,4 @@
           user
         WHERE user_id = #{userId}
     </select>
-
 </mapper>

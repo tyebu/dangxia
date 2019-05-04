@@ -34,4 +34,6 @@ public interface IStayDao {
      * @return
      */
     Integer getStayRecordCountByCondition(Map<String, Object> map);
+
+    Integer updateStayRecord(Map<String, Object> map) throws Exception;
 }

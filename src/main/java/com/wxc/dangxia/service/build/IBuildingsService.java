@@ -25,4 +25,13 @@ public interface IBuildingsService {
      * @return
      */
     Integer insertBuilding(Map<String, Object> data) throws Exception;
+
+    /**
+     * 根据id删除楼栋
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer deleteBuildingById(Map<String, Object> map) throws Exception;
+
 }

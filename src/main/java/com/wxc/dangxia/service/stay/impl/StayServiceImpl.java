@@ -75,6 +75,8 @@ public class StayServiceImpl implements IStayService {
         if(roomStatus == 3) {
             throw new CommonException("该房间不可入住。");
         }
+        Boolean userSex = Boolean.valueOf(map.get("userSex").toString());
+        map.put("userSex",userSex);
         map.put("userId",null);
         // 初始化密码
         map.put("password", StarEncryp.encryp(StarPasswod.password));
@@ -82,9 +84,7 @@ public class StayServiceImpl implements IStayService {
         //向用户房间表插入数据
         roomDao.insertRoomUser(map);
         // 修改房间表入住人数
-
-
-        roomDao.updateRoomInfo(map);
+        roomDao.roomPeopleAdd(map);
         //向交租表插入数据
         rentDao.insertRentRecord(map);
         //向入住记录表插入数据

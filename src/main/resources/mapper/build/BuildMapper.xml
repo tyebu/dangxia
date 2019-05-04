@@ -24,6 +24,7 @@
             b.building_id,
             b.building_name,
             b.is_del,
+            b.created_date,
             a.area_id,
             a.area_name,
             a.neighbourhood
@@ -37,6 +38,12 @@
             </if>
             <if test="buildingName != null and buildingName != ''">
               AND b.building_name = #{buildingName}
+            </if>
+            <if test="isDel != null and isDel != ''">
+              AND b.is_del = #{isDel}
+            </if>
+            <if test="buildingId != null and buildingId != ''">
+              AND b.building_id = #{buildingId}
             </if>
         </where>
         ORDER BY b.created_date DESC
@@ -56,7 +63,7 @@
                 (
                  #{buildingName},
                  #{areaId},
-                 null,
+                 #{createdUser},
                  NOW(),
                  0
                 )
@@ -72,7 +79,7 @@
             area_id = #{areaId},
         </if>
         <if test="isDel != null and isDel != ''">
-            is_del = #{isDel}
+            is_del = #{isDel},
         </if>
         modify_date = NOW()
     </update>

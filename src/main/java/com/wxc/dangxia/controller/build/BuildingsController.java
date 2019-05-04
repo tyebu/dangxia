@@ -59,4 +59,23 @@ public class BuildingsController extends BaseController {
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
+
+    /**
+     * 根据id删除楼栋
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/deleteBuildingById", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg deleteBuildingById(@RequestParam  Map<String, Object> map) {
+        try {
+            Integer rows = buildingsService.deleteBuildingById(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.DELETESUCCESS);
+        } catch(CommonException e){
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
 }

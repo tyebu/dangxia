@@ -20,11 +20,11 @@
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
           <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+          <input type="text" name="realName"  placeholder="姓名" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit lay-filter="stay_search"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <table class="layui-table" lay-filter="room" id="roomtab"></table>
+      <table class="layui-table" lay-filter="stay_tab" id="stay_tab"></table>
     </div>
     <script type="text/html" id="toolbarDemo">
       <div class="layui-btn-container">
@@ -32,9 +32,6 @@
       </div>
     </script>
     <script type="text/html" id="tabBar">
-      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
-        <i class="layui-icon">&#xe642;</i>
-      </a>
       <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
@@ -47,8 +44,8 @@
         var layer = layui.layer;
         var form = layui.form;
         //加载数据表格
-          table.render({
-              elem: '#roomtab'
+        table.render({
+              elem: '#stay_tab'
               ,height: 'full-20'
               ,url: '/dangxia/stay/getStayRecordByCondition' //数据接口
               ,method:'post'
@@ -64,12 +61,11 @@
                       ,{field: 'real_name', title: '租客姓名', align:'center'}
                       ,{field: 'room_num', title: '房间号', align:'center'}
                       ,{field: 'start_date', title: '入住时间', align:'center'}
+                      ,{field: 'end_date', title: '到期时间', align:'center'}
                       ,{field: '', title: '所在楼栋', align:'center', templet:function(d) {
                           return d.area_name+d.neighbourhood+d.building_name;
                       }}
-                      ,{field: '', title: '当前状态', align:'center',templet:function(d) {
-                        return d.is_del == 0?"<span class='greencell'>入住中</span>":"<span class='redcell'>已离宿</span>";
-                      }}
+                      ,{field: 'live_status', title: '当前状态', align:'center'}
                     ,{field: 'created_user', title: '操作人', align:'center'}
                     ,{field: 'created_date', title: '处理时间', align:'center'}
                     ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
@@ -83,6 +79,19 @@
         //执行一个laydate实例
         laydate.render({
           elem: '#end' //指定元素
+        });
+        form.on('submit(stay_search)',function(obj) {
+            console.log(obj);
+            table.reload('stay_tab', {
+                url : '/dangxia/stay/getStayRecordByCondition',
+                method : 'post',
+                where : {
+                    startDate : obj.field.startDate,
+                    endDate : obj.field.endDate,
+                    realName : obj.field.realName
+                }
+            });
+            return false;
         });
       });
       /*用户-停用*/

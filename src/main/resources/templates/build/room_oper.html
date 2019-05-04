@@ -6,8 +6,8 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form">
-          <div class="layui-form-item">
+        <form class="layui-form" lay-filter="form_oper">
+          <div class="layui-form-item" id="area">
               <label class="layui-form-label">
                   <span class="x-red">*</span>请选择区域
               </label>
@@ -36,7 +36,7 @@
                   <span class="x-red"></span>可入住人数
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="roomSize" name="roomSize" required="" lay-verify="required"
+                  <input type="text" id="roomSize" name="roomSize" required="" lay-verify=""
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -93,6 +93,12 @@
               </div>
           </div>
           <div class="layui-form-item">
+              <label class="layui-form-label"><span class="x-red"></span>备注</label>
+              <div class="layui-input-block">
+                  <textarea name="remark" class="layui-textarea"></textarea>
+              </div>
+          </div>
+          <div class="layui-form-item">
               <div class="layui-input-block">
                   <button  class="layui-btn" lay-filter="room_oper" id="room_oper" lay-submit>
                       提交
@@ -105,10 +111,21 @@
     <script>
         layui.use(['form','layer','laydate'], function(){
             $ = layui.jquery;
-            var form = layui.form
+            form = layui.form
             ,layer = layui.layer;
             var laydate = layui.laydate;
             var operurl = "/dangxia/room/insertRoomInfo";
+            var parentData;
+            var roomId;
+            if(parent.data != null) {
+                parentData = parent.data;
+            }
+            if(parentData != null) {
+                operurl = "/dangxia/room/updateRoomInfo";
+                $("#area").remove();
+                roomId = parentData.roomId;
+                getRoomInfoByRoomId(roomId);
+            }
             //执行一个laydate实例
             laydate.render({
                 elem: '#startDate', //指定元素
@@ -149,29 +166,26 @@
                         data: {"buildingId":obj.field.buildingId, "roomNum":obj.field.roomNum, "roomSize":obj.field.roomSize,
                                "roomArea":obj.field.roomArea, "roomTypeId":obj.field.roomTypeId, "peopleRent":obj.field.peopleRent,
                                "roomRent":obj.field.roomRent, "landlordId":obj.field.landlordId, "startDate":obj.field.startDate,
-                               "endDate":obj.field.endDate
+                               "endDate":obj.field.endDate,"remark":obj.field.remark,"roomId":roomId
                         },
                         dataType: "json",
                         success: function(dat){
                             if(dat.code == 200) {
-                                layer.msg(dat.message,{icon:1,time:2000},function() {
-                                    layer.close(layerLoad);
+                                layer.close(layerLoad);
+                                layer.msg(dat.msg,{icon:1,time:2000},function() {
                                     parent.layer.closeAll();
                                     window.parent.location.reload();
                                 });
                             } else {
-                                layer.msg(dat.message,{icon:5,time:2000},function() {
+                                layer.close(layerLoad);
+                                layer.msg(dat.msg,{icon:5,time:2000},function() {
                                     layer.close(layerLoad);
                                 });
                             }
                             $("#operBtn").css("disabled",false);
                         },
-                        error:function(e){
-                            layer.msg(e.message,{icon:5,time:2000});
-                            $("#operBtn").css("disabled",false);
-                            layer.close(layerLoad);
-                        },
                         complete:function(XMLHttpRequest, status) {
+                            layer.close(layerLoad);
                             if(status == "timeout") {
                                 layer.msg("请求超时",{icon:5,time:2000});
                             }
@@ -276,6 +290,53 @@
                     }
                 });
             });
+        }
+
+        /*根据roomId获得该房间信息*/
+        function getRoomInfoByRoomId(roomId) {
+            var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                time:5000
+            });
+            $.ajax({
+                    type:"post",
+                    url:"/dangxia/room/getRoomInfoByRoomId",
+                    timeout:5000,
+                    data: {
+                        "roomId":roomId
+                    },
+                    dataType: "json",
+                    success: function(dat){
+                        if(dat.code == 200) {
+                            layer.close(layerLoad);
+                            form.val('form_oper',{
+                                /*areaId:dat.data.area_id,
+                                buildingId:dat.data.building_id,*/
+                                roomNum:dat.data.room_num,
+                                roomSize:dat.data.room_size,
+                                roomArea:dat.data.room_area,
+                                roomTypeId:dat.data.room_type_id,
+                                peopleRent:dat.data.people_rent,
+                                roomRent:dat.data.room_rent,
+                                landlordId:dat.data.landlord_id,
+                                startDate:dat.data.start_date,
+                                endDate:dat.data.end_date,
+                                remark:dat.data.remark
+                            });
+
+                        } else {
+                            layer.close(layerLoad);
+                            layer.msg(dat.msg,{icon:5,time:2000});
+                        }
+                    },
+                    complete:function(XMLHttpRequest, status) {
+                        layer.close(layerLoad);
+                        if(status == "timeout") {
+                            layer.msg("请求超时",{icon:5,time:2000});
+                        }
+                    }
+                }
+            );
         }
     </script>
   </body>

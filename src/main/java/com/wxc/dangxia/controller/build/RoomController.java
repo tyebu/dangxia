@@ -112,4 +112,36 @@ public class RoomController extends BaseController {
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
+
+    /**
+     * 根据roomId获得房间信息
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/getRoomInfoByRoomId", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getRoomInfoByRoomId(@RequestParam Map<String, Object> map) {
+        try {
+            Map<String, Object> data = roomService.getRoomInfoByRoomId(map);
+            return new ResultMsg(StatusCode.SUCCESS, StatusMessage.SUCCESS, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/updateRoomInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg updateRoomInfo(@RequestParam Map<String, Object> map) {
+        try {
+            Integer rows = roomService.updateRoomInfo(map);
+            return new ResultMsg(StatusCode.SUCCESS,StatusMessage.UPDATESUCCESS);
+        } catch(CommonException e){
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+
 }

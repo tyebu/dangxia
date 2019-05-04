@@ -199,7 +199,7 @@
                 $.ajax({
                     type:"get",
                     url:"/dangxia/buildings/getBuildingsByCondition",
-                    data:{"areaId":areaId},
+                    data:{"areaId":areaId,"isDel":0},
                     success:function(data) {
                         if(data.code == 0) {
                             $("#buildingId").empty();

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>线下交租</title>
+  </head>
+  <body>
+    <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">退宿管理</a>
+            <a>
+              <cite>退宿</cite></a>
+          </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+          <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+        <form class="layui-form layui-col-md12 x-so">
+            <div class="layui-form-item" lay-filter = 'form_oper'>
+                <div class="layui-input-block">
+                    <input type="text" name="userCard" id="userCard" style=" width : 300px;"  placeholder="输入证件号查询房客信息" autocomplete="off" class="layui-input">
+                    <button class="layui-btn" type="button" onclick="getUserInfo()"><i class="layui-icon">&#xe615;</i></button>
+                </div>
+            </div>
+        </form>
+
+        <form class="layui-form" lay-filter="form_rent" style="display:none" id="leave_form">
+
+          <div class="layui-form-item">
+              <label for="realName" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="hidden" name="userId" id = "userId" class="layui-input"/>
+                  <input type="hidden" name="roomId" id = "roomId" class="layui-input"/>
+                  <input type="text" disabled id="realName" name="realName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="roomNum" class="layui-form-label">
+                  <span class="x-red">*</span>房间地址
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" disabled id="roomNum" name="roomNum" lay-verify="number"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>房租到期时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="endDate" disabled name="endDate" lay-verify="number"
+                       autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>每月缴纳费用
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" disabled id="peopleRent" name="peopleRent" lay-verify="number"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>押金
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" disabled id="depositAmount" name="depositAmount" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item">
+                <label class="layui-form-label" id="money">
+
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" disabled id="rentMoney" name="rentMoney" lay-verify="number"
+                           autocomplete="off" class="layui-input">
+                </div>
+          </div>
+          <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <textarea name="rentRemark" style="width: 300px" placeholder="备注" class="layui-textarea"></textarea>
+                </div>
+          </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                  <button  class="layui-btn" lay-filter="leave" id="leaveBtn" lay-submit="">
+                      确认退宿
+                  </button>
+              </div>
+
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer','code'], function(){
+            $ = layui.jquery;
+          form = layui.form;
+          layer = layui.layer;
+
+          // 监听提交
+          form.on('submit(leave)', function(obj){
+              $.ajax({
+                  type:'post',
+                  url:'/dangxia/leave/userLeave',
+                  timeout:5000,
+                  data:{"userId":obj.field.userId},
+                  dataType:'json',
+                  success:function(data) {
+                      if(data.code == 200) {
+                          if(data.data.is_del || data.data.live_status != 3) {
+                              layer.msg("该用户已离宿或未找到该用户",{icon:5,time:2000});
+                              return;
+                          }
+                          $("#leave_form").fadeIn();
+                          form.val('form_rent',{
+                              realName:data.data.real_name,
+                              roomNum:data.data.area_name+data.data.neighbourhood+data.data.building_name+data.data.room_num,
+                              endDate:data.data.end_date,
+                              peopleRent:data.data.people_rent
+                          });
+                          if(new Date(data.data.nowDate) < new Date(data.data.end_date)) {
+                              $("#money").html("应退还￥");
+                          } else {
+                              $("#money").html("应补交￥");
+                          }
+                          if(data.data.deposit_amount != null) {
+                              $("#depositAmount").val(data.data.deposit_amount);
+                          } else {
+                              $("#depositAmount").val("该用户未交押金");
+                          }
+                          $("#rentMoney").val(data.data.people_rent * data.data.days /30 + data.data.deposit_amount);
+                      } else {
+                          layer.msg(data.msg,{icon:5,time:2000});
+                      }
+                  },
+                  complete:function(XMLHttpRequest, status) {
+                      if(status == "timeout") {
+                          layer.msg("请求超时",{icon:5,time:2000});
+                      }
+                  }
+              });
+            return false;
+          });
+        });
+        function getUserInfo() {
+            if($("#userCard").val() == null || $.trim($("#userCard").val()) == "") {
+                return;
+            }
+            $.ajax({
+                type:'post',
+                url:'/dangxia/leave/getLeaveUserInfoByUserCard',
+                timeout:5000,
+                data:{"userCard":$("#userCard").val()},
+                dataType:'json',
+                success:function(data) {
+                    if(data.code == 200) {
+                        if(data.data.is_del) {
+                            layer.msg("该用户已离宿或未找到该用户",{icon:5,time:2000});
+                            return;
+                        }
+                        $("#leave_form").fadeIn();
+
+                       form.val('form_rent',{
+                           roomId:data.data.roomId,
+                           userId:data.data.user_id,
+                           realName:data.data.real_name,
+                           roomNum:data.data.area_name+data.data.neighbourhood+data.data.building_name+data.data.room_num,
+                           endDate:data.data.end_date,
+                           peopleRent:data.data.people_rent
+                       });
+                       if(new Date(data.data.nowDate) < new Date(data.data.end_date)) {
+                           $("#money").html("应退还￥");
+                       } else {
+                           $("#money").html("应补交￥");
+                       }
+                       if(data.data.deposit_amount != null) {
+                           $("#depositAmount").val(data.data.deposit_amount);
+                       } else {
+                           $("#depositAmount").val("该用户未交押金");
+                       }
+                       $("#rentMoney").val(data.data.people_rent * data.data.days /30 + data.data.deposit_amount);
+                    } else {
+                        layer.msg(data.msg,{icon:5,time:2000});
+                    }
+                },
+                complete:function(XMLHttpRequest, status) {
+                    if(status == "timeout") {
+                        layer.msg("请求超时",{icon:5,time:2000});
+                    }
+                }
+            });
+        }
+    </script>
+  </body>
+
+</html>

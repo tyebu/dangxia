@@ -45,7 +45,11 @@
         '%Y-%m-%d %h:%i:%s'
         ) modify_date,
         usr.stay_remark,
-        usr.is_del,
+        CASE u.live_status
+        WHEN 1 THEN '入住中'
+        WHEN 2 THEN '已离宿'
+        END AS live_status,
+        u.is_del,
         a.area_name,
         a.neighbourhood,
         b.building_name
@@ -58,7 +62,15 @@
         )
         LEFT JOIN area a ON (a.area_id = b.building_id)
         <where>
-
+          <if test="startDate != null and startDate != ''">
+              <![CDATA[ DATE_FORMAT(usr.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="endDate != null and endDate != ''">
+              <![CDATA[  AND DATE_FORMAT(usr.end_date, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="realName != null and realName != ''">
+              AND u.real_name like concat(concat('%',#{realName}),'%')
+          </if>
         </where>
         ORDER BY usr.created_date DESC
     </select>
@@ -72,4 +84,20 @@
         LEFT JOIN building b ON(r.building_id = b.building_id)
         LEFT JOIN area a ON(a.area_id = b.building_id)
     </select>
+
+    <!--用户离宿，修改入住记录表-->
+    <update id="updateStayRecord" parameterType="map">
+        UPDATE
+        user_stay_record
+        <set>
+            <if test="endDate != null and endDate != ''">
+                end_date = #{endDate, jdbcType = DATE}
+            </if>
+            <if test="isDel != null and isDel != ''">
+                is_del = #{isDel}
+            </if>
+        </set>
+        WHERE
+        user_id = #{userId}
+    </update>
 </mapper>

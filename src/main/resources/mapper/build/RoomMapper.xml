@@ -39,7 +39,8 @@
         l.landlord_phone,
         l.landlord_sex,
         rt.room_type_id,
-        rt.room_type_name
+        rt.room_type_name,
+        r.remark
       FROM
         room r
       LEFT JOIN building b ON (r.building_id = b.building_id)
@@ -47,8 +48,14 @@
       LEFT JOIN landlord l ON (l.landlord_id = r.landlord_id)
       LEFT JOIN room_type rt ON (r.room_type_id = rt.room_type_id)
       <where>
+          <if test="roomId != null and roomId != ''">
+              r.room_id = #{roomId}
+          </if>
+          <if test="areaId != null and areaId != ''">
+              AND a.area_id = #{areaId}
+          </if>
           <if test="buildingId != null and buildingId != ''">
-              a.area_id = #{areaId}
+              AND b.building_id = #{buildingId}
           </if>
           <if test="roomNum != null and roomNum != ''">
               AND r.room_num = #{roomNum}
@@ -70,6 +77,9 @@
           </if>
           <if test="roomStatus != null and roomStatus != ''">
               AND r.room_status = #{roomStatus}
+          </if>
+          <if test="isDel != null and isDel !=''">
+              AND r.is_del = #{isDel}
           </if>
       </where>
       ORDER BY r.created_date DESC
@@ -124,7 +134,7 @@
           building_id,
           created_user,
           created_date,
-          record
+          remark
         )
         VALUES
         (
@@ -140,7 +150,7 @@
           #{buildingId},
           #{createdUser},
           NOW(),
-          #{record}
+          #{remark}
         )
     </insert>
 
@@ -167,7 +177,37 @@
                 people_num = #{peopleNum, jdbcType = INTEGER},
             </if>
             <if test="isDel != null and isDel != ''">
-                is_del = #{isDel, jdbcTye = BIT}
+                is_del = #{isDel, jdbcType = BIT},
+            </if>
+            <if test="roomNum != null and roomNum != ''">
+                room_num = #{roomNum, jdbcType = INTEGER},
+            </if>
+            <if test="roomSize != null and roomSize != ''">
+                room_size = #{roomSize, jdbcType = INTEGER},
+            </if>
+            <if test="roomArea != null and roomArea != ''">
+                room_area = #{roomArea, jdbcType = DOUBLE},
+            </if>
+            <if test="roomTypeId != null and roomTypeId != ''">
+                room_type_id = #{roomTypeId, jdbcType = INTEGER},
+            </if>
+            <if test="peopleRent != null and peopleRent != ''">
+                people_rent = #{peopleRent, jdbcType = DOUBLE},
+            </if>
+            <if test="roomRent != null and roomRent != ''">
+                room_rent = #{roomRent, jdbcType = DOUBLE},
+            </if>
+            <if test="landlordId != null and landlordId != ''">
+                landlord_id = #{landlordId, jdbcType = INTEGER},
+            </if>
+            <if test="startDate != null and startDate != ''">
+                start_date = #{startDate, jdbcType = DATE},
+            </if>
+            <if test="endDate != null and endDate != ''">
+                end_date = #{endDate, jdbcType = DATE},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark}
             </if>
         </set>
         WHERE
@@ -182,13 +222,45 @@
         WHERE
           room_id = #{roomId}
     </select>
+
+    <!--根据楼栋id查找是否有房间占用该楼栋-->
+    <select id="getRoomCountByBuildingId" resultType="int" parameterType="map">
+      SELECT
+        COUNT(*)
+      FROM room
+      WHERE
+        building_id = #{buildingId}
+        AND is_del = 0
+    </select>
     <!--根据房间id获得某个房间的入住人数-->
-    <select id="getPeopleCountByRoomId" parameterType="map" resultType="int">
+    <select id="getPeopleCountByRoomId" parameterType="int" resultType="int">
         SELECT
           COUNT (*)
         FROM
           room_user
         WHERE
-          room_id = #{roomId}
+          room_id = ${roomId}
     </select>
+    <!--修改房间表的入住人数 增加-->
+    <update id="roomPeopleAdd" parameterType="map">
+        UPDATE
+          room
+        SET
+          people_num = people_num + 1
+        WHERE room_id = #{roomId}
+    </update>
+    <!--房间人数-1-->
+    <update id="roomPeopleMinus" parameterType="map">
+        UPDATE
+            room
+        SET
+            people_num = people_num - 1
+        WHERE room_id = #{roomId}
+    </update>
+    <!--删除用户房间表的数据-->
+    <delete id="deleteRoomUserByUserId" parameterType="map">
+        DELETE
+        FROM room_user
+        WHERE user_id = #{userId}
+    </delete>
 </mapper>

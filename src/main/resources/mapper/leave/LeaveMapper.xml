@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxc.dangxia.dao.leave.ILeaveDao">
+    <select id="getLeaveUserInfoByUserCard" parameterType="map" resultType="map">
+        SELECT
+          u.user_id,
+          u.real_name,
+          urr.end_date,
+          urr.people_rent,
+          urr.room_id,
+          r.room_num,
+          b.building_name,
+          a.area_name,
+          a.neighbourhood,
+          DATEDIFF(urr.end_date,NOW()) days,
+          NOW() nowDate,
+          u.is_del,
+          u.live_status,
+          ud.deposit_amount
+        FROM
+          user u
+          LEFT JOIN
+            (
+              SELECT
+                user_id,
+                room_id,
+                end_date,
+                people_rent
+              FROM
+                user_rent_record
+              WHERE user_id = (
+                  SELECT user_id
+                  FROM user
+                  WHERE user_card = #{userCard}
+                )
+              ORDER BY end_date DESC
+              LIMIT 1
+            ) AS urr ON(u.user_id = urr.user_id)
+          LEFT JOIN
+            (
+              SELECT
+                *
+              FROM user_deposit
+              WHERE user_id = (
+                SELECT user_id
+                FROM user
+                WHERE user_card = #{userCard}
+                )
+              ORDER BY created_date DESC
+              LIMIT 1
+              ) AS ud ON(u.user_id = ud.user_id)
+          LEFT JOIN room r ON(urr.room_id = r.room_id)
+          LEFT JOIN building b ON(r.building_id = b.building_id)
+          LEFT JOIN area a ON(b.area_id = a.area_id)
+          WHERE
+            u.user_card = #{userCard}
+    </select>
+</mapper>

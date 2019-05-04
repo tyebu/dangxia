@@ -44,7 +44,13 @@ public class RoomServiceImpl implements IRoomService {
     @Override
     public Integer insertRoomInfo(Map<String, Object> data) throws Exception {
         if(ObjectUtils.isEmpty(data)) {
-            throw new Exception("提交数据不能为空。");
+            throw new CommonException("提交数据不能为空。");
+        }
+        if(ObjectUtils.isEmpty(data.get("roomNum"))) {
+            throw new CommonException("房间号不能为空");
+        }
+        if(ObjectUtils.isEmpty(data.get("buildingId"))) {
+            throw new CommonException("房间号不能为空");
         }
         //首先根据条件获的房间信息，查询是否有相同条件的房间
         Integer roomCount = roomDao.getCountByCondition(data);
@@ -79,14 +85,55 @@ public class RoomServiceImpl implements IRoomService {
     @Override
     public Integer deleteRoomById(Map<String, Object> map) throws Exception {
         //判断该房间下是否还有租客
-        Integer count = roomDao.getPeopleCountByRoomId(map);
-        if(count > 0) {
+        Map<String, Object> data = roomDao.getRoomInfoByRoomId(Integer.valueOf(map.get("roomId").toString()));
+        Integer people_num = Integer.valueOf(data.get("people_num").toString());
+        if(people_num > 0) {
             throw new CommonException("该房间中还有租客。");
         }
         map.put("isDel",true);
         Integer rows = roomDao.updateRoomInfo(map);
         if(rows == null || rows <= 0) {
             throw new CommonException("删除失败");
+        }
+        return rows;
+    }
+
+    /**
+     * 根据房间id获得房间信息
+     * @param map
+     * @return
+     */
+    @Override
+    public Map<String, Object> getRoomInfoByRoomId(Map<String, Object> map) throws Exception {
+        return roomDao.getRoomInfoByCondition(map).get(0);
+    }
+
+    /**
+     * 修改房间信息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer updateRoomInfo(Map<String, Object> map) throws Exception {
+        if(ObjectUtils.isEmpty(map)) {
+            throw new CommonException("信息不能为空。");
+        }
+        if(ObjectUtils.isEmpty(map.get("roomNum"))) {
+            throw new CommonException("房间号不能为空。");
+        }
+        if(ObjectUtils.isEmpty(map.get("roomArea"))) {
+            throw new CommonException("房间大小不能为空。");
+        }
+        if(ObjectUtils.isEmpty(map.get("peopleRent"))) {
+            throw new CommonException("租客应缴租金不能为空。");
+        }
+        if(ObjectUtils.isEmpty(map.get("roomRent"))) {
+            throw new CommonException("房间租金不能为空。");
+        }
+        Integer rows = roomDao.updateRoomInfo(map);
+        if(rows <= 0) {
+            throw new CommonException("修改失败");
         }
         return rows;
     }

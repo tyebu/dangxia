@@ -4,6 +4,16 @@
   <title>录入入住信息</title>
   </head>
   <body>
+  <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">入住管理</a>
+        <a>
+          <cite>信息录入</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+          <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+  </div>
     <div class="x-body">
         <form class="layui-form" lay-filter="form_oper">
           <div class="layui-form-item">
@@ -188,7 +198,7 @@
                 "userCard":data.field.userCard,
                 "userPhone":data.field.userPhone,
                 "roomId":data.field.roomId.split(",")[0],
-                "peopleRent":data.field.roomId.split(",")[0],
+                "peopleRent":data.field.roomId.split(",")[1],
                 "startDate":data.field.startDate,
                 "endDate":data.field.endDate,
                 "depositAmount":data.field.depositAmount,
@@ -200,20 +210,20 @@
                 dataType: "json",
                 success: function(dat){
                     if(dat.code == 0) {
-                        layer.msg(dat.message,{icon:1,time:2000},function() {
+                        layer.msg(dat.msg,{icon:1,time:2000},function() {
                             layer.close(layerLoad);
                             parent.layer.closeAll();
                             window.parent.location.reload();
                         });
                     } else {
-                        layer.msg(dat.message,{icon:5,time:2000},function() {
+                        layer.msg(dat.msg,{icon:5,time:2000},function() {
                             layer.close(layerLoad);
                         });
                     }
                     $("#addBtn").css("disabled",false);
                 },
                  error:function(e){
-                     layer.msg(e.message,{icon:5,time:2000});
+                     layer.msg(e.msg,{icon:5,time:2000});
                      $("#addBtn").css("disabled",false);
                      layer.close(layerLoad);
                  },

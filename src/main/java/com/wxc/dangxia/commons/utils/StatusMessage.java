@@ -15,4 +15,6 @@ public interface StatusMessage {
     String UPDATESUCCESS = "修改成功";
     String UPDATEERROR = "修改失败";
     String QUERYERROR = "查询失败";
+
+    String LEAVESUCCESS = "已退宿";
 }

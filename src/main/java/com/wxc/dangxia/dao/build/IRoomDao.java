@@ -69,8 +69,38 @@ public interface IRoomDao {
 
     /**
      * 获得房间入住人数
+     * @param
+     * @return
+     */
+    Integer getPeopleCountByRoomId(Integer roomId);
+
+    /**
+     * 根据楼栋id获得房间数量
      * @param map
      * @return
      */
-    Integer getPeopleCountByRoomId(Map<String, Object> map);
+    Integer getRoomCountByBuildingId(Map<String, Object> map);
+
+    /**
+     * 房间入住人数+1
+     * @param map
+     * @return
+     */
+    Integer roomPeopleAdd(Map<String, Object> map);
+
+    /**
+     * 房间入住人数-1
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer roomPeopleMinus(Map<String, Object> map) throws Exception;
+
+    /**
+     * 删除用户房间表对应数据
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer deleteRoomUserByUserId(Map<String, Object> map) throws Exception;
 }

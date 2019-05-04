@@ -3,6 +3,7 @@ package com.wxc.dangxia.service.build.impl;
 import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.dao.area.IAreaDao;
 import com.wxc.dangxia.dao.build.IBuildingDao;
+import com.wxc.dangxia.dao.build.IRoomDao;
 import com.wxc.dangxia.entity.build.Area;
 import com.wxc.dangxia.entity.build.Building;
 import com.wxc.dangxia.service.build.IBuildingsService;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class BuildingsServiceImpl implements IBuildingsService {
     @Autowired(required = true)
     private IBuildingDao buildingDao;
+
+    @Autowired
+    private IRoomDao roomDao;
 
     @Autowired
     private IAreaDao areaDao;
@@ -61,4 +65,25 @@ public class BuildingsServiceImpl implements IBuildingsService {
         }
         return buildingDao.insertBuilding(data);
     }
+
+    /**
+     * 根据id删除楼栋
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer deleteBuildingById(Map<String, Object> map) throws Exception {
+        Integer roomCount = roomDao.getRoomCountByBuildingId(map);
+        if(roomCount > 0) {
+            throw new CommonException("该楼栋下还有房间");
+        }
+        map.put("isDel",true);
+        Integer rows = buildingDao.updateBuilding(map);
+        if(rows ==null || rows <= 0) {
+            throw new CommonException("删除失败。");
+        }
+        return rows;
+    }
+
 }

@@ -35,13 +35,7 @@
     </div>
     <!--数据表中的工具按钮-->
     <script type="text/html" id="toolbarDemo">
-      <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-        <i class="layui-icon">&#xe601;</i>
-      </a>
-      <a title="编辑"  onclick="x_admin_show('编辑','admin-oper.html')" href="javascript:;">
-        <i class="layui-icon">&#xe642;</i>
-      </a>
-      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+      <a title="删除" lay-event="building_del" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
       </a>
     </script>
@@ -65,66 +59,58 @@
                             return a.area.areaName +a.area.neighbourhood;
                         }}
                     ,{field: 'buildingName', title: '楼栋名', align:'center'}
-                    ,{field: 'isDel', title: '单元状态', align:'center',templet:function(d) {
-                            if(d.isDel==0) {
-                                return "<span class=\"layui-btn span-status layui-btn-normal layui-btn-mini\">已启用</span>";
-                            } else {
-                                return "<span class=\"layui-btn span-status layui-btn-disabled layui-btn-mini\">已停用</span>";
-                            }
-                        }}
+                    ,{field: 'createdDate', title: '创建时间', align:'center'}
                     ,{fixed: 'right', toolbar:'#toolbarDemo',title: '操作',align:'center', width: 80}
 
                 ]
                 ]
             });
+            table.on('tool(buildings)',function(obj) {
+                var layEvent = obj.event;
+                console.log(obj);
+                if(layEvent == 'building_del') {
+                    building_del(this,obj.data.buildingId);
+                }
+                if(layEvent == 'building_edit') {
+                    data={"buildingId":obj.data.buildingId};
+                    x_admin_show('编辑信息','../buildings-oper.html',580,300);
+                }
+            });
         });
 
-      layui.use('laydate', function(){
-        var laydate = layui.laydate;
+        /*楼栋-删除*/
+        function building_del(obj,id){
+            layer.confirm('确认要删除吗？',function(index){
+                var layerLoad = layer.load(2, {
+                    shade: [0.4,'#3C3C3C'],
+                    time:5000
+                });
+                //发异步删除数据
+                $.ajax({
+                    type:"post",
+                    url:"/dangxia/buildings/deleteBuildingById",
+                    timeout:5000,
+                    data: {"buildingId":id},
+                    dataType: "json",
+                    success: function(data){
+                        layer.close(layerLoad);
+                        if(data.code == 200) {
+                            $(obj).parents("tr").remove();
+                            layer.msg(data.msg,{icon:1,time:2000});
+                        } else {
+                            layer.msg(data.msg,{icon:5,time:2000});
+                        }
+                    },
+                    complete:function(XMLHttpRequest, status) {
+                        layer.close(layerLoad);
+                        if(status == "timeout") {
+                            layer.msg("请求超时",{icon:5,time:2000});
+                        }
+                    }
+                });
 
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
-      });
-
-       /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".span-status").addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-
-          });
-      }
-
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
+            });
+        }
 
       /*function delAll (argument) {
 

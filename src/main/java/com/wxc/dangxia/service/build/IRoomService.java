@@ -45,4 +45,19 @@ public interface IRoomService {
      * @return
      */
     Integer deleteRoomById(Map<String, Object> map) throws Exception;
+
+    /**
+     * 根据roomId获得房间信息
+     * @param map
+     * @return
+     */
+    Map<String, Object> getRoomInfoByRoomId(Map<String, Object> map) throws Exception;
+
+    /**
+     * 修改房间信息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer updateRoomInfo(Map<String, Object> map) throws Exception;
 }

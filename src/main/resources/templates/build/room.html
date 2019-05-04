@@ -89,6 +89,7 @@
                       }
                       return d.room_size+"人间";
                   }}
+                    ,{field: 'end_date', title: '到期时间', align:'center'}
                     ,{field: 'people_num2', title: '是否入住', align:'center'}
                     ,{field: 'room_status', title: '房间状态', align:'center',templet:function(d) {
                         if(d.room_status2==0) {
@@ -107,18 +108,20 @@
             ]
         });
         table.on('tool(roomtab)',function(obj) {
+            console.log(obj);
             var layEvent = obj.event;
             if(layEvent == 'startStop') {
                 member_stop(this,obj.data.room_id);
             }
             if(layEvent == 'room_edit') {
-                x_admin_show('编辑','/dangxia/room/roomOper');
+                data = {"roomId":obj.data.room_id};
+                x_admin_show('编辑房间信息','/dangxia/room/roomOper');
             }
             if(layEvent == 'room_del') {
-               /* if(obj.data.people_num > 0) {
+               if(obj.data.people_num > 0) {
                     layer.msg("该房间下还有租客",{icon:5,time:2000});
                     return;
-                }*/
+                }
                 room_del(obj,obj.data.room_id);
             }
         });
