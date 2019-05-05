@@ -55,4 +55,78 @@
           WHERE
             u.user_card = #{userCard}
     </select>
+    <!--向退宿记录表插入数据-->
+    <insert id="insertLeaveRecord" parameterType="map">
+      INSERT
+      INTO
+        user_leave_record
+          (
+            user_id,
+            room_id,
+            refund_money,
+            leave_date,
+            created_date,
+            created_user
+          )
+      VALUES
+        (
+          #{userId, jdbcType = INTEGER},
+          #{roomId, jdbcType = INTEGER},
+          #{refundMoney, jdbcType = DOUBLE},
+          NOW(),
+          NOW(),
+          #{createdUser, jdbcType = INTEGER}
+        )
+    </insert>
+    <!--获得退宿记录-->
+    <select id="getLeaveRecordByCondition" parameterType="map" resultType="map">
+        SELECT
+          ulr.user_id,
+          ulr.room_id,
+          ulr.leave_date,
+          ulr.created_date,
+          u.real_name,
+          r.room_num,
+          b.building_name,
+          a.area_name,
+          a.neighbourhood
+        FROM user_leave_record ulr
+        LEFT JOIN user u ON(ulr.user_id = u.user_id)
+        LEFT JOIN room r ON(ulr.room_id = r.room_id)
+        LEFT JOIN building b ON(r.building_id = b.building_id)
+        LEFT JOIN area a ON(b.area_id = a.area_id)
+        <where>
+          <if test="startDate != null and startDate != ''">
+            <![CDATA[ DATE_FORMAT(ulr.leave_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="endDate != null and endDate != ''">
+            <![CDATA[  AND DATE_FORMAT(ulr.leave_date, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="realName != null and realName != ''">
+            AND u.real_name like concat(concat('%', #{realName}),'%')
+          </if>
+        </where>
+        ORDER BY ulr.created_date DESC
+    </select>
+
+  <select id="getLeaveCountByCondition" parameterType="map" resultType="int">
+        SELECT
+          COUNT(*)
+        FROM user_leave_record ulr
+        LEFT JOIN user u ON(ulr.user_id = u.user_id)
+        LEFT JOIN room r ON(ulr.room_id = r.room_id)
+        LEFT JOIN building b ON(r.building_id = b.building_id)
+        LEFT JOIN area a ON(b.area_id = a.area_id)
+        <where>
+          <if test="startDate != null and startDate != ''">
+            <![CDATA[ DATE_FORMAT(ulr.leave_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="endDate != null and endDate != ''">
+            <![CDATA[  AND DATE_FORMAT(ulr.leave_date, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')   ]]>
+          </if>
+          <if test="realName != null and realName != ''">
+            AND u.real_name like concat(concat('%',#{realName}), '%')
+          </if>
+        </where>
+  </select>
 </mapper>

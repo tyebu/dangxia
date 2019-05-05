@@ -90,8 +90,8 @@
         UPDATE
         user_stay_record
         <set>
-            <if test="endDate != null and endDate != ''">
-                end_date = #{endDate, jdbcType = DATE}
+            <if test="endDate != null">
+                end_date = NOW(),
             </if>
             <if test="isDel != null and isDel != ''">
                 is_del = #{isDel}

@@ -20,4 +20,11 @@ public interface IRentService {
      * @throws Exception
      */
     Map<String, Object> getRentUserInfoByCondition(Map<String, Object> map) throws  Exception;
+
+    /**
+     * 获得待交租房客
+     * @param map
+     * @return
+     */
+    ResultMsg getToPayRentUser(Map<String, Object> map) throws Exception;
 }

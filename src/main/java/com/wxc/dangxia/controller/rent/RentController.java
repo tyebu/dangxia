@@ -32,6 +32,10 @@ public class RentController {
     public String toPayrentOffline() {
         return "rent/payrent_offline";
     }
+    @RequestMapping("/toRentingList")
+    public String toRentingList() {
+        return "rent/rentingList";
+    }
     /***
      * 获得交租记录
      * @return
@@ -57,4 +61,19 @@ public class RentController {
         }
     }
 
+    /***
+     * 获得待交租人员列表
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/getToPayRentUser", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getToPayRentUser(@RequestParam Map<String, Object> map) {
+        try {
+            return rentService.getToPayRentUser(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
 }

@@ -33,7 +33,7 @@
               <div class="layui-input-inline">
                   <input type="hidden" name="userId" id = "userId" class="layui-input"/>
                   <input type="hidden" name="roomId" id = "roomId" class="layui-input"/>
-                  <input type="text" disabled id="realName" name="realName" required="" lay-verify="required"
+                  <input type="text" disabled id="realName" name="realName" required="" lay-verify=""
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -42,7 +42,7 @@
                   <span class="x-red">*</span>房间地址
               </label>
               <div class="layui-input-inline">
-                  <input type="text" disabled id="roomNum" name="roomNum" lay-verify="number"
+                  <input type="text" disabled id="roomNum" name="roomNum" lay-verify=""
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -51,7 +51,7 @@
                 <span class="x-red">*</span>房租到期时间
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="endDate" disabled name="endDate" lay-verify="number"
+                <input type="text" id="endDate" disabled name="endDate" lay-verify=""
                        autocomplete="off" class="layui-input">
             </div>
           </div>
@@ -60,7 +60,7 @@
                     <span class="x-red">*</span>每月缴纳费用
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" disabled id="peopleRent" name="peopleRent" lay-verify="number"
+                    <input type="text" disabled id="peopleRent" name="peopleRent" lay-verify=""
                            autocomplete="off" class="layui-input">
                 </div>
           </div>
@@ -73,12 +73,13 @@
                            autocomplete="off" class="layui-input">
                 </div>
           </div>
+            <!--应该退的金额-->
           <div class="layui-form-item">
                 <label class="layui-form-label" id="money">
 
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" disabled id="rentMoney" name="rentMoney" lay-verify="number"
+                    <input type="text" disabled id="refundMoney" name="refundMoney" lay-verify=""
                            autocomplete="off" class="layui-input">
                 </div>
           </div>
@@ -106,45 +107,36 @@
 
           // 监听提交
           form.on('submit(leave)', function(obj){
-              $.ajax({
-                  type:'post',
-                  url:'/dangxia/leave/userLeave',
-                  timeout:5000,
-                  data:{"userId":obj.field.userId},
-                  dataType:'json',
-                  success:function(data) {
-                      if(data.code == 200) {
-                          if(data.data.is_del || data.data.live_status != 3) {
-                              layer.msg("该用户已离宿或未找到该用户",{icon:5,time:2000});
-                              return;
-                          }
-                          $("#leave_form").fadeIn();
-                          form.val('form_rent',{
-                              realName:data.data.real_name,
-                              roomNum:data.data.area_name+data.data.neighbourhood+data.data.building_name+data.data.room_num,
-                              endDate:data.data.end_date,
-                              peopleRent:data.data.people_rent
-                          });
-                          if(new Date(data.data.nowDate) < new Date(data.data.end_date)) {
-                              $("#money").html("应退还￥");
+              layer.confirm('确定退宿吗？',function(index) {
+                  var layerLoad = layer.load(2, {
+                      shade: [0.4,'#3C3C3C'],
+                      time:5000
+                  });
+                  $.ajax({
+                      type:'post',
+                      url:'/dangxia/leave/userLeave',
+                      timeout:5000,
+                      data:{
+                          "userId":obj.field.userId,
+                          "roomId":obj.field.roomId,
+                          "refundMoney":obj.field.refundMoney
+                      },
+                      dataType:'json',
+                      success:function(data) {
+                          layer.close(layerLoad);
+                          if(data.code == 200) {
+                              layer.msg(data.msg,{icon:1,time:2000});
                           } else {
-                              $("#money").html("应补交￥");
+                              layer.msg(data.msg,{icon:5,time:2000});
                           }
-                          if(data.data.deposit_amount != null) {
-                              $("#depositAmount").val(data.data.deposit_amount);
-                          } else {
-                              $("#depositAmount").val("该用户未交押金");
+                      },
+                      complete:function(XMLHttpRequest, status) {
+                          layer.close(layerLoad);
+                          if(status == "timeout") {
+                              layer.msg("请求超时",{icon:5,time:2000});
                           }
-                          $("#rentMoney").val(data.data.people_rent * data.data.days /30 + data.data.deposit_amount);
-                      } else {
-                          layer.msg(data.msg,{icon:5,time:2000});
                       }
-                  },
-                  complete:function(XMLHttpRequest, status) {
-                      if(status == "timeout") {
-                          layer.msg("请求超时",{icon:5,time:2000});
-                      }
-                  }
+                  });
               });
             return false;
           });
@@ -168,7 +160,7 @@
                         $("#leave_form").fadeIn();
 
                        form.val('form_rent',{
-                           roomId:data.data.roomId,
+                           roomId:data.data.room_id,
                            userId:data.data.user_id,
                            realName:data.data.real_name,
                            roomNum:data.data.area_name+data.data.neighbourhood+data.data.building_name+data.data.room_num,
@@ -185,7 +177,7 @@
                        } else {
                            $("#depositAmount").val("该用户未交押金");
                        }
-                       $("#rentMoney").val(data.data.people_rent * data.data.days /30 + data.data.deposit_amount);
+                       $("#refundMoney").val(data.data.people_rent * data.data.days /30 + data.data.deposit_amount);
                     } else {
                         layer.msg(data.msg,{icon:5,time:2000});
                     }

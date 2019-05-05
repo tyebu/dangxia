@@ -1,5 +1,6 @@
 package com.wxc.dangxia.controller.leave;
 
+import com.wxc.dangxia.commons.CommonException;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
@@ -27,7 +28,10 @@ public class LeaveController {
     public String toLeave() {
         return "leave/leave";
     }
-
+    @RequestMapping("/toLeaveRecord")
+    public String toLeaveRecord() {
+        return "leave/leave_record";
+    }
     @RequestMapping(value = "/getLeaveUserInfoByUserCard", method = RequestMethod.POST)
     @ResponseBody
     public ResultMsg getLeaveUserInfoByUserCard(@RequestParam Map<String, Object> map) {
@@ -45,9 +49,21 @@ public class LeaveController {
         try {
             return leaveService.userLeave(map);
 
+        } catch (CommonException e) {
+            return new ResultMsg(StatusCode.ERROR, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
+        }
+    }
+    @RequestMapping(value = "/getLeaveRecordByCondition", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg getLeaveRecordByCondition(@RequestParam Map<String, Object> map) {
+        try {
+            return leaveService.getLeaveRecordByCondition(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.ERROR);
         }
     }
 }

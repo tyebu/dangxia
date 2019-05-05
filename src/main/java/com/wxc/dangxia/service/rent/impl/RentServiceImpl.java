@@ -41,5 +41,21 @@ public class RentServiceImpl implements IRentService {
         return userDao.getRentUserInfoByCondition(map);
     }
 
+    /**
+     * 获得待交租房客列表
+     * @param map
+     * @return
+     */
+    @Override
+    public ResultMsg getToPayRentUser(Map<String, Object> map) throws Exception {
+        int pageNo = Integer.parseInt(map.get("page")+"");
+        int pageSize = Integer.parseInt(map.get("limit")+"");
+        PageHelper.startPage(pageNo,pageSize);
+        Integer count = userDao.getToPayRentCount(map);
+
+        List<Map<String, Object>> data = userDao.getToPayRentUser(map);
+        return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, data, count);
+    }
+
 
 }

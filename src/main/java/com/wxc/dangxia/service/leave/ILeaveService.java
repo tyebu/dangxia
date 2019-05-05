@@ -23,4 +23,11 @@ public interface ILeaveService {
      * @return
      */
     ResultMsg userLeave(Map<String, Object> map) throws Exception;
+
+    /**
+     * 获得离宿记录
+     * @param map
+     * @return
+     */
+    ResultMsg getLeaveRecordByCondition(Map<String, Object> map) throws Exception;
 }

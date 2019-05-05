@@ -64,4 +64,19 @@ public interface IUserDao {
      * @throws Exception
      */
     Integer getUserStatusByUserId(Integer userId) throws  Exception;
+
+    /***
+     * 根据条件获得待交租房客
+     * @param map
+     * @return
+     */
+    List<Map<String, Object>> getToPayRentUser(Map<String, Object> map) throws Exception;
+
+    /**
+     * 获得待交租房客总条数
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    Integer getToPayRentCount(Map<String, Object> map) throws Exception;
 }

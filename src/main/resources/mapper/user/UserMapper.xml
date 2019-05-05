@@ -134,33 +134,73 @@
         <if test="liveStatus != null and liveStatus != ''">
             AND usr.live_status = #{liveStatus}
         </if>
+        <if test="userId != null and userId != ''">
+            AND u.user_id = #{userId}
+        </if>
     </select>
     <!--获得待交租人员-->
     <select id="getToPayRentUser" resultType="map" parameterType="map">
       SELECT
-        u.realname,
-        rr.room_rent,
-        r.people_rent
+        u.user_id,
+        u.real_name,
+        urr.start_date,
+        urr.end_date,
+        urr.people_rent,
+        r.room_num,
+        b.building_name,
+        a.area_name,
+        a.neighbourhood,
+        DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date,
+        DATE_FORMAT(NOW(), '%Y-%m-%d') now_date,
+        DATEDIFF(urr.end_date, NOW()) days
       FROM user u
-      LEFT JOIN user_rent_record urr ON(u.user_id = urr.user_id)
       LEFT JOIN
        (
          SELECT
              user_rent_record_id,
              user_id,
              room_id,
-             rent_money,
+             people_rent,
+             start_date,
+             end_date
+         FROM
+             user_rent_record
+         ORDER BY end_date DESC
+         LIMIT 2
+           ) AS urr ON(u.user_id = urr.user_id)
+      LEFT JOIN room r ON(urr.room_id = r.room_id)
+      LEFT JOIN building b ON(r.building_id = b.building_id)
+      LEFT JOIN area a ON(b.area_id = a.area_id)
+      WHERE
+        u.is_del = 0
+        AND u.live_status = 1
+        <!--<![CDATA[  AND DATEDIFF(NOW,urr.end_date) <= 7   ]]>
+        <![CDATA[  AND DATE_FORMAT(urr.end_date, '%Y-%m-%d') <= DATE_FORMAT(NOW(), '%Y-%m-%d')   ]]>-->
+    </select>
+    <select id="getToPayRentCount" parameterType="map" resultType="int">
+      SELECT
+        COUNT(*)
+      FROM user u
+      LEFT JOIN
+       (
+         SELECT
+             user_rent_record_id,
+             user_id,
+             room_id,
+             people_rent,
              start_date,
              end_date
          FROM
              user_rent_record
          ORDER BY end_date DESC
          LIMIT 1
-           ) rent_record rr ON(u.user_id = rr.user_id)
-         LEFT JOIN room r ON(rr.room_id = r.room_id)
+           ) urr ON(u.user_id = urr.user_id)
+         LEFT JOIN room r ON(urr.room_id = r.room_id)
       WHERE
         u.is_del = 0
-        <![CDATA[  AND DATEDIFF(NOW,urr.end_date) <= 7   ]]>
+        AND u.live_status = 1
+        <!--<![CDATA[  AND DATEDIFF(NOW,urr.end_date) <= 7   ]]>
+        <![CDATA[  AND DATE_FORMAT(urr.end_date, '%Y-%m-%d') <= DATE_FORMAT(NOW(), '%Y-%m-%d')   ]]>-->
     </select>
     <!--根据条件获得人员缴费信息-->
     <select id="getRentUserInfoByCondition" resultType="map" parameterType="map">

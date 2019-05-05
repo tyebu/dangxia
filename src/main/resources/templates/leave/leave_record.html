@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+  <title>住房记录</title>
+</head>
+  
+  <body class="">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">退宿管理</a>
+        <a>
+          <cite>退宿记录</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <label class="layui-form-label">
+            退宿时间范围
+          </label>
+          <input class="layui-input"  autocomplete="off" placeholder="开始日" name="startDate" id="start">
+          -----
+          <input class="layui-input"  autocomplete="off" placeholder="截止日" name="endDate" id="end">
+          <input type="text" name="realName"  placeholder="租客姓名" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit lay-filter="leave_search"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <table class="layui-table" lay-filter="room" id="roomtab"></table>
+    </div>
+    <script type="text/html" id="toolbarDemo">
+      <div class="layui-btn-container">
+
+      </div>
+    </script>
+    <script type="text/html" id="tabBar">
+      <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+      </a>
+    </script>
+    <script>
+      layui.use(['layer','laydate','table'], function(){
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        var table = layui.table;
+        layer = layui.layer;
+        var form = layui.form;
+        //加载数据表格
+        table.render({
+              elem: '#roomtab'
+              ,height: 'full-20'
+              ,url: '/dangxia/leave/getLeaveRecordByCondition' //数据接口
+              ,method:'post'
+              ,page: true //开启分页
+              ,limits:[10,15,20,25]
+              ,limit:15
+              ,defaultToolbar:['filter', 'print', 'exports']
+              ,toolbar:'#toolbarDemo'
+              ,cols: [
+                  [
+                    {type:"checkbox"}
+                    ,{field: 'user_id', title: '租客ID', align:'center'}
+                    ,{field: 'real_name', title: '租客姓名', align:'center'}
+                    ,{field: 'room_num', title: '房间号', align:'center'}
+                    ,{field: 'leave_date', title: '退宿时间', align:'center'}
+                    ,{field: 'created_user', title: '操作人', align:'center'}
+                    ,{field: 'created_date', title: '处理时间', align:'center'}
+                    ,{fixed: 'right', toolbar:'#tabBar',title: '操作',align:'center', width: 80}
+                  ]
+              ]
+          });
+        form.on('submit(leave_search)',function(obj) {
+          table.reload('roomtab', {
+            url : '/dangxia/leave/getLeaveRecordByCondition',
+            method : 'post',
+            where : {
+              startDate : obj.field.startDate,
+              endDate : obj.field.endDate,
+              realName : obj.field.realName
+            }
+          });
+          return false;
+        });
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#start' //指定元素
+        });
+        //执行一个laydate实例
+        laydate.render({
+          elem: '#end' //指定元素
+        });
+      });
+    </script>
+  </body>
+
+</html>

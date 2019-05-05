@@ -99,7 +99,6 @@
           }
         });
         form.on('submit(user_search)',function(obj) {
-            console.log(obj);
             table.reload('userInfoTab', {
                 url : '/dangxia/user/getUserInfoByCondition',
                 method : 'post',
