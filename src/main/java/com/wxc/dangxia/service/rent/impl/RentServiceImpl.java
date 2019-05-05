@@ -5,12 +5,14 @@ import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.commons.StatusCode;
 import com.wxc.dangxia.commons.utils.StatusMessage;
 import com.wxc.dangxia.dao.rent.IRentDao;
+import com.wxc.dangxia.dao.stay.IStayDao;
 import com.wxc.dangxia.dao.user.IUserDao;
 import com.wxc.dangxia.service.rent.IRentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,9 @@ public class RentServiceImpl implements IRentService {
     private IRentDao rentDao;
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private IStayDao stayDao;
     @Override
     public ResultMsg getRentRecordByCondition(Map<String, Object> map) throws Exception {
         int pageNo = Integer.parseInt(map.get("page")+"");
@@ -55,6 +60,22 @@ public class RentServiceImpl implements IRentService {
 
         List<Map<String, Object>> data = userDao.getToPayRentUser(map);
         return new ResultMsg(StatusCode.LAYUISUCCESS, StatusMessage.SUCCESS, data, count);
+    }
+
+    /**
+     * 缴纳租金
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ResultMsg payRent(Map<String, Object> map) throws Exception {
+        //修改入住记录中该用户的endDate
+
+        stayDao.updateStayRecord(map);
+        //向交租记录表中插入数据
+        rentDao.insertRentRecord(map);
+        return null;
     }
 
 

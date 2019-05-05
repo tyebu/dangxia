@@ -85,16 +85,16 @@
         LEFT JOIN area a ON(a.area_id = b.building_id)
     </select>
 
-    <!--用户离宿，修改入住记录表-->
+    <!--修改入住记录表-->
     <update id="updateStayRecord" parameterType="map">
         UPDATE
         user_stay_record
         <set>
             <if test="endDate != null">
-                end_date = NOW(),
+                end_date = #{endDate, jdbcType = DATE},
             </if>
             <if test="isDel != null and isDel != ''">
-                is_del = #{isDel}
+                is_del = #{isDel, jdbcType = BIT}
             </if>
         </set>
         WHERE

@@ -147,6 +147,7 @@
         urr.end_date,
         urr.people_rent,
         r.room_num,
+        r.room_id,
         b.building_name,
         a.area_name,
         a.neighbourhood,

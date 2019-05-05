@@ -27,4 +27,11 @@ public interface IRentService {
      * @return
      */
     ResultMsg getToPayRentUser(Map<String, Object> map) throws Exception;
+
+    /**
+     * 交租
+     * @param map
+     * @return
+     */
+    ResultMsg payRent(Map<String, Object> map) throws Exception;
 }

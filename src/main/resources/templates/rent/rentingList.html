@@ -34,6 +34,10 @@
               <span class="x-red">*</span>续租时长(月)
             </label>
             <div class="layui-input-inline">
+              <input type="hidden" id="userId" name="userId" class="layui-input"/>
+              <input type="hidden" id="roomId" name="roomId" class="layui-input"/>
+              <input type="hidden" id="peopleRent" name="peopleRent" class="layui-input"/>
+              <input type="hidden" id="startDate" name="startDate" class="layui-input"/>
               <input type="text" id="rentDays" name="rentDays" lay-verify="number"
                      autocomplete="off" placeholder="续租月数"  class="layui-input">
             </div>
@@ -48,9 +52,18 @@
             </div>
           </div>
           <div class="layui-form-item">
+            <label for="payPattern" class="layui-form-label">
+              <span class="x-red">*</span>缴纳方式
+            </label>
+            <div class="layui-input-inline">
+              <input type="text" id="payPattern" name="payPattern" lay-verify="number"
+                     autocomplete="off" placeholder="￥"  class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
             <div class="layui-input-block">
               <button  class="layui-btn" lay-submit lay-filter="addRent" id="addRent">
-                提交
+
               </button>
             </div>
 
@@ -113,6 +126,12 @@
         table.on('tool(rentUserTab)',function(obj) {
             var layEvent = obj.event;
             if(layEvent == 'rent_oper') {
+              form.val('rent_oper',{
+                userId:obj.data.user_id,
+                roomId:obj.data.room_id,
+                startDate:obj.data.start_date,
+                peopleRent:obj.data.people_rent
+              });
               layer.open({
                 type:1,
                 title:'缴纳房租',
@@ -121,9 +140,53 @@
               $('#rentDays').bind('input propertychange', function() {
                 $('#rentMoney').val($("#rentDays").val() * obj.data.people_rent);
               });
-            }
-        });
 
+            }
+
+        });
+        form.on('submit(addRent)',function(obj) {
+            var layerLoad = layer.load(2, {
+                shade: [0.4,'#3C3C3C'],
+                time:5000
+            });
+            var endDate = new Date(obj.field.startDate);
+            endDate.setMonth(startDate2.getMonth() + obj.field.rentDays);
+            $.ajax({
+                    type:"post",
+                    url:"/dangxia/rent/payRent",
+                    timeout:5000,
+                    data: {
+                        "userId":obj.field.userId,
+                        "roomId":obj.field.roomId,
+                        "startDate":obj.field.startDate,
+                        "endDate":endDate,
+                        "payRent":obj.field.payRent,
+                        "payPattern":obj.field.payPattern,
+                        "peopleRent":obj.field.peopleRent
+                    },
+                    dataType: "json",
+                    success: function(dat){
+                        if(dat.code == 200) {
+                            layer.close(layerLoad);
+                            layer.msg(dat.msg,{icon:1,time:2000},function() {
+                                parent.layer.closeAll();
+                                window.parent.location.reload();
+                            });
+                        } else {
+                            layer.close(layerLoad);
+                            layer.msg(dat.msg,{icon:5,time:2000});
+                        }
+                    },
+                    complete:function(XMLHttpRequest, status) {
+                        layer.close(layerLoad);
+                        if(status == "timeout") {
+                            layer.msg("请求超时",{icon:5,time:2000});
+                        }
+                    }
+                }
+            );
+            return false;
+        });
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素

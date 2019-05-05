@@ -76,4 +76,20 @@ public class RentController {
             return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
     }
+
+    /***
+     * 缴纳租金
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/payRent", method = RequestMethod.POST)
+    public ResultMsg payRent(@RequestParam Map<String, Object> map) {
+        try {
+            ResultMsg rm = rentService.payRent(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResultMsg();
+    }
+
 }
