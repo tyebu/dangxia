@@ -11,6 +11,7 @@ import com.wxc.dangxia.service.rent.IRentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -68,14 +69,14 @@ public class RentServiceImpl implements IRentService {
      * @return
      * @throws Exception
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResultMsg payRent(Map<String, Object> map) throws Exception {
         //修改入住记录中该用户的endDate
-
         stayDao.updateStayRecord(map);
         //向交租记录表中插入数据
         rentDao.insertRentRecord(map);
-        return null;
+        return new ResultMsg(StatusCode.SUCCESS, StatusMessage.RENT_SUCCESS);
     }
 
 

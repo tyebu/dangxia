@@ -167,7 +167,7 @@
          FROM
              user_rent_record
          ORDER BY end_date DESC
-         LIMIT 2
+         LIMIT 1
            ) AS urr ON(u.user_id = urr.user_id)
       LEFT JOIN room r ON(urr.room_id = r.room_id)
       LEFT JOIN building b ON(r.building_id = b.building_id)

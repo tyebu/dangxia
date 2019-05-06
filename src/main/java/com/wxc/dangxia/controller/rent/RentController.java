@@ -83,13 +83,16 @@ public class RentController {
      * @return
      */
     @RequestMapping(value = "/payRent", method = RequestMethod.POST)
+    @ResponseBody
     public ResultMsg payRent(@RequestParam Map<String, Object> map) {
         try {
             ResultMsg rm = rentService.payRent(map);
+            return rm;
         } catch (Exception e) {
+
             e.printStackTrace();
+            return new ResultMsg(StatusCode.ERROR, StatusMessage.ERROR);
         }
-        return new ResultMsg();
     }
 
 }

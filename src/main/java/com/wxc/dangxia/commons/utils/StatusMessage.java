@@ -17,4 +17,5 @@ public interface StatusMessage {
     String QUERYERROR = "查询失败";
 
     String LEAVESUCCESS = "已退宿";
+    String RENT_SUCCESS = "已交租";
 }

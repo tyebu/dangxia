@@ -38,16 +38,17 @@
               <input type="hidden" id="roomId" name="roomId" class="layui-input"/>
               <input type="hidden" id="peopleRent" name="peopleRent" class="layui-input"/>
               <input type="hidden" id="startDate" name="startDate" class="layui-input"/>
+              <input type="hidden" id="endDate" name="endDate" class="layui-input"/>
               <input type="text" id="rentDays" name="rentDays" lay-verify="number"
                      autocomplete="off" placeholder="续租月数"  class="layui-input">
             </div>
           </div>
           <div class="layui-form-item">
-            <label for="rentMoney" class="layui-form-label">
+            <label for="payRent" class="layui-form-label">
               <span class="x-red">*</span>缴纳金额(￥)
             </label>
             <div class="layui-input-inline">
-              <input type="text" id="rentMoney" name="rentMoney" lay-verify="number"
+              <input type="text" id="payRent" name="payRent" lay-verify="number"
                      autocomplete="off" placeholder="￥"  class="layui-input">
             </div>
           </div>
@@ -56,14 +57,14 @@
               <span class="x-red">*</span>缴纳方式
             </label>
             <div class="layui-input-inline">
-              <input type="text" id="payPattern" name="payPattern" lay-verify="number"
-                     autocomplete="off" placeholder="￥"  class="layui-input">
+              <input type="text" id="payPattern" name="payPattern" lay-verify="required"
+                     autocomplete="off" placeholder=""  class="layui-input">
             </div>
           </div>
           <div class="layui-form-item">
             <div class="layui-input-block">
               <button  class="layui-btn" lay-submit lay-filter="addRent" id="addRent">
-
+                提交
               </button>
             </div>
 
@@ -85,7 +86,7 @@
       </a>
     </script>
     <script>
-      layui.use(['layer','laydate','table'], function(){
+      layui.use(['layer','laydate','table','form'], function(){
         var laydate = layui.laydate;
         $ = layui.jquery;
         var table = layui.table;
@@ -130,6 +131,7 @@
                 userId:obj.data.user_id,
                 roomId:obj.data.room_id,
                 startDate:obj.data.start_date,
+                endDate: obj.data.end_date,
                 peopleRent:obj.data.people_rent
               });
               layer.open({
@@ -138,7 +140,7 @@
                 content:$("#rent_div")
               });
               $('#rentDays').bind('input propertychange', function() {
-                $('#rentMoney').val($("#rentDays").val() * obj.data.people_rent);
+                $('#payRent').val($("#rentDays").val() * obj.data.people_rent);
               });
 
             }
@@ -149,8 +151,9 @@
                 shade: [0.4,'#3C3C3C'],
                 time:5000
             });
-            var endDate = new Date(obj.field.startDate);
-            endDate.setMonth(startDate2.getMonth() + obj.field.rentDays);
+            var endDate = new Date(obj.field.endDate);
+            endDate.setMonth(endDate.getMonth() + parseInt(obj.field.rentDays));
+            var endDate2 = dateFtt('yyyy-MM-dd',endDate);
             $.ajax({
                     type:"post",
                     url:"/dangxia/rent/payRent",
@@ -158,8 +161,8 @@
                     data: {
                         "userId":obj.field.userId,
                         "roomId":obj.field.roomId,
-                        "startDate":obj.field.startDate,
-                        "endDate":endDate,
+                        "startDate":obj.field.endDate,
+                        "endDate":endDate2,
                         "payRent":obj.field.payRent,
                         "payPattern":obj.field.payPattern,
                         "peopleRent":obj.field.peopleRent
@@ -196,6 +199,25 @@
           elem: '#end' //指定元素
         });
       });
+      /**************************************时间格式化处理************************************/
+      function dateFtt(fmt,date)
+      { //author: meizz
+        var o = {
+          "M+" : date.getMonth()+1,                 //月份
+          "d+" : date.getDate(),                    //日
+          "h+" : date.getHours(),                   //小时
+          "m+" : date.getMinutes(),                 //分
+          "s+" : date.getSeconds(),                 //秒
+          "q+" : Math.floor((date.getMonth()+3)/3), //季度
+          "S"  : date.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+          fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+          if(new RegExp("("+ k +")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+      }
     </script>
   </body>
 
