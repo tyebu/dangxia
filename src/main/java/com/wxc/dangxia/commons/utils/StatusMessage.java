@@ -18,4 +18,9 @@ public interface StatusMessage {
 
     String LEAVESUCCESS = "已退宿";
     String RENT_SUCCESS = "已交租";
+
+    String LOGIN_SUCCESS = "登录成功";
+    String LOGIN_UNDEFINED = "账号不存在";
+    String LOGIN_UNUSED = "账号未启用";
+    String LOGIN_ERROR = "账号或密码错误";
 }

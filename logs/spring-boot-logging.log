@@ -2852,3 +2852,1065 @@ Caused by: java.lang.IllegalArgumentException: Mapped Statements collection alre
 2019/05/04-22:08 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getUserInfoByCondition- ==>  Preparing: SELECT u.user_id, u.user_phone, u.password, u.real_name, u.user_addr, u.user_sex AS user_sex2, CASE u.user_sex WHEN 1 THEN '男' WHEN 0 THEN '女' END AS 'user_sex', u.user_age, u.user_card, DATE_FORMAT(usr.end_date, '%Y-%m-%d') as end_date, DATE_FORMAT(usr.start_date, '%Y-%m-%d') as start_date, DATE_FORMAT(u.created_date, '%Y-%m-%d %h:%i:%s') as created_date, r.room_num, r.room_id, r.building_id, b.area_id, b.building_name, a.area_name, a.neighbourhood, u.live_status status_code, CASE u.live_status WHEN 1 THEN '入住中' WHEN 2 THEN '已离宿' WHEN 3 THEN '游离人员' END AS 'live_status' FROM user u LEFT JOIN room_user ru ON(ru.user_id = u.user_id) LEFT JOIN room r ON(ru.room_id = r.room_id) LEFT JOIN building b ON(b.building_id = r.building_id) LEFT JOIN area a ON(a.area_id = b.area_id) LEFT JOIN ( SELECT usr2.start_date, usr2.end_date, usr2.user_id FROM user_stay_record usr2 ORDER BY usr2.end_date DESC, usr2.user_stay_record_id ASC LIMIT 2 ) usr ON(u.user_id = usr.user_id) WHERE u.is_del = 0 ORDER BY created_date DESC 
 2019/05/04-22:08 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getUserInfoByCondition- ==> Parameters: 
 2019/05/04-22:08 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getUserInfoByCondition- <==      Total: 3
+2019/05/06-09:27 [main] INFO  com.wxc.dangxia.DangxiaApplication- Starting DangxiaApplication on DESKTOP-QK8FRP2 with PID 9060 (E:\java_workspace\dangxia\target\classes started by Star.Wu in E:\java_workspace\dangxia)
+2019/05/06-09:27 [main] DEBUG com.wxc.dangxia.DangxiaApplication- Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+2019/05/06-09:27 [main] INFO  com.wxc.dangxia.DangxiaApplication- No active profile set, falling back to default profiles: default
+2019/05/06-09:27 [main] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019/05/06-09:27 [main] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019/05/06-09:27 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 8088 (http)
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.17]
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.AprLifecycleListener- An older version [1.2.14] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.21]
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.AprLifecycleListener- Loaded APR based Apache Tomcat Native library [1.2.14] using APR version [1.6.2].
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.AprLifecycleListener- APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019/05/06-09:27 [main] INFO  org.apache.catalina.core.AprLifecycleListener- APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019/05/06-09:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- OpenSSL successfully initialized [OpenSSL 1.0.2l  25 May 2017]
+2019/05/06-09:28 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia]- Initializing Spring embedded WebApplicationContext
+2019/05/06-09:28 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 3586 ms
+2019/05/06-09:28 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+2019/05/06-09:28 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping- Adding welcome page template: index
+2019/05/06-09:28 [main] INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer- LiveReload server is running on port 35729
+2019/05/06-09:28 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 8088 (http) with context path '/dangxia'
+2019/05/06-09:28 [main] INFO  com.wxc.dangxia.DangxiaApplication- Started DangxiaApplication in 7.36 seconds (JVM running for 15.142)
+2019/05/06-09:28 [http-nio-8088-exec-2] INFO  org.apache.tomcat.util.http.parser.Cookie- A cookie header was received [1556156102,1556241368; Hm_lvt_b393d153aeb26b46e9431fabaf0f6190=1556415662,1556502755,1556587988,1557024191] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+2019/05/06-09:28 [http-nio-8088-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019/05/06-09:28 [http-nio-8088-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+2019/05/06-09:28 [http-nio-8088-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 39 ms
+2019/05/06-09:29 [http-nio-8088-exec-9] INFO  com.alibaba.druid.pool.DruidDataSource- {dataSource-1} inited
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:30 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:31 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:32 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:32 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:33 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:33 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==>  Preparing: UPDATE user_stay_record SET end_date = ? WHERE user_id = ? 
+2019/05/06-09:33 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==> Parameters: Mon Jul 04 2022 08:00:00 GMT+0800 (中国标准时间)(String), 8(String)
+2019/05/06-09:33 [http-nio-8088-exec-2] ERROR org.thymeleaf.TemplateEngine- [THYMELEAF][http-nio-8088-exec-2] Exception processing template "rent/payRent": Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-09:33 [http-nio-8088-exec-2] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [/dangxia] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:40 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:41 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:42 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:42 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:43 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:44 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:48 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==>  Preparing: UPDATE user_stay_record SET end_date = ? WHERE user_id = ? 
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==> Parameters: 2022-07-04(String), 8(String)
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- <==    Updates: 1
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==>  Preparing: INSERT INTO user_rent_record ( user_id, room_id, people_rent, pay_rent, pay_pattern, pay_pic, start_date, end_date, payment_date, created_date, created_user, rent_remark ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ? ) 
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==> Parameters: 8(String), 4(String), 2000(String), 4000(String), 现金(String), null, 2019-05-04(String), 2022-07-04(String), null, null, null
+2019/05/06-09:48 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- <==    Updates: 1
+2019/05/06-09:48 [http-nio-8088-exec-2] ERROR org.thymeleaf.TemplateEngine- [THYMELEAF][http-nio-8088-exec-2] Exception processing template "rent/payRent": Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-09:48 [http-nio-8088-exec-2] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [/dangxia] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:56 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:58 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-09:58 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON (r.building_id = b.building_id) LEFT JOIN area a ON (a.area_id = b.building_id)) table_count 
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==> Parameters: 
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- <==      Total: 1
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==>  Preparing: SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) limit ?,? 
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- <==      Total: 1
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==>  Preparing: SELECT urr.user_rent_record_id, urr.user_id, urr.people_rent, urr.pay_rent, urr.pay_pattern, urr.pay_pic, u.real_name, r.room_num, urr.created_user, DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(urr.payment_date, '%Y-%m-%d %h:%i:%s') payment_date, DATE_FORMAT( urr.created_date, '%Y-%m-%d %h:%i:%s' ) created_date, DATE_FORMAT( urr.modify_date, '%Y-%m-%d %h:%i:%s' ) modify_date, urr.rent_remark, urr.is_del, a.area_name, a.neighbourhood, b.building_name FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) ORDER BY urr.created_date DESC 
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==> Parameters: 
+2019/05/06-09:59 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- <==      Total: 4
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON (r.building_id = b.building_id) LEFT JOIN area a ON (a.area_id = b.building_id)) table_count 
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==> Parameters: 
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- <==      Total: 1
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==>  Preparing: SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) limit ?,? 
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- <==      Total: 1
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==>  Preparing: SELECT urr.user_rent_record_id, urr.user_id, urr.people_rent, urr.pay_rent, urr.pay_pattern, urr.pay_pic, u.real_name, r.room_num, urr.created_user, DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(urr.payment_date, '%Y-%m-%d %h:%i:%s') payment_date, DATE_FORMAT( urr.created_date, '%Y-%m-%d %h:%i:%s' ) created_date, DATE_FORMAT( urr.modify_date, '%Y-%m-%d %h:%i:%s' ) modify_date, urr.rent_remark, urr.is_del, a.area_name, a.neighbourhood, b.building_name FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) ORDER BY urr.created_date DESC 
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==> Parameters: 
+2019/05/06-10:00 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- <==      Total: 4
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:00 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON (r.building_id = b.building_id) LEFT JOIN area a ON (a.area_id = b.building_id)) table_count 
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==>  Preparing: SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) limit ?,? 
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==>  Preparing: SELECT urr.user_rent_record_id, urr.user_id, urr.people_rent, urr.pay_rent, urr.pay_pattern, urr.pay_pic, u.real_name, r.room_num, urr.created_user, DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(urr.payment_date, '%Y-%m-%d %h:%i:%s') payment_date, DATE_FORMAT( urr.created_date, '%Y-%m-%d %h:%i:%s' ) created_date, DATE_FORMAT( urr.modify_date, '%Y-%m-%d %h:%i:%s' ) modify_date, urr.rent_remark, urr.is_del, a.area_name, a.neighbourhood, b.building_name FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) ORDER BY urr.created_date DESC 
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- <==      Total: 4
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:07 [http-nio-8088-exec-5] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==>  Preparing: UPDATE user_stay_record SET end_date = ? WHERE user_id = ? 
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==> Parameters: 2022-06-04(String), 8(String)
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- <==    Updates: 1
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==>  Preparing: INSERT INTO user_rent_record ( user_id, room_id, people_rent, pay_rent, pay_pattern, pay_pic, start_date, end_date, payment_date, created_date, created_user, rent_remark ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ? ) 
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==> Parameters: 8(String), 4(String), 2000(String), 2000(String), 现金(String), null, 2019-05-04(String), 2022-06-04(String), null, null, null
+2019/05/06-10:08 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- <==    Updates: 1
+2019/05/06-10:08 [http-nio-8088-exec-10] ERROR org.thymeleaf.TemplateEngine- [THYMELEAF][http-nio-8088-exec-10] Exception processing template "rent/payRent": Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:08 [http-nio-8088-exec-10] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [/dangxia] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:13 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:15 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:15 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:16 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:16 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:17 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:17 [http-nio-8088-exec-8] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 2 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:17 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:18 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:19 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:19 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:21 [http-nio-8088-exec-1] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:21 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:22 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:22 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:24 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:24 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:25 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:25 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:27 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:27 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:28 [Thread-51] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Shutting down ExecutorService 'applicationTaskExecutor'
+2019/05/06-10:28 [Thread-51] INFO  com.alibaba.druid.pool.DruidDataSource- {dataSource-1} closed
+2019/05/06-10:28 [main] INFO  com.wxc.dangxia.DangxiaApplication- Starting DangxiaApplication on DESKTOP-QK8FRP2 with PID 3100 (E:\java_workspace\dangxia\target\classes started by Star.Wu in E:\java_workspace\dangxia)
+2019/05/06-10:28 [main] DEBUG com.wxc.dangxia.DangxiaApplication- Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+2019/05/06-10:28 [main] INFO  com.wxc.dangxia.DangxiaApplication- No active profile set, falling back to default profiles: default
+2019/05/06-10:28 [main] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor- Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019/05/06-10:28 [main] INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor- For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019/05/06-10:28 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 8088 (http)
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.17]
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- An older version [1.2.14] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.21]
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- Loaded APR based Apache Tomcat Native library [1.2.14] using APR version [1.6.2].
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.AprLifecycleListener- OpenSSL successfully initialized [OpenSSL 1.0.2l  25 May 2017]
+2019/05/06-10:28 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia]- Initializing Spring embedded WebApplicationContext
+2019/05/06-10:28 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 3862 ms
+2019/05/06-10:28 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+2019/05/06-10:28 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping- Adding welcome page template: index
+2019/05/06-10:28 [main] INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer- LiveReload server is running on port 35729
+2019/05/06-10:28 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 8088 (http) with context path '/dangxia'
+2019/05/06-10:28 [main] INFO  com.wxc.dangxia.DangxiaApplication- Started DangxiaApplication in 6.699 seconds (JVM running for 12.138)
+2019/05/06-10:28 [http-nio-8088-exec-2] INFO  org.apache.tomcat.util.http.parser.Cookie- A cookie header was received [1556156102,1556241368; Hm_lvt_b393d153aeb26b46e9431fabaf0f6190=1556502755,1556587988,1557024191,1557106116; Hm_lpvt_b393d153aeb26b46e9431fabaf0f6190=1557109628] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+2019/05/06-10:28 [http-nio-8088-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019/05/06-10:28 [http-nio-8088-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+2019/05/06-10:28 [http-nio-8088-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 21 ms
+2019/05/06-10:28 [http-nio-8088-exec-6] INFO  com.alibaba.druid.pool.DruidDataSource- {dataSource-1} inited
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:29 [http-nio-8088-exec-6] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:29 [http-nio-8088-exec-9] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==>  Preparing: UPDATE user_stay_record SET end_date = ? WHERE user_id = ? 
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==> Parameters: 2019-08-04(String), 8(String)
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- <==    Updates: 1
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==>  Preparing: INSERT INTO user_rent_record ( user_id, room_id, people_rent, pay_rent, pay_pattern, pay_pic, start_date, end_date, payment_date, created_date, created_user, rent_remark ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ? ) 
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==> Parameters: 8(String), 4(String), 2000(String), 2000(String), 现金(String), null, 2019-07-04(String), 2019-08-04(String), null, null, null
+2019/05/06-10:29 [http-nio-8088-exec-10] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- <==    Updates: 1
+2019/05/06-10:29 [http-nio-8088-exec-10] ERROR org.thymeleaf.TemplateEngine- [THYMELEAF][http-nio-8088-exec-10] Exception processing template "rent/payRent": Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:29 [http-nio-8088-exec-10] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [/dangxia] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:30 [http-nio-8088-exec-4] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==>  Preparing: UPDATE user_stay_record SET end_date = ? WHERE user_id = ? 
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- ==> Parameters: 2019-09-04(String), 8(String)
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.stay.IStayDao.updateStayRecord- <==    Updates: 1
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==>  Preparing: INSERT INTO user_rent_record ( user_id, room_id, people_rent, pay_rent, pay_pattern, pay_pic, start_date, end_date, payment_date, created_date, created_user, rent_remark ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ? ) 
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- ==> Parameters: 8(String), 4(String), 2000(String), 2000(String), 支付宝(String), null, 2019-08-04(String), 2019-09-04(String), null, null, null
+2019/05/06-10:30 [http-nio-8088-exec-7] DEBUG com.wxc.dangxia.dao.rent.IRentDao.insertRentRecord- <==    Updates: 1
+2019/05/06-10:30 [http-nio-8088-exec-7] ERROR org.thymeleaf.TemplateEngine- [THYMELEAF][http-nio-8088-exec-7] Exception processing template "rent/payRent": Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:30 [http-nio-8088-exec-7] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/dangxia].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [/dangxia] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [rent/payRent], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1098)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1072)
+	at org.thymeleaf.spring5.view.ThymeleafView.renderFragment(ThymeleafView.java:362)
+	at org.thymeleaf.spring5.view.ThymeleafView.render(ThymeleafView.java:189)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1370)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1116)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1055)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.__invoke(StandardContextValve.java:96)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:41002)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user u LEFT JOIN (SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record LIMIT 1) urr ON (u.user_id = urr.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1) table_count 
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- ==> Parameters: 
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount_COUNT- <==      Total: 1
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==>  Preparing: SELECT COUNT(*) FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) WHERE u.is_del = 0 AND u.live_status = 1 limit ?,? 
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentCount- <==      Total: 1
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==>  Preparing: SELECT u.user_id, u.real_name, urr.start_date, urr.end_date, urr.people_rent, r.room_num, r.room_id, b.building_name, a.area_name, a.neighbourhood, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(NOW(), '%Y-%m-%d') now_date, DATEDIFF(urr.end_date, NOW()) days FROM user u LEFT JOIN ( SELECT user_rent_record_id, user_id, room_id, people_rent, start_date, end_date FROM user_rent_record ORDER BY end_date DESC LIMIT 1 ) AS urr ON(u.user_id = urr.user_id) LEFT JOIN room r ON(urr.room_id = r.room_id) LEFT JOIN building b ON(r.building_id = b.building_id) LEFT JOIN area a ON(b.area_id = a.area_id) WHERE u.is_del = 0 AND u.live_status = 1 
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- ==> Parameters: 
+2019/05/06-10:30 [http-nio-8088-exec-2] DEBUG com.wxc.dangxia.dao.user.IUserDao.getToPayRentUser- <==      Total: 1
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==>  Preparing: SELECT count(0) FROM (SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON (r.building_id = b.building_id) LEFT JOIN area a ON (a.area_id = b.building_id)) table_count 
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- ==> Parameters: 
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition_COUNT- <==      Total: 1
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==>  Preparing: SELECT COUNT(*) FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) limit ?,? 
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- ==> Parameters: 0(Integer), 15(Integer)
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordCountByCondition- <==      Total: 1
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==>  Preparing: SELECT urr.user_rent_record_id, urr.user_id, urr.people_rent, urr.pay_rent, urr.pay_pattern, urr.pay_pic, u.real_name, r.room_num, urr.created_user, DATE_FORMAT(urr.start_date, '%Y-%m-%d') start_date, DATE_FORMAT(urr.end_date, '%Y-%m-%d') end_date, DATE_FORMAT(urr.payment_date, '%Y-%m-%d %h:%i:%s') payment_date, DATE_FORMAT( urr.created_date, '%Y-%m-%d %h:%i:%s' ) created_date, DATE_FORMAT( urr.modify_date, '%Y-%m-%d %h:%i:%s' ) modify_date, urr.rent_remark, urr.is_del, a.area_name, a.neighbourhood, b.building_name FROM user_rent_record urr LEFT JOIN user u ON (urr.user_id = u.user_id) LEFT JOIN room r ON (urr.room_id = r.room_id) LEFT JOIN building b ON ( r.building_id = b.building_id ) LEFT JOIN area a ON (a.area_id = b.building_id) ORDER BY urr.created_date DESC 
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- ==> Parameters: 
+2019/05/06-10:31 [http-nio-8088-exec-3] DEBUG com.wxc.dangxia.dao.rent.IRentDao.getRentRecordByCondition- <==      Total: 6
