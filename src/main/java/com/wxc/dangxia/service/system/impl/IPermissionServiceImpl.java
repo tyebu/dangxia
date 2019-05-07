@@ -3,12 +3,14 @@ package com.wxc.dangxia.service.system.impl;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.service.system.IPermissionService;
 import org.apache.shiro.authz.Permission;
+import org.springframework.stereotype.Service;
 
 /**
  * @auther: Star.Wu
- * @date: 2019/5/7 17:33
+ * @date: 2019/05/07 17:33
  * @description:
  **/
+@Service
 public class IPermissionServiceImpl implements IPermissionService {
     @Override
     public ResultMsg getPermissionAll(Integer status) {

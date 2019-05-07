@@ -71,6 +71,7 @@ public class ShiroConfiguration {
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
+        System.out.println("----要拦截了哦-------");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String,String> map = new HashMap<String, String>();
@@ -92,11 +93,11 @@ public class ShiroConfiguration {
 
         //对所有用户认证
         map.put("/**","authc");
-       //map.put("/**","anon");
+        //map.put("/**","anon");
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login/toLogin");
         //首页
-        shiroFilterFactoryBean.setSuccessUrl("/login/toIndex");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/login/toError");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);

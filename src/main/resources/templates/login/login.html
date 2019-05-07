@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<head th:replace= "common/common :: commons(~{::title})">
+	<meta charset="UTF-8">
+	<title>当下公寓--后台登录</title>
+</head>
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">当下公寓-后台登录</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form method="post" class="layui-form" >
+            <input name="empLoginname" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="empPassword" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
+    </div>
+
+    <script>
+        $(function  () {
+            layui.use('form', function(){
+              var form = layui.form;
+              $ = layui.jquery;
+              // layer.msg('玩命卖萌中', function(){
+              //   //关闭后的操作
+              //   });
+                var layerLoad = layer.load(2, {
+                    shade: [0.4,'#3C3C3C'],
+                    time:5000
+                });
+              //监听提交
+                var formLock = true;
+                form.on('submit(login)', function(data){
+                    //判断是否可以提交
+                    if (!formLock){
+                        return false;
+                    }
+                  $.ajax({
+                          type:"post",
+                          url:"/dangxia/login/isLogin",
+                          timeout:5000,
+                          data: {
+                              "empLoginname":data.field.empLoginname,
+                              "empPassword":data.field.empPassword
+                          },
+                          dataType: "json",
+                          success: function(dat){
+                              layer.close(layerLoad);
+                              if(dat.code == 200) {
+                                  layer.msg(dat.msg,{icon:1,time:2000});
+                              } else {
+                                  layer.close(layerLoad);
+                                  layer.msg(dat.msg,{icon:5,time:2000});
+                              }
+                          },
+                          complete:function(XMLHttpRequest, status) {
+                              layer.close(layerLoad);
+                              if(status == "timeout") {
+                                  layer.msg("请求超时",{icon:5,time:2000});
+                              }
+                          }
+                      }
+                  );
+                layer.msg(JSON.stringify(data.field),function(){
+                    location.href='index.html'
+                });
+                return false;
+              });
+            });
+        })
+
+        
+    </script>
+
+    
+    <!-- 底部结束 -->
+    <script>
+    //百度统计可去掉
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>

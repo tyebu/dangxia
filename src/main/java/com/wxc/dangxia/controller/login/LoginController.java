@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+
 /**
  * 登录控制器
  *
@@ -44,6 +45,10 @@ public class LoginController {
         return "/login/login";
     }
 
+    @RequestMapping("/toError")
+    public String toError() {
+        return "/error/error";
+    }
     /**
      * 前往主页
      * @return 主页

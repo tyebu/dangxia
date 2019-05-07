@@ -3,14 +3,16 @@ package com.wxc.dangxia.service.system.impl;
 import com.wxc.dangxia.commons.ResultMsg;
 import com.wxc.dangxia.entity.Employee;
 import com.wxc.dangxia.service.system.IEmployeeService;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 /**
  * @auther: Star.Wu
- * @date: 2019/5/7 17:21
+ * @date: 2019/05/07 17:21
  * @description:
  **/
+@Service
 public class IEmployeeServiceImpl implements IEmployeeService {
     @Override
     public ResultMsg getEmployeeAll(Map<String, Object> query) {
