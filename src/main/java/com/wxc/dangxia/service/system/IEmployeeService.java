@@ -26,4 +26,6 @@ public interface IEmployeeService {
     ResultMsg getHaveRole(Integer id);
 
     ResultMsg updateEmployee(Employee emp, Integer[] roles);
+
+    Employee getEmployeeByName(String userName);
 }

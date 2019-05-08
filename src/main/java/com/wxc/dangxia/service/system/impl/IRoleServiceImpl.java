@@ -1,10 +1,14 @@
 package com.wxc.dangxia.service.system.impl;
 
 import com.wxc.dangxia.commons.ResultMsg;
+import com.wxc.dangxia.dao.system.IRoleDao;
 import com.wxc.dangxia.service.system.IRoleService;
 import org.apache.catalina.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +19,8 @@ import java.util.Set;
  **/
 @Service
 public class IRoleServiceImpl implements IRoleService {
+    @Autowired
+    private IRoleDao roleDao;
     @Override
     public ResultMsg getRoleAll(Map<String, Object> query) {
         return null;
@@ -46,7 +52,13 @@ public class IRoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Set<String> getRolesByEmpLoginName(String userName) {
-        return null;
+    public Set<String> getRolesByEmpLoginName(String empLoginame) {
+        List<Map<String, Object>> roles = roleDao.getRolesByempLoginname(empLoginame);
+        //用来存储员工的角色
+        HashSet<String> rolesSet = new HashSet<>();
+        for (Map<String, Object> role : roles) {
+            rolesSet.add(String.valueOf(role.get("roleName")));
+        }
+        return rolesSet;
     }
 }

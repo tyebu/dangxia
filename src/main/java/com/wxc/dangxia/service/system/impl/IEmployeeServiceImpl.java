@@ -1,8 +1,10 @@
 package com.wxc.dangxia.service.system.impl;
 
 import com.wxc.dangxia.commons.ResultMsg;
+import com.wxc.dangxia.dao.system.IEmployeeDao;
 import com.wxc.dangxia.entity.Employee;
 import com.wxc.dangxia.service.system.IEmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.Map;
  **/
 @Service
 public class IEmployeeServiceImpl implements IEmployeeService {
+    @Autowired
+    private IEmployeeDao employeeDao;
     @Override
     public ResultMsg getEmployeeAll(Map<String, Object> query) {
         return null;
@@ -52,5 +56,10 @@ public class IEmployeeServiceImpl implements IEmployeeService {
     @Override
     public ResultMsg updateEmployee(Employee emp, Integer[] roles) {
         return null;
+    }
+
+    @Override
+    public Employee getEmployeeByName(String userName) {
+        return employeeDao.getEmployeeByName(userName);
     }
 }

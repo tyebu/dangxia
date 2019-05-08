@@ -24,4 +24,6 @@ public interface ILoginService {
     ResultMsg updateEmployee(Employee emp);
 
     String getEmployeeName();
+
+    Employee getLoginEmployeeInfo();
 }

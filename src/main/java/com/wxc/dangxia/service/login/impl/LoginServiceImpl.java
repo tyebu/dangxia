@@ -6,6 +6,7 @@ import com.wxc.dangxia.service.login.ILoginService;
 import com.wxc.dangxia.service.system.IEmployeeService;
 import com.wxc.dangxia.service.system.IPermissionService;
 import com.wxc.dangxia.service.system.IRoleService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,14 +39,28 @@ public class LoginServiceImpl implements ILoginService {
         return roleService.getRolesByEmpLoginName(userName);
     }
 
+    /**
+     * 根据用户名获得权限
+     * @param userName
+     * @return
+     */
     @Override
     public Set<String> getPermissionsByUserName(String userName) {
-        return null;
+        //获得员工信息
+        Employee employee = employeeService.getEmployeeByName(userName);
+        //判断是否管理员
+        if (1==employee.getIsAdmin()) {
+            //所有的权限
+            return  permissionService.getPermissionsByEmpLoginName(null);
+        }else{
+            //拥有的权限
+            return  permissionService.getPermissionsByEmpLoginName(userName);
+        }
     }
 
     @Override
     public Employee getEmployeeByName(String userName) {
-        return null;
+        return employeeService.getEmployeeByName(userName);
     }
 
     @Override
@@ -65,6 +80,24 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public String getEmployeeName() {
-        return null;
+        //获得员工信息
+        Employee employee = getLoginEmployeeInfo();
+        if (employee == null) {
+            return null;
+        }
+        return employee.getEmpName();
+    }
+
+    /**
+     * 获得当前登录员工的信息
+     * @return
+     */
+    @Override
+    public Employee getLoginEmployeeInfo(){
+        //从主体获得登录账号
+        String loginName = String.valueOf(SecurityUtils.getSubject().getPrincipal());
+        //获得员工信息
+        Employee employee = employeeService.getEmployeeByName(loginName);
+        return  employee;
     }
 }

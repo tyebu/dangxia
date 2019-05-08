@@ -3,6 +3,8 @@ package com.wxc.dangxia.service.system;
 import com.wxc.dangxia.commons.ResultMsg;
 import org.apache.shiro.authz.Permission;
 
+import java.util.Set;
+
 /**
  * @auther: Star.Wu
  * @date: 2019/5/7 17:32
@@ -22,4 +24,6 @@ public interface IPermissionService {
     ResultMsg deletePermissionById(Integer id);
 
     ResultMsg getRolePermissionById(Integer id);
+
+    Set<String> getPermissionsByEmpLoginName(Object o);
 }
