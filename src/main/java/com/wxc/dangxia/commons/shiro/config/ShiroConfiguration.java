@@ -27,6 +27,7 @@ public class ShiroConfiguration {
      */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
+
         HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
         credentialsMatcher.setHashAlgorithmName("MD5");
         credentialsMatcher.setHashIterations(101);
@@ -35,18 +36,20 @@ public class ShiroConfiguration {
 
     /**
      * 将自己的realm加入容器
-     * @param hashedCredentialsMatcher 自己的加密方式
+     * @param
      * @return 自己的realm容器
      */
-    @Bean
+    /*@Bean
     public DangXiaRealm dangXiaRealm(HashedCredentialsMatcher hashedCredentialsMatcher){
         DangXiaRealm dangXiaRealm = new DangXiaRealm();
         //设置加密方式
         dangXiaRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         return dangXiaRealm;
+    }*/
+    @Bean
+    public DangXiaRealm dangXiaRealm(){
+        return new DangXiaRealm();
     }
-
-
     @Bean
     public ShiroDialect shiroDialect(){
         return new ShiroDialect();
@@ -54,13 +57,14 @@ public class ShiroConfiguration {
 
     /**
      * 权限配置 主要 配置realm的管理认证
-     * @param dangXiaRealm 自己的realm容器
+     * @param
      * @return 安全管理器
      */
     @Bean
-    public SecurityManager securityManager(DangXiaRealm dangXiaRealm){
+    public SecurityManager securityManager(){
+
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(dangXiaRealm);
+        securityManager.setRealm(dangXiaRealm());
         return securityManager;
     }
 
@@ -71,15 +75,15 @@ public class ShiroConfiguration {
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
-        System.out.println("----要拦截了哦-------");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String,String> map = new HashMap<String, String>();
         //登出
-        map.put("/login/logout","logout");
+        map.put("/logout","logout");
 
         //放行登录请求
-        map.put("/login/isLogin","anon");
+        map.put("/loginEmployee","anon");
+        map.put("/toLogin","anon");
         map.put("/user/**","anon");
         map.put("/phone/**","anon");
         map.put("/review/**","anon");
@@ -95,18 +99,18 @@ public class ShiroConfiguration {
         map.put("/**","authc");
         //map.put("/**","anon");
         //登录
-        shiroFilterFactoryBean.setLoginUrl("/login/toLogin");
+        shiroFilterFactoryBean.setLoginUrl("/toLogin");
         //首页
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setSuccessUrl("dangxia/index");
         //错误页面，认证不通过跳转
-        shiroFilterFactoryBean.setUnauthorizedUrl("/login/toError");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/error/toError");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
 
     /**
      * 加入注解的使用，不加入这个注解不生效
-     * @param securityManager 安全管理器
+     * @param
      * @return 结果
      */
     @Bean

@@ -52,7 +52,7 @@ public class ShiroUtils {
         String encryStr = new SimpleHash(hashAlgorithmName, empPassword,salt, hashIterations).toString();
         //加密的盐值存入对象
         emp.setEmpPassword(encryStr);
-        emp.setEmpSalt(salt);
+        //emp.setEmpSalt(salt);
     }
 
 

@@ -1,140 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wxc.dangxia.dao.system.IEmployeeDao">
-
-    <sql id="employeeField">
-        id,emp_loginname,emp_name,emp_password,emp_salt,emp_sex,emp_phone,emp_email,status,emp_last_time,cratetime,is_delete,is_admin
-    </sql>
-
     <!--java类与数据库字段进行映射-->
     <resultMap id="employeeMap" type="com.wxc.dangxia.entity.Employee">
-        <id property="id" column="id"/>
-        <result property="empLoginname" column="emp_loginname"/>
+        <id property="empId" column="emp_id"/>
+        <result property="empLoginName" column="emp_login_name"/>
         <result property="empName" column="emp_name"/>
         <result property="empPassword" column="emp_password"/>
-        <result property="empSalt" column="emp_salt"/>
         <result property="empSex" column="emp_sex"/>
         <result property="empPhone" column="emp_phone"/>
-        <result property="empEmail" column="emp_email"/>
-        <result property="status" column="status"/>
-        <result property="empLastTime" column="emp_last_time"/>
-        <result property="cratetime" column="cratetime"/>
-        <result property="isDelete" column="is_delete"/>
+        <result property="empStatus" column="emp_status"/>
+        <result property="addTime" column="add_time"/>
+        <result property="isDel" column="is_del"/>
         <result property="isAdmin" column="is_admin"/>
+        <result property="operId" column="oper_id"/>
     </resultMap>
+    <sql id="employeeField">
+        emp_id,emp_login_name,emp_name,emp_password,emp_sex,emp_phone,emp_status,add_time,is_del,is_admin
+    </sql>
 
-    <!--得到所有的员工(未假删除)-->
-    <select id="getEmployeeAll" resultMap="employeeMap" parameterType="map">
-        SELECT <include refid="employeeField"></include> FROM tbl_employee
-        <where>
-            <if test="isDelete !=null and isDelete !=''">
-                is_delete=#{isDelete}
-            </if>
-            <if test="isDelete ==null or isDelete ==''">
-                is_delete=0
-            </if>
-            <if test="empSex!=null and empSex!=''">
-                AND  emp_sex=#{empSex}
-            </if>
-            <if test="status!=null and status!=''">
-                AND  status=#{status}
-            </if>
-            <if test="empLoginname!=null and empLoginname!=''">
-                AND emp_loginname LIKE CONCAT(CONCAT('%',#{empLoginname}),'%')
-            </if>
-            <if test="empName!=null and empName!=''">
-                AND  emp_name LIKE CONCAT(CONCAT('%',#{empName}),'%')
-            </if>
-            <if test="field !=null and field !=''">
-                ORDER BY ${field} ${order}
-            </if>
-        </where>
-    </select>
-    <!--得到所有的员工总条数(未假删除)-->
-    <select id="getEmployeeTotalAll" resultType="integer" parameterType="map">
-        SELECT COUNT(*) FROM tbl_employee
-        <where>
-            <if test="isDelete !=null and isDelete !=''">
-                is_delete=#{isDelete}
-            </if>
-            <if test="isDelete ==null or isDelete ==''">
-                is_delete=0
-            </if>
-            <if test="empSex!=null and empSex!=''">
-              AND  emp_sex=#{empSex}
-            </if>
-            <if test="status!=null and status!=''">
-                AND  status=#{status}
-            </if>
-            <if test="empLoginname!=null and empLoginname!=''">
-              AND emp_loginname LIKE CONCAT(CONCAT('%',#{empLoginname}),'%')
-            </if>
-            <if test="empName!=null and empName!=''">
-              AND  emp_name LIKE CONCAT(CONCAT('%',#{empName}),'%')
-            </if>
-        </where>
-    </select>
-    <!--更新员工账号状态-->
-    <update id="updateEmployeeStatus" parameterType="integer">
-        UPDATE tbl_employee SET status=#{status} WHERE id=#{id}
-    </update>
-    <!--修改账号删除状态-->
-    <update id="updateEmployeeIsDelete" parameterType="integer">
-        UPDATE tbl_employee SET is_delete=#{isDelete} WHERE id IN
-        <foreach collection="id" item="a" open="(" close=")" separator=",">
-            #{a}
-        </foreach>
-    </update>
-    <!--添加用户-->
-    <insert id="addEmployee" parameterType="com.wxc.dangxia.entity.Employee" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO tbl_employee (id,emp_loginname,emp_name,emp_password,emp_salt,emp_sex,emp_phone,emp_email,`status`,emp_last_time,cratetime,is_delete)
-        VALUES (NULL,#{empLoginname},#{empName},#{empPassword},#{empSalt},#{empSex},#{empPhone},#{empEmail},0,NOW(),NOW(),0)
-    </insert>
-    <!--在员工角色表加入映射-->
-    <insert id="addEmpRoleMapper" parameterType="integer">
-        INSERT INTO tbl_emp_role (emp_id,role_id) VALUES
-        <foreach collection="roles" item = "role"  separator=",">
-            <if test="role != 0">
-                (#{key},#{role})
-            </if>
-        </foreach>
-    </insert>
-    <!--查找员工拥有的角色-->
-    <select id="getHaveRole" parameterType="integer" resultType="map">
-        SELECT id,emp_id empId,role_id roleId FROM tbl_emp_role WHERE emp_id = #{id}
-    </select>
-    <!--修改员工信息-->
-    <update id="updateEmployee" parameterType="com.wxc.dangxia.entity.Employee" >
-        UPDATE tbl_employee SET emp_name = #{empName},emp_sex = #{empSex},emp_phone=#{empPhone},emp_email = #{empEmail}
-        <if test="empPassword !=null and empPassword!=''">
-            ,emp_password=#{empPassword},emp_salt=#{empSalt}
-        </if>
-        WHERE id = #{id}
-    </update>
-    <!--删除员工角色表有关的记录-->
-    <delete id="deleteHaveRole" parameterType="integer" >
-        DELETE FROM tbl_emp_role WHERE emp_id = #{id}
-    </delete>
     <!--通过emp_loginname 获得数据-->
     <select id="getEmployeeByName" parameterType="string" resultMap="employeeMap">
-        SELECT <include refid="employeeField"></include> FROM tbl_employee WHERE emp_loginname=#{username} AND is_delete != 1
+        SELECT
+          <include refid="employeeField"></include>
+        FROM employee
+        WHERE
+          emp_login_name=#{empLoginName}
+        AND is_del = 0
+        AND emp_status = 1
     </select>
-    <!--查看登录名是否已经存在-->
-    <select id="isExistLoginName" parameterType="com.wxc.dangxia.entity.Employee" resultType="integer">
-        SELECT COUNT(emp_loginname) FROM tbl_employee WHERE emp_loginname=#{empLoginname}
-    </select>
-    <!--通过id删除数据-->
-    <delete id="deleteEmployeeById" parameterType="integer">
-        DELETE FROM tbl_employee WHERE id IN
-        <foreach collection="id" item="a" open="(" close=")" separator=",">
-            #{a}
-        </foreach>
-    </delete>
-    <!--通过员工id 删除员工角色表的相关数据-->
-    <delete id="deleteEmployeeRoleById" parameterType="integer" >
-        DELETE FROM tbl_emp_role WHERE emp_id IN
-        <foreach collection="id" item="a" open="(" close=")" separator=",">
-            #{a}
-        </foreach>
-    </delete>
 </mapper>

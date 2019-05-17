@@ -1,7 +1,9 @@
 package com.wxc.dangxia.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 员工表实体
@@ -9,135 +11,108 @@ import java.util.Date;
  * @author Star.Wu
  * @date 2019/05/07
  */
-@Data
-public class Employee {
-    private Integer id;
-
-    private String empLoginname;
-
-    private String empName;
-
+public class Employee implements Serializable{
+    private Integer empId;
+    private String empLoginName;
     private String empPassword;
-
-    private String empSalt;
-
-    private Integer empSex;
-
+    private String empName;
+    private Boolean empSex;
     private String empPhone;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date addTime;
+    private Integer operId;
+    private Integer empStatus;
+    private Boolean isAdmin;
+    private Boolean isDel;
 
-    private String empEmail;
-
-    private Integer status;
-
-    private Date empLastTime;
-
-    private Date cratetime;
-
-    private Integer isDelete;
-
-    private Integer isAdmin;
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Employee() {
     }
 
-    public void setEmpLoginname(String empLoginname) {
-        this.empLoginname = empLoginname;
+    public Integer getEmpId() {
+        return empId;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setEmpId(Integer empId) {
+        this.empId = empId;
     }
 
-    public void setEmpPassword(String empPassword) {
-        this.empPassword = empPassword;
+    public String getEmpLoginName() {
+        return empLoginName;
     }
 
-    public void setEmpSalt(String empSalt) {
-        this.empSalt = empSalt;
-    }
-
-    public void setEmpSex(Integer empSex) {
-        this.empSex = empSex;
-    }
-
-    public void setEmpPhone(String empPhone) {
-        this.empPhone = empPhone;
-    }
-
-    public void setEmpEmail(String empEmail) {
-        this.empEmail = empEmail;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public void setEmpLastTime(Date empLastTime) {
-        this.empLastTime = empLastTime;
-    }
-
-    public void setCratetime(Date cratetime) {
-        this.cratetime = cratetime;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public void setIsAdmin(Integer isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getEmpLoginname() {
-        return empLoginname;
-    }
-
-    public String getEmpName() {
-        return empName;
+    public void setEmpLoginName(String empLoginName) {
+        this.empLoginName = empLoginName;
     }
 
     public String getEmpPassword() {
         return empPassword;
     }
 
-    public String getEmpSalt() {
-        return empSalt;
+    public void setEmpPassword(String empPassword) {
+        this.empPassword = empPassword;
     }
 
-    public Integer getEmpSex() {
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public Integer getOperId() {
+        return operId;
+    }
+
+    public void setOperId(Integer operId) {
+        this.operId = operId;
+    }
+
+    public Integer getEmpStatus() {
+        return empStatus;
+    }
+
+    public void setEmpStatus(Integer empStatus) {
+        this.empStatus = empStatus;
+    }
+
+    public Boolean getDel() {
+        return isDel;
+    }
+
+    public void setDel(Boolean del) {
+        isDel = del;
+    }
+
+    public Boolean getEmpSex() {
         return empSex;
+    }
+
+    public void setEmpSex(Boolean empSex) {
+        this.empSex = empSex;
     }
 
     public String getEmpPhone() {
         return empPhone;
     }
 
-    public String getEmpEmail() {
-        return empEmail;
+    public void setEmpPhone(String empPhone) {
+        this.empPhone = empPhone;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public Date getEmpLastTime() {
-        return empLastTime;
-    }
-
-    public Date getCratetime() {
-        return cratetime;
-    }
-
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
-    public Integer getIsAdmin() {
+    public Boolean getAdmin() {
         return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -11,7 +11,7 @@
         <div id="darkbannerwrap"></div>
         
         <form method="post" class="layui-form" >
-            <input name="empLoginname" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <input name="empLoginName" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
             <input name="empPassword" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
@@ -25,26 +25,23 @@
             layui.use('form', function(){
               var form = layui.form;
               $ = layui.jquery;
-              // layer.msg('玩命卖萌中', function(){
-              //   //关闭后的操作
-              //   });
-                var layerLoad = layer.load(2, {
-                    shade: [0.4,'#3C3C3C'],
-                    time:5000
-                });
               //监听提交
                 var formLock = true;
                 form.on('submit(login)', function(data){
-                    //判断是否可以提交
-                    if (!formLock){
-                        return false;
-                    }
+                //判断是否可以提交
+                  if (!formLock){
+                      return false;
+                  }
+                  var layerLoad = layer.load(2, {
+                      shade: [0.4,'#3C3C3C'],
+                      time:5000
+                  });
                   $.ajax({
                           type:"post",
-                          url:"/dangxia/login/isLogin",
+                          url:"/dangxia/loginEmployee",
                           timeout:5000,
                           data: {
-                              "empLoginname":data.field.empLoginname,
+                              "empLoginName":data.field.empLoginName,
                               "empPassword":data.field.empPassword
                           },
                           dataType: "json",
@@ -52,8 +49,8 @@
                               layer.close(layerLoad);
                               if(dat.code == 200) {
                                   layer.msg(dat.msg,{icon:1,time:2000});
+                                  location.href='/dangxia/index'
                               } else {
-                                  layer.close(layerLoad);
                                   layer.msg(dat.msg,{icon:5,time:2000});
                               }
                           },
@@ -65,9 +62,6 @@
                           }
                       }
                   );
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
                 return false;
               });
             });
