@@ -8,7 +8,7 @@
             <blockquote class="layui-elem-quote">
             </blockquote>
             <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-            <div id="main" style="width: 100%;height:400px;">
+            <div id="main" style="width: 50%;height:400px;">
 
             </div>
 
@@ -17,45 +17,16 @@
         <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
-        //获得入住人数统计数据
-        function getStayPeople() {
-            $.ajax({
-                type:"post",
-                url:"/dangxia/statistics/getStayStatistics",
-                timeout:5000,
-                dataType: "json",
-                success: function(dat){
-                    if(dat.code == 200) {
-                        layer.close(layerLoad);
-                        layer.msg(dat.msg,{icon:1,time:2000},function() {
-                            parent.layer.closeAll();
-                            window.parent.location.reload();
-                        });
-                    } else {
-                        layer.close(layerLoad);
-                        layer.msg(dat.msg,{icon:5,time:2000});
-                    }
-                    $("#operBtn").css("disabled",false);
-                },
-                complete:function(XMLHttpRequest, status) {
-                    layer.close(layerLoad);
-                    if(status == "timeout") {
-                        layer.msg("请求超时",{icon:5,time:2000});
-                    }
-                }
-            });
-        }
-
+        var date = new Date();
         // 指定图表的配置项和数据
         var option = {
             title: {
                 text: '入住人员统计图'
             },
             tooltip: {
-                trigger: 'axis'
             },
             legend: {
-                data:['入住人数']
+                data:[''+date.getFullYear()+'']
             },
             grid: {
                 left: '3%',
@@ -70,18 +41,17 @@
             },
             xAxis: {
                 type: 'category',
-                boundaryGap: false,
-                data: ['四月','五月']
+                boundaryGap: true,
+                data: []
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                name:'单位：人'
             },
             series: [
                 {
-                    name:'入住人数',
-                    type:'line',
-                    stack: '总量',
-                    data:[1,2]
+                    name:'',
+                    type:'line'
                 }
             ]
         };
@@ -89,15 +59,45 @@
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+        myChart.showLoading();
+        var names = [];
+        var nums = [];
+
+        var years = [];
+        $.ajax({
+            type:"post",
+            url:"/dangxia/statistics/getStayStatistics",
+            timeout:5000,
+            data:{'year':date.getFullYear()},
+            dataType: "json",
+            success: function(dat){
+                if(dat.code == 200) {
+                    $.each(dat.data,function(i,v) {
+                        nums.push(v.peopleCount);
+                        names.push(v.month+"月");
+                    });
+                    myChart.hideLoading();
+                    myChart.setOption({
+                        xAxis: {
+                            data: names
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: date.getFullYear(),
+                            data: nums
+                        }]
+                    });
+                } else {
+                    layer.msg("系统异常",{icon:5,time:2000});
+                }
+            },
+            complete:function(XMLHttpRequest, status) {
+                if(status == "timeout") {
+                    layer.msg("请求超时",{icon:5,time:2000});
+                }
+            }
+        });
+
     </script>
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-        </script>
     </body>
 </html>

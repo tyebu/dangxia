@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wxc.dangxia.dao.statistics.IStatisticsDao">
-    <select id="getStayStatistics" resultType="map">
-
+    <select id="getStayStatistics" resultType="map" parameterType="map">
+        SELECT
+            MONTH(start_date) AS month,
+            COUNT(*) AS peopleCount,
+            YEAR(start_date) AS year
+        FROM user_stay_record
+        <where>
+            <if test="year != null">
+                YEAR(start_date) = #{year}
+            </if>
+        </where>
+        GROUP BY MONTH(start_date)
+    </select>
+    <select id="getYear" resultType="int">
+        SELECT
+            DISTINCT
+            YEAR(start_date) AS year
+        FROM user_stay_record
     </select>
 </mapper>

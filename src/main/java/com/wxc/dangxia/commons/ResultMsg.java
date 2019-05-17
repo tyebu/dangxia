@@ -13,6 +13,7 @@ public class ResultMsg {
     private Integer code;
     private String msg;
     private Object data;
+    private Object message;
     private Integer count;
     public ResultMsg() {
 
@@ -31,6 +32,13 @@ public class ResultMsg {
         this.msg = msg;
         this.data = data;
         this.count = count;
+    }
+
+    public ResultMsg(Integer code, String msg, Object data, Object message) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.message = message;
     }
 
     public Integer getCode() {
@@ -63,5 +71,13 @@ public class ResultMsg {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Object getMessage() {
+        return message;
+    }
+
+    public void setMessage(Object message) {
+        this.message = message;
     }
 }

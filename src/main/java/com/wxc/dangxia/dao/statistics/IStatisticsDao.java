@@ -14,5 +14,6 @@ import java.util.Map;
 @Mapper
 @Component
 public interface IStatisticsDao {
-    List<Map<String, Object>> getStayStatistics();
+    List<Map<String, Object>> getStayStatistics(Map<String, Object> map);
+    List<Integer> getYear();
 }
