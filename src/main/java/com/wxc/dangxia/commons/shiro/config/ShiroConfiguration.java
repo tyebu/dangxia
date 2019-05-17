@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 /**
  * shiro配置类
@@ -77,7 +78,7 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String,String> map = new LinkedHashMap<>();
         //登出
         map.put("/logout","logout");
 
@@ -93,6 +94,7 @@ public class ShiroConfiguration {
         map.put("/fonts/**","anon");
         map.put("/images/**","anon");
         map.put("/js/**","anon");
+        map.put("/lib/layui/**/**","anon");
         map.put("/lib/**","anon");
 
         //对所有用户认证

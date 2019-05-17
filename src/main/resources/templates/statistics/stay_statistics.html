@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace= "common/common :: commons(~{::title})">
+        <title>入住人员统计表</title>
+    </head>
+    <body>
+        <div class="x-body">
+            <blockquote class="layui-elem-quote">
+            </blockquote>
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="main" style="width: 100%;height:400px;">
+
+            </div>
+
+        </div>
+        <script src="//cdn.bootcss.com/echarts/3.3.2/echarts.min.js" charset="utf-8"></script>
+        <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        //获得入住人数统计数据
+        function getStayPeople() {
+            $.ajax({
+                type:"post",
+                url:"/dangxia/statistics/getStayStatistics",
+                timeout:5000,
+                dataType: "json",
+                success: function(dat){
+                    if(dat.code == 200) {
+                        layer.close(layerLoad);
+                        layer.msg(dat.msg,{icon:1,time:2000},function() {
+                            parent.layer.closeAll();
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.close(layerLoad);
+                        layer.msg(dat.msg,{icon:5,time:2000});
+                    }
+                    $("#operBtn").css("disabled",false);
+                },
+                complete:function(XMLHttpRequest, status) {
+                    layer.close(layerLoad);
+                    if(status == "timeout") {
+                        layer.msg("请求超时",{icon:5,time:2000});
+                    }
+                }
+            });
+        }
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '入住人员统计图'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['入住人数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['四月','五月']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'入住人数',
+                    type:'line',
+                    stack: '总量',
+                    data:[1,2]
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    </body>
+</html>

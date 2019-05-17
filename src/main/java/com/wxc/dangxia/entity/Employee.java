@@ -12,6 +12,7 @@ import java.util.Date;
  * @date 2019/05/07
  */
 public class Employee implements Serializable{
+    private static final long serialVersionUID = 809782578272943999L;
     private Integer empId;
     private String empLoginName;
     private String empPassword;
@@ -114,5 +115,22 @@ public class Employee implements Serializable{
 
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empId=" + empId +
+                ", empLoginName='" + empLoginName + '\'' +
+                ", empPassword='" + empPassword + '\'' +
+                ", empName='" + empName + '\'' +
+                ", empSex=" + empSex +
+                ", empPhone='" + empPhone + '\'' +
+                ", addTime=" + addTime +
+                ", operId=" + operId +
+                ", empStatus=" + empStatus +
+                ", isAdmin=" + isAdmin +
+                ", isDel=" + isDel +
+                '}';
     }
 }
